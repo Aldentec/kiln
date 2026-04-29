@@ -1,0 +1,7 @@
+/* Kiln design system — main CSS entry point
+   Import order matters: tokens first, then components.
+   This file is the single CSS bundle consumers import. */
+
+@import './design-tokens.css';
+
+/* Component styles are imported here as each primitive is built */
