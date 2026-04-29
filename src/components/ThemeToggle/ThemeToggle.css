@@ -1,0 +1,36 @@
+.kiln-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--kiln-radius-full);
+  border: 1px solid var(--kiln-gray-200);
+  background: transparent;
+  color: var(--kiln-gray-500);
+  cursor: pointer;
+  transition: all var(--kiln-duration-normal) var(--kiln-ease-out);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.kiln-theme-toggle:hover {
+  background: var(--kiln-gray-100);
+  color: var(--kiln-primary);
+  border-color: var(--kiln-primary-200);
+  transform: rotate(15deg);
+}
+
+.kiln-theme-toggle:focus-visible {
+  outline: 2px solid var(--kiln-primary);
+  outline-offset: 2px;
+}
+
+.kiln-theme-toggle svg {
+  display: block;
+  transition: transform var(--kiln-duration-normal) var(--kiln-ease-spring);
+}
+
+.kiln-theme-toggle:active svg {
+  transform: scale(0.85);
+}

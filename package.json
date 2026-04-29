@@ -14,14 +14,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./styles": "./dist/kiln.css"
+    "./kiln.css": "./dist/kiln.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "vite demo",
+    "build": "tsup && node -e \"const fs=require('fs');fs.renameSync('dist/index.css','dist/kiln.css');fs.renameSync('dist/index.css.map','dist/kiln.css.map');\"",
+    "dev": "vite",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src",
