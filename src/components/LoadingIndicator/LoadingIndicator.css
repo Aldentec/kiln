@@ -7,6 +7,7 @@
   justify-content: center;
   gap: var(--kiln-space-4);
   padding: var(--kiln-space-8);
+  font-family: var(--kiln-font-sans);
   animation: kiln-fade-in var(--kiln-duration-normal) var(--kiln-ease-out) both;
 }
 

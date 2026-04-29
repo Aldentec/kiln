@@ -23,15 +23,35 @@
   }
 
   .kiln-modal-container {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
     background: var(--kiln-modal-bg, var(--kiln-surface-overlay, #ffffff));
     border: 1px solid var(--kiln-gray-200, #e2e8f0);
     border-radius: var(--kiln-modal-radius, var(--kiln-radius-xl));
     padding: var(--kiln-modal-padding, var(--kiln-space-6));
     max-width: var(--kiln-modal-max-width, 90%);
     max-height: 90vh;
-    overflow-y: auto;
+    font-family: var(--kiln-font-sans);
     animation: kiln-modal-scale-in 0.15s ease-out;
     color: var(--kiln-gray-900, #0f172a);
+  }
+
+  /* Gradient top strip — same treatment as Card */
+  .kiln-modal-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+      rgba(137, 33, 107, 0.35) 0%,
+      rgba(196, 91, 160, 0.45) 45%,
+      rgba(247, 183, 51, 0.35) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
   }
 
   .kiln-modal-header {
@@ -45,6 +65,7 @@
     margin: 0;
     font-size: var(--kiln-text-xl);
     font-weight: 600;
+    font-family: var(--kiln-font-sans);
   }
 
   .kiln-modal-close {
@@ -72,5 +93,24 @@
   .kiln-modal-close:focus-visible {
     outline: 2px solid var(--kiln-primary);
     outline-offset: 2px;
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] .kiln-modal-overlay {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  [data-theme="dark"] .kiln-modal-container {
+    background: var(--kiln-modal-bg, var(--kiln-surface-overlay));
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  [data-theme="dark"] .kiln-modal-container::before {
+    background: linear-gradient(90deg, #89216b 0%, #c45ba0 45%, #f7b733 100%);
+  }
+
+  [data-theme="dark"] .kiln-modal-close:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--kiln-gray-100);
   }
 }

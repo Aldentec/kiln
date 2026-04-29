@@ -216,6 +216,7 @@
   color: var(--kiln-gray-700);
   font-size: var(--kiln-text-sm);
   font-weight: 500;
+  font-family: var(--kiln-font-sans);
   min-height: 48px;
   transition: background 180ms, color 180ms, transform 180ms;
   -webkit-tap-highlight-color: transparent;

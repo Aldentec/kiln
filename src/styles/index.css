@@ -12,6 +12,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @import './design-tokens.css';
+
+/* Base — sets the font on body so portals (Modal, MobileNav) inherit it */
+body {
+  font-family: var(--kiln-font-sans);
+}
 @import './animations.css';
 
 /* Lifted primitives */

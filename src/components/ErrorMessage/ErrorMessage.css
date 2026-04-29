@@ -8,6 +8,7 @@
   border: 1px solid var(--kiln-severity-critical-border);
   border-radius: var(--kiln-radius-xl);
   align-items: flex-start;
+  font-family: var(--kiln-font-sans);
   animation: kiln-fade-in-up var(--kiln-duration-slow) var(--kiln-ease-out) both;
   position: relative;
   overflow: hidden;
