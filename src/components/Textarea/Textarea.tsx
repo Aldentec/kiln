@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { cn } from '../../utils';
 import './Textarea.css';
 
 export type TextareaVariant = 'default' | 'error' | 'success';
@@ -44,14 +45,14 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const resolved: TextareaVariant = errorText ? 'error' : (variant ?? 'default');
   const isOver = maxLength != null && charCount > maxLength;
 
-  const textareaClasses = [
+  const textareaClasses = cn(
     'kiln-textarea',
     `kiln-textarea--${resolved}`,
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
-    <div className={`kiln-textarea-field${containerClassName ? ` ${containerClassName}` : ''}`}>
+    <div className={cn('kiln-textarea-field', containerClassName)}>
       {label && (
         <label htmlFor={id} className="kiln-textarea-label">{label}</label>
       )}
@@ -77,7 +78,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({
           {!errorText && helperText && <p id={helperId} className="kiln-textarea-helper">{helperText}</p>}
         </div>
         {showCharCount && (
-          <span className={`kiln-textarea-charcount${isOver ? ' kiln-textarea-charcount--over' : ''}`}>
+          <span className={cn('kiln-textarea-charcount', isOver && 'kiln-textarea-charcount--over')}>
             {maxLength != null ? `${charCount}/${maxLength}` : charCount}
           </span>
         )}

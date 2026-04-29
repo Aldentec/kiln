@@ -1,4 +1,5 @@
 import React, { useState, useId } from 'react';
+import { cn } from '../../utils';
 import './Tabs.css';
 
 export interface TabItem {
@@ -41,7 +42,7 @@ const Tabs: React.FC<TabsProps> = ({
 
   return (
     <div
-      className={`kiln-tabs${className ? ` ${className}` : ''}`}
+      className={cn('kiln-tabs', className)}
       role="tablist"
       aria-label={ariaLabel}
     >
@@ -55,7 +56,7 @@ const Tabs: React.FC<TabsProps> = ({
             type="button"
             role="tab"
             aria-selected={isActive}
-            className={`kiln-tabs__tab${isActive ? ' kiln-tabs__tab--active' : ''}`}
+            className={cn('kiln-tabs__tab', isActive && 'kiln-tabs__tab--active')}
             onClick={() => !item.disabled && handleSelect(item.value)}
             disabled={item.disabled}
             tabIndex={isActive ? 0 : -1}

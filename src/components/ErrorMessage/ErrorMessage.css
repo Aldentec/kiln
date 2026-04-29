@@ -1,3 +1,5 @@
+@layer kiln {
+
 .kiln-error-message {
   display: flex;
   gap: var(--kiln-space-4);
@@ -63,3 +65,5 @@
   outline: 2px solid var(--kiln-severity-critical);
   outline-offset: 2px;
 }
+
+} /* end @layer kiln */

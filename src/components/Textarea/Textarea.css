@@ -5,6 +5,45 @@
   inherits: false;
 }
 
+/* Keyframes outside @layer so they're reachable from any context */
+@keyframes kiln-textarea-burst {
+  0%   { opacity: 0.7; transform: scale(1);    }
+  100% { opacity: 0;   transform: scale(1.04); }
+}
+
+@keyframes kiln-textarea-border-spin {
+  from { --kiln-field-angle: 0deg;   }
+  to   { --kiln-field-angle: 360deg; }
+}
+
+@keyframes kiln-textarea-shake {
+  0%, 100% { transform: translateX(0);   }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(4px);  }
+  45%      { transform: translateX(-3px); }
+  60%      { transform: translateX(2px);  }
+  75%      { transform: translateX(-1px); }
+}
+
+@keyframes kiln-textarea-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes kiln-textarea-count-pulse {
+  0%, 100% { opacity: 1;    }
+  50%      { opacity: 0.45; }
+}
+
+/* ─── Component tokens ───────────────────────────────────
+   --kiln-textarea-radius    outer border-radius (default: --kiln-radius-xl)
+   --kiln-textarea-bg        inner background    (default: --kiln-surface-raised)
+   --kiln-textarea-font-size font-size           (default: --kiln-text-sm)
+   --kiln-textarea-min-height minimum height     (default: 108px)
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+
 /* ─── Field wrapper ─────────────────────────────────────── */
 
 .kiln-textarea-field {
@@ -33,7 +72,7 @@
 
 .kiln-textarea-wrap {
   position: relative;
-  border-radius: var(--kiln-radius-xl);
+  border-radius: var(--kiln-textarea-radius, var(--kiln-radius-xl));
   padding: 1.5px;
   background: var(--kiln-gray-200);
   transition:
@@ -47,7 +86,7 @@
   content: '';
   position: absolute;
   inset: -3px;
-  border-radius: calc(var(--kiln-radius-xl) + 3px);
+  border-radius: calc(var(--kiln-textarea-radius, var(--kiln-radius-xl)) + 3px);
   border: 1.5px solid var(--kiln-primary);
   opacity: 0;
   pointer-events: none;
@@ -55,11 +94,6 @@
 
 .kiln-textarea-wrap:focus-within::after {
   animation: kiln-textarea-burst 550ms var(--kiln-ease-out) both;
-}
-
-@keyframes kiln-textarea-burst {
-  0%   { opacity: 0.7; transform: scale(1);    }
-  100% { opacity: 0;   transform: scale(1.04); }
 }
 
 /* Hover */
@@ -93,11 +127,6 @@
   transform: translateY(-1px);
 }
 
-@keyframes kiln-textarea-border-spin {
-  from { --kiln-field-angle: 0deg;   }
-  to   { --kiln-field-angle: 360deg; }
-}
-
 /* Error */
 .kiln-textarea-wrap:has(.kiln-textarea--error) {
   background: var(--kiln-severity-critical);
@@ -106,15 +135,6 @@
     0 0 18px rgba(239, 68, 68, 0.08);
   animation: kiln-textarea-shake 0.38s var(--kiln-ease-out) both;
   transform: none;
-}
-
-@keyframes kiln-textarea-shake {
-  0%, 100% { transform: translateX(0);   }
-  15%      { transform: translateX(-5px); }
-  30%      { transform: translateX(4px);  }
-  45%      { transform: translateX(-3px); }
-  60%      { transform: translateX(2px);  }
-  75%      { transform: translateX(-1px); }
 }
 
 /* Success */
@@ -134,16 +154,16 @@
   width: 100%;
   box-sizing: border-box;
   resize: vertical;
-  background: var(--kiln-surface-raised);
+  background: var(--kiln-textarea-bg, var(--kiln-surface-raised));
   border: none;
-  border-radius: calc(var(--kiln-radius-xl) - 1.5px);
+  border-radius: calc(var(--kiln-textarea-radius, var(--kiln-radius-xl)) - 1.5px);
   padding: 0.75rem var(--kiln-space-4);
-  font-size: var(--kiln-text-sm);
+  font-size: var(--kiln-textarea-font-size, var(--kiln-text-sm));
   font-family: var(--kiln-font-sans);
   font-weight: 500;
   color: var(--kiln-gray-900);
   line-height: var(--kiln-leading-relaxed);
-  min-height: 108px;
+  min-height: var(--kiln-textarea-min-height, 108px);
   outline: none;
   transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
 }
@@ -196,11 +216,6 @@
   animation: kiln-textarea-error-in var(--kiln-duration-fast) var(--kiln-ease-out) both;
 }
 
-@keyframes kiln-textarea-error-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-
 /* ─── Char count ────────────────────────────────────────── */
 
 .kiln-textarea-charcount {
@@ -216,11 +231,6 @@
   color: var(--kiln-severity-critical);
   font-weight: 700;
   animation: kiln-textarea-count-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes kiln-textarea-count-pulse {
-  0%, 100% { opacity: 1;    }
-  50%      { opacity: 0.45; }
 }
 
 /* ─── Dark mode ─────────────────────────────────────────── */
@@ -308,3 +318,5 @@
     background: var(--kiln-primary-light) !important;
   }
 }
+
+} /* end @layer kiln */

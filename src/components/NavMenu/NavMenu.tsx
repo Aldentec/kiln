@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils';
 import './NavMenu.css';
 
 export interface NavItem {
@@ -26,12 +27,12 @@ const NavMenu: React.FC<NavMenuProps> = ({
   const checkActive = isActive ?? ((href) => typeof window !== 'undefined' && window.location.pathname === href);
 
   return (
-    <nav className={`kiln-nav-menu${className ? ` ${className}` : ''}`} aria-label={ariaLabel}>
+    <nav className={cn('kiln-nav-menu', className)} aria-label={ariaLabel}>
       {items.map(({ href, label }) => (
         <a
           key={href}
           href={href}
-          className={`kiln-nav-menu__link${checkActive(href) ? ' kiln-nav-menu__link--active' : ''}`}
+          className={cn('kiln-nav-menu__link', checkActive(href) && 'kiln-nav-menu__link--active')}
           aria-current={checkActive(href) ? 'page' : undefined}
           onClick={(e) => {
             if (onNavigate) { e.preventDefault(); onNavigate(href, e); }

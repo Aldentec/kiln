@@ -1,3 +1,5 @@
+@layer kiln {
+
 .kiln-loading-indicator {
   display: flex;
   flex-direction: column;
@@ -60,3 +62,5 @@
 .kiln-loading-indicator--inline p {
   font-size: var(--kiln-text-sm);
 }
+
+} /* end @layer kiln */

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '../../utils';
 import './Modal.css';
 
 export interface ModalProps {
@@ -72,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title, ariaLab
   return createPortal(
     <div className="kiln-modal-overlay" onClick={onClose} role="presentation">
       <div
-        className={`kiln-modal-container ${className}`.trim()}
+        className={cn('kiln-modal-container', className)}
         ref={containerRef}
         role="dialog"
         aria-modal="true"

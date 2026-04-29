@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '../../utils';
 import './MobileNav.css';
 
 export interface MobileNavItem {
@@ -79,13 +80,13 @@ const MobileNav: React.FC<MobileNavProps> = ({
   const panel = (
     <>
       <div
-        className={`kiln-mnav__overlay${open ? ' kiln-mnav__overlay--visible' : ''}`}
+        className={cn('kiln-mnav__overlay', open && 'kiln-mnav__overlay--visible')}
         onClick={close}
         aria-hidden="true"
       />
       <div
         ref={panelRef}
-        className={`kiln-mnav__panel${open ? ' kiln-mnav__panel--open' : ''}`}
+        className={cn('kiln-mnav__panel', open && 'kiln-mnav__panel--open')}
         role={open ? 'dialog' : undefined}
         aria-modal={open ? 'true' : undefined}
         aria-label={open ? ariaLabel : undefined}
@@ -112,7 +113,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
               >
                 <a
                   href={href}
-                  className={`kiln-mnav__link${checkActive(href) ? ' kiln-mnav__link--active' : ''}`}
+                  className={cn('kiln-mnav__link', checkActive(href) && 'kiln-mnav__link--active')}
                   aria-current={checkActive(href) ? 'page' : undefined}
                   onClick={(e) => {
                     close();
@@ -144,7 +145,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
       <button
         ref={triggerRef}
         type="button"
-        className={`kiln-mnav__trigger${open ? ' kiln-mnav__trigger--active' : ''}`}
+        className={cn('kiln-mnav__trigger', open && 'kiln-mnav__trigger--active')}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}

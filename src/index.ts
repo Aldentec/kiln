@@ -1,5 +1,9 @@
 // Kiln design system — v0.1.0
 
+// Utilities
+export { cn, Slot } from './utils';
+export type { SlotProps, PolymorphicProps, PolymorphicPropsWithRef } from './utils';
+
 // Lifted primitives
 export { default as Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';

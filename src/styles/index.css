@@ -1,5 +1,13 @@
 /* Kiln design system — main CSS entry point
-   Import order: tokens → shared animations → components */
+   Import order: tokens → shared animations → components
+
+   @layer kiln wraps all component styles so that consumer CSS
+   (written outside any layer) automatically wins without needing
+   !important or higher-specificity selectors.
+   Design tokens (:root / [data-theme]) are intentionally outside
+   the layer so they cascade as global custom properties. */
+
+@layer kiln;
 
 @import './design-tokens.css';
 @import './animations.css';

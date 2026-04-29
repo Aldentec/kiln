@@ -1,9 +1,42 @@
-/* Registers --kiln-field-angle as animatable per-element (non-inherited) */
+/* @property outside @layer — required for Houdini registration */
 @property --kiln-field-angle {
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
 }
+
+/* Keyframes outside @layer so they're reachable from any context */
+@keyframes kiln-input-burst {
+  0%   { opacity: 0.7; transform: scale(1);    }
+  100% { opacity: 0;   transform: scale(1.07); }
+}
+
+@keyframes kiln-input-border-spin {
+  from { --kiln-field-angle: 0deg;   }
+  to   { --kiln-field-angle: 360deg; }
+}
+
+@keyframes kiln-input-shake {
+  0%, 100% { transform: translateX(0);   }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(4px);  }
+  45%      { transform: translateX(-3px); }
+  60%      { transform: translateX(2px);  }
+  75%      { transform: translateX(-1px); }
+}
+
+@keyframes kiln-input-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ─── Component tokens ───────────────────────────────────
+   --kiln-input-radius   outer border-radius (default: --kiln-radius-xl)
+   --kiln-input-bg       inner background    (default: --kiln-surface-raised)
+   --kiln-input-font-size font-size          (default: --kiln-text-sm)
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
 
 /* ─── Field wrapper ─────────────────────────────────────── */
 
@@ -35,7 +68,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: var(--kiln-radius-xl);
+  border-radius: var(--kiln-input-radius, var(--kiln-radius-xl));
   padding: 1.5px;
   background: var(--kiln-gray-200);
   transition:
@@ -49,7 +82,7 @@
   content: '';
   position: absolute;
   inset: -3px;
-  border-radius: calc(var(--kiln-radius-xl) + 3px);
+  border-radius: calc(var(--kiln-input-radius, var(--kiln-radius-xl)) + 3px);
   border: 1.5px solid var(--kiln-primary);
   opacity: 0;
   pointer-events: none;
@@ -136,11 +169,11 @@
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
-  background: var(--kiln-surface-raised);
+  background: var(--kiln-input-bg, var(--kiln-surface-raised));
   border: none;
-  border-radius: calc(var(--kiln-radius-xl) - 1.5px);
+  border-radius: calc(var(--kiln-input-radius, var(--kiln-radius-xl)) - 1.5px);
   padding: 0.7rem var(--kiln-space-4);
-  font-size: var(--kiln-text-sm);
+  font-size: var(--kiln-input-font-size, var(--kiln-text-sm));
   font-family: var(--kiln-font-sans);
   font-weight: 500;
   color: var(--kiln-gray-900);
@@ -305,3 +338,5 @@
     background: var(--kiln-primary-light) !important;
   }
 }
+
+} /* end @layer kiln */

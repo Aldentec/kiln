@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn, Slot } from '../../utils';
 import './Button.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -12,6 +13,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode;
   /** Renders as an <a> when provided */
   href?: string;
+  /** Merges props onto child element instead of rendering a <button> */
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
@@ -22,17 +25,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   rightIcon,
   href,
   disabled,
+  asChild = false,
   className = '',
   children,
   ...rest
 }, ref) => {
-  const classes = [
+  const classes = cn(
     'kiln-button',
     `kiln-button--${variant}`,
     `kiln-button--${size}`,
-    loading ? 'kiln-button--loading' : '',
+    loading && 'kiln-button--loading',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   const content = (
     <>
@@ -42,6 +46,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
       {!loading && rightIcon && <span className="kiln-button__icon kiln-button__icon--right" aria-hidden="true">{rightIcon}</span>}
     </>
   );
+
+  if (asChild) {
+    return (
+      <Slot ref={ref} className={classes} {...rest}>
+        {children}
+      </Slot>
+    );
+  }
 
   if (href) {
     return (

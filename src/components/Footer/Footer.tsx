@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils';
 import './Footer.css';
 
 export interface FooterLink {
@@ -24,7 +25,7 @@ const Footer: React.FC<FooterProps> = ({
   credit,
   className = '',
 }) => (
-  <footer className={`kiln-footer${className ? ` ${className}` : ''}`} aria-label="Site footer">
+  <footer className={cn('kiln-footer', className)} aria-label="Site footer">
     <div className="kiln-footer__inner">
       {logo && <div className="kiln-footer__logo">{logo}</div>}
 

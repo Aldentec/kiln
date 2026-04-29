@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { cn } from '../../utils';
 import './Input.css';
 
 export type InputVariant = 'default' | 'error' | 'success';
@@ -30,16 +31,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 
   const resolved: InputVariant = errorText ? 'error' : (variant ?? 'default');
 
-  const inputClasses = [
+  const inputClasses = cn(
     'kiln-input',
     `kiln-input--${resolved}`,
-    leftIcon ? 'kiln-input--has-left-icon' : '',
-    rightIcon ? 'kiln-input--has-right-icon' : '',
+    leftIcon && 'kiln-input--has-left-icon',
+    rightIcon && 'kiln-input--has-right-icon',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
-    <div className={`kiln-input-field${containerClassName ? ` ${containerClassName}` : ''}`}>
+    <div className={cn('kiln-input-field', containerClassName)}>
       {label && (
         <label htmlFor={id} className="kiln-input-label">
           {label}

@@ -1,3 +1,5 @@
+@layer kiln {
+
 .kiln-nav-menu {
   display: flex;
   gap: var(--kiln-space-1);
@@ -111,3 +113,5 @@
     transform: none;
   }
 }
+
+} /* end @layer kiln */

@@ -1,3 +1,5 @@
+@layer kiln {
+
 .kiln-footer {
   background: #080d18;
   border-top: 1px solid var(--kiln-gray-800, rgba(255, 255, 255, 0.08));
@@ -155,3 +157,5 @@
     transform: scaleX(1);
   }
 }
+
+} /* end @layer kiln */

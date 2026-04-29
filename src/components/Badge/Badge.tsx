@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils';
 import './Badge.css';
 
 export type BadgeSeverity = 'critical' | 'high' | 'medium' | 'low';
@@ -20,12 +21,12 @@ const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => (
   <span
-    className={[
+    className={cn(
       'kiln-badge',
       `kiln-badge--${variant}`,
       `kiln-badge--${size}`,
       className,
-    ].filter(Boolean).join(' ')}
+    )}
   >
     {children}
   </span>

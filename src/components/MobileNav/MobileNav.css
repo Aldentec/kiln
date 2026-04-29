@@ -1,3 +1,16 @@
+/* Keyframes outside @layer so they're reachable from any context */
+@keyframes kiln-mnav-item-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes kiln-mnav-dot-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; box-shadow: 0 0 12px color-mix(in srgb, var(--kiln-primary) 60%, transparent); }
+}
+
+@layer kiln {
+
 .kiln-mnav-body-locked {
   overflow: hidden;
   position: fixed;
@@ -263,17 +276,6 @@
   border-top: 1px solid var(--kiln-gray-200);
 }
 
-/* ── Keyframes ── */
-@keyframes kiln-mnav-item-in {
-  from { opacity: 0; transform: translateX(16px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes kiln-mnav-dot-pulse {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; box-shadow: 0 0 12px color-mix(in srgb, var(--kiln-primary) 60%, transparent); }
-}
-
 /* ── Dark mode ── */
 [data-theme="dark"] .kiln-mnav__trigger-bar { background: var(--kiln-gray-400); }
 [data-theme="dark"] .kiln-mnav__trigger--active .kiln-mnav__trigger-bar { background: var(--kiln-gray-300); }
@@ -310,3 +312,5 @@
   .kiln-mnav__item,
   .kiln-mnav__link-dot { animation: none; }
 }
+
+} /* end @layer kiln */

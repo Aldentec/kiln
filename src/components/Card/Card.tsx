@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn, Slot } from '../../utils';
 import './Card.css';
 
 export type CardVariant = 'default' | 'raised' | 'glass' | 'gradient-border';
@@ -9,6 +10,8 @@ export interface CardProps {
   className?: string;
   children: React.ReactNode;
   as?: React.ElementType;
+  /** Merges props onto child element instead of rendering a wrapper */
+  asChild?: boolean;
   onClick?: React.MouseEventHandler;
 }
 
@@ -18,15 +21,24 @@ const Card: React.FC<CardProps> = ({
   className = '',
   children,
   as: Tag = 'div',
+  asChild = false,
   onClick,
 }) => {
-  const classes = [
+  const classes = cn(
     'kiln-card',
     `kiln-card--${variant}`,
-    hoverLift ? 'kiln-card--hover-lift' : '',
-    onClick ? 'kiln-card--clickable' : '',
+    hoverLift && 'kiln-card--hover-lift',
+    onClick && 'kiln-card--clickable',
     className,
-  ].filter(Boolean).join(' ');
+  );
+
+  if (asChild) {
+    return (
+      <Slot className={classes} onClick={onClick}>
+        {children}
+      </Slot>
+    );
+  }
 
   return (
     <Tag

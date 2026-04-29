@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils';
 import './LoadingIndicator.css';
 
 export interface LoadingIndicatorProps {
@@ -14,12 +15,12 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   inline = false,
   className,
 }) => {
-  const classes = [
+  const classes = cn(
     'kiln-loading-indicator',
-    fullScreen ? 'kiln-loading-indicator--fullscreen' : '',
-    inline ? 'kiln-loading-indicator--inline' : '',
-    className ?? '',
-  ].filter(Boolean).join(' ');
+    fullScreen && 'kiln-loading-indicator--fullscreen',
+    inline && 'kiln-loading-indicator--inline',
+    className,
+  );
 
   return (
     <div className={classes} role="status" aria-live="polite">
