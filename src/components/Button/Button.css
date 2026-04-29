@@ -1,0 +1,186 @@
+.kiln-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: none;
+  border-radius: var(--kiln-radius-lg);
+  font-family: var(--kiln-font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition:
+    opacity var(--kiln-duration-normal) var(--kiln-ease-out),
+    box-shadow var(--kiln-duration-normal) var(--kiln-ease-out),
+    transform var(--kiln-duration-fast) var(--kiln-ease-out),
+    background var(--kiln-duration-fast) var(--kiln-ease-out),
+    border-color var(--kiln-duration-fast) var(--kiln-ease-out),
+    color var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+/* ── Sizes ── */
+.kiln-button--sm {
+  padding: 0.35rem 0.75rem;
+  font-size: var(--kiln-text-xs);
+  gap: 0.3rem;
+}
+
+.kiln-button--md {
+  padding: 0.575rem 1.125rem;
+  font-size: var(--kiln-text-sm);
+}
+
+.kiln-button--lg {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--kiln-text-base);
+  gap: 0.55rem;
+}
+
+/* ── Primary ── */
+.kiln-button--primary {
+  background: var(--kiln-gradient-brand);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(137, 33, 107, 0.35);
+}
+
+.kiln-button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
+  opacity: 0.92;
+  box-shadow: 0 6px 20px rgba(137, 33, 107, 0.45);
+  transform: translateY(-1px);
+}
+
+.kiln-button--primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(137, 33, 107, 0.3);
+}
+
+/* ── Secondary ── */
+.kiln-button--secondary {
+  background: var(--kiln-surface-raised, #ffffff);
+  color: var(--kiln-gray-700);
+  border: 1.5px solid var(--kiln-gray-200);
+  box-shadow: var(--kiln-shadow-xs);
+}
+
+.kiln-button--secondary:hover:not(:disabled) {
+  background: var(--kiln-gray-50);
+  border-color: var(--kiln-gray-300);
+  color: var(--kiln-gray-900);
+  box-shadow: var(--kiln-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.kiln-button--secondary:active:not(:disabled) {
+  transform: translateY(0);
+  background: var(--kiln-gray-100);
+}
+
+[data-theme="dark"] .kiln-button--secondary {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--kiln-gray-300);
+}
+
+[data-theme="dark"] .kiln-button--secondary:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--kiln-gray-100);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Ghost ── */
+.kiln-button--ghost {
+  background: transparent;
+  color: var(--kiln-gray-600);
+  border: 1.5px solid transparent;
+}
+
+.kiln-button--ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--kiln-primary) 8%, transparent);
+  color: var(--kiln-primary);
+  border-color: color-mix(in srgb, var(--kiln-primary) 20%, transparent);
+}
+
+.kiln-button--ghost:active:not(:disabled) {
+  background: color-mix(in srgb, var(--kiln-primary) 12%, transparent);
+}
+
+/* ── Danger ── */
+.kiln-button--danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.kiln-button--danger:hover:not(:disabled) {
+  opacity: 0.92;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.42);
+  transform: translateY(-1px);
+}
+
+.kiln-button--danger:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ── Disabled ── */
+.kiln-button:disabled,
+.kiln-button[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+/* ── Loading ── */
+.kiln-button--loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.kiln-button__spinner {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: kiln-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.kiln-button--secondary .kiln-button__spinner,
+.kiln-button--ghost .kiln-button__spinner {
+  border-color: rgba(137, 33, 107, 0.25);
+  border-top-color: var(--kiln-primary);
+}
+
+.kiln-button--sm .kiln-button__spinner {
+  width: 11px;
+  height: 11px;
+  border-width: 1.5px;
+}
+
+.kiln-button--lg .kiln-button__spinner {
+  width: 17px;
+  height: 17px;
+}
+
+/* ── Icons ── */
+.kiln-button__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+/* ── Focus ── */
+.kiln-button:focus-visible {
+  outline: 3px solid rgba(137, 33, 107, 0.45);
+  outline-offset: 2px;
+}
+
+.kiln-button--danger:focus-visible {
+  outline-color: rgba(239, 68, 68, 0.5);
+}

@@ -4,6 +4,7 @@
 @import './design-tokens.css';
 @import './animations.css';
 
+/* Lifted primitives */
 @import '../components/Modal/Modal.css';
 @import '../components/LoadingIndicator/LoadingIndicator.css';
 @import '../components/ErrorMessage/ErrorMessage.css';
@@ -11,3 +12,12 @@
 @import '../components/NavMenu/NavMenu.css';
 @import '../components/MobileNav/MobileNav.css';
 @import '../components/Footer/Footer.css';
+
+/* New primitives */
+@import '../components/Button/Button.css';
+@import '../components/Input/Input.css';
+@import '../components/Textarea/Textarea.css';
+@import '../components/Card/Card.css';
+@import '../components/Badge/Badge.css';
+@import '../components/Chip/Chip.css';
+@import '../components/Tabs/Tabs.css';

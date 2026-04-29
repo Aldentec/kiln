@@ -1,0 +1,87 @@
+.kiln-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: var(--kiln-radius-full);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── Sizes ── */
+.kiln-badge--sm {
+  padding: 2px 8px;
+  font-size: 0.625rem;
+}
+
+.kiln-badge--md {
+  padding: var(--kiln-space-1) var(--kiln-space-3);
+  font-size: var(--kiln-text-xs);
+}
+
+/* ── Neutral ── */
+.kiln-badge--neutral {
+  background: var(--kiln-gray-100);
+  color: var(--kiln-gray-600);
+  border: 1px solid var(--kiln-gray-200);
+}
+
+/* ── Severity — solid fill, white text ── */
+.kiln-badge--critical {
+  background: var(--kiln-severity-critical);
+  color: #fff;
+}
+
+.kiln-badge--high {
+  background: var(--kiln-severity-high);
+  color: #fff;
+}
+
+.kiln-badge--medium {
+  background: var(--kiln-severity-medium);
+  color: #1a1200;
+}
+
+.kiln-badge--low {
+  background: var(--kiln-severity-low);
+  color: #042b0e;
+}
+
+/* ── Status — tinted bg, colored text ── */
+.kiln-badge--success {
+  background: var(--kiln-status-success-bg);
+  color: var(--kiln-status-success);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-success) 25%, transparent);
+}
+
+.kiln-badge--warning {
+  background: var(--kiln-status-warning-bg);
+  color: var(--kiln-status-warning);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-warning) 25%, transparent);
+}
+
+.kiln-badge--error {
+  background: var(--kiln-status-error-bg);
+  color: var(--kiln-status-error);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-error) 25%, transparent);
+}
+
+.kiln-badge--info {
+  background: var(--kiln-status-info-bg);
+  color: var(--kiln-status-info);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-info) 25%, transparent);
+}
+
+.kiln-badge--pending {
+  background: var(--kiln-status-pending-bg);
+  color: var(--kiln-status-pending);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-pending) 25%, transparent);
+}
+
+.kiln-badge--running {
+  background: var(--kiln-status-running-bg);
+  color: color-mix(in srgb, var(--kiln-status-running) 80%, #000);
+  border: 1px solid color-mix(in srgb, var(--kiln-status-running) 35%, transparent);
+}

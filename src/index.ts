@@ -1,5 +1,6 @@
 // Kiln design system — v0.1.0
 
+// Lifted primitives
 export { default as Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
 
@@ -23,3 +24,25 @@ export type { FooterProps, FooterLink } from './components/Footer';
 
 export { default as ScrollToTop } from './components/ScrollToTop';
 export type { ScrollToTopProps } from './components/ScrollToTop';
+
+// New primitives
+export { default as Button } from './components/Button';
+export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
+
+export { default as Input } from './components/Input';
+export type { InputProps, InputVariant } from './components/Input';
+
+export { default as Textarea } from './components/Textarea';
+export type { TextareaProps, TextareaVariant } from './components/Textarea';
+
+export { default as Card } from './components/Card';
+export type { CardProps, CardVariant } from './components/Card';
+
+export { default as Badge } from './components/Badge';
+export type { BadgeProps, BadgeVariant, BadgeSeverity, BadgeStatus, BadgeSize } from './components/Badge';
+
+export { default as Chip } from './components/Chip';
+export type { ChipProps } from './components/Chip';
+
+export { default as Tabs } from './components/Tabs';
+export type { TabsProps, TabItem } from './components/Tabs';
