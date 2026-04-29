@@ -1,1 +1,220 @@
-/* Placeholder — tokens will be lifted from ClickStorm in Step 4 */
+/* ============================================
+   Kiln Design System — Design Tokens
+   Modern, sleek, gradient-rich with micro-animations
+   ============================================ */
+
+:root {
+  /* ── Core Brand Colors ── */
+  --kiln-primary: #89216b;
+  --kiln-primary-light: #c45ba0;
+  --kiln-primary-dark: #5c1547;
+  --kiln-primary-50: #fce8f5;
+  --kiln-primary-100: #f5d0ea;
+  --kiln-primary-200: #e8a8d1;
+  --kiln-primary-900: #2d0a23;
+
+  --kiln-accent: #f7b733;
+  --kiln-accent-light: #fac85a;
+  --kiln-accent-dark: #c4911a;
+
+  /* ── Gradients ── */
+  --kiln-gradient-brand: linear-gradient(135deg, #0f2027 0%, #89216b 50%, #f7b733 100%);
+  --kiln-gradient-brand-hover: linear-gradient(135deg, #0f2027 0%, #89216b 50%, #f7b733 100%);
+  --kiln-gradient-warm: linear-gradient(135deg, #0f2027 0%, #89216b 50%, #f7b733 100%);
+  --kiln-gradient-success: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
+  --kiln-gradient-danger: linear-gradient(135deg, #0f2027 0%, #89216b 50%, #f7b733 100%);
+  --kiln-gradient-surface: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  --kiln-gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+  --kiln-gradient-dark: linear-gradient(135deg, #0f2027 0%, #1a0d18 100%);
+  --kiln-gradient-card-hover: linear-gradient(135deg, rgba(137,33,107,0.04) 0%, rgba(247,183,51,0.04) 100%);
+  --kiln-gradient-shimmer: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+
+  /* ── Severity Colors ── */
+  --kiln-severity-critical: #ef4444;
+  --kiln-severity-critical-bg: #fef2f2;
+  --kiln-severity-critical-border: #fecaca;
+  --kiln-severity-high: #f97316;
+  --kiln-severity-high-bg: #fff7ed;
+  --kiln-severity-high-border: #fed7aa;
+  --kiln-severity-medium: #eab308;
+  --kiln-severity-medium-bg: #fefce8;
+  --kiln-severity-medium-border: #fef08a;
+  --kiln-severity-low: #22c55e;
+  --kiln-severity-low-bg: #f0fdf4;
+  --kiln-severity-low-border: #bbf7d0;
+
+  /* ── Status Colors ── */
+  --kiln-status-success: #10b981;
+  --kiln-status-success-bg: #ecfdf5;
+  --kiln-status-warning: #f59e0b;
+  --kiln-status-warning-bg: #fffbeb;
+  --kiln-status-error: #ef4444;
+  --kiln-status-error-bg: #fef2f2;
+  --kiln-status-info: #3b82f6;
+  --kiln-status-info-bg: #eff6ff;
+  --kiln-status-pending: #8b5cf6;
+  --kiln-status-pending-bg: #f5f3ff;
+  --kiln-status-running: #f7b733;
+  --kiln-status-running-bg: #fffbeb;
+
+  /* ── Neutral Palette ── */
+  --kiln-gray-50: #f8fafc;
+  --kiln-gray-100: #f1f5f9;
+  --kiln-gray-200: #e2e8f0;
+  --kiln-gray-300: #cbd5e1;
+  --kiln-gray-400: #94a3b8;
+  --kiln-gray-500: #64748b;
+  --kiln-gray-600: #475569;
+  --kiln-gray-700: #334155;
+  --kiln-gray-800: #1e293b;
+  --kiln-gray-900: #0f172a;
+  --kiln-gray-950: #020617;
+
+  /* ── Typography ── */
+  --kiln-font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --kiln-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  --kiln-text-xs: 0.75rem;
+  --kiln-text-sm: 0.875rem;
+  --kiln-text-base: 1rem;
+  --kiln-text-lg: 1.125rem;
+  --kiln-text-xl: 1.25rem;
+  --kiln-text-2xl: 1.5rem;
+  --kiln-text-3xl: 1.875rem;
+  --kiln-text-4xl: 2.25rem;
+
+  --kiln-leading-tight: 1.25;
+  --kiln-leading-normal: 1.5;
+  --kiln-leading-relaxed: 1.625;
+
+  --kiln-tracking-tight: -0.025em;
+  --kiln-tracking-normal: 0;
+  --kiln-tracking-wide: 0.025em;
+
+  /* ── Spacing ── */
+  --kiln-space-1: 0.25rem;
+  --kiln-space-2: 0.5rem;
+  --kiln-space-3: 0.75rem;
+  --kiln-space-4: 1rem;
+  --kiln-space-5: 1.25rem;
+  --kiln-space-6: 1.5rem;
+  --kiln-space-8: 2rem;
+  --kiln-space-10: 2.5rem;
+  --kiln-space-12: 3rem;
+  --kiln-space-16: 4rem;
+
+  /* ── Border Radius ── */
+  --kiln-radius-sm: 0.375rem;
+  --kiln-radius-md: 0.5rem;
+  --kiln-radius-lg: 0.75rem;
+  --kiln-radius-xl: 1rem;
+  --kiln-radius-2xl: 1.25rem;
+  --kiln-radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --kiln-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --kiln-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --kiln-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --kiln-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --kiln-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --kiln-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  --kiln-shadow-glow: 0 0 20px rgba(137, 33, 107, 0.2);
+  --kiln-shadow-glow-accent: 0 0 20px rgba(247, 183, 51, 0.2);
+  --kiln-shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  /* ── Transitions & Animations ── */
+  --kiln-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --kiln-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --kiln-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --kiln-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --kiln-duration-fast: 250ms;
+  --kiln-duration-normal: 380ms;
+  --kiln-duration-slow: 500ms;
+  --kiln-duration-slower: 700ms;
+
+  /* ── Semantic Surfaces ── */
+  --kiln-surface: var(--kiln-gray-50);
+  --kiln-surface-raised: #ffffff;
+  --kiln-surface-overlay: #ffffff;
+  --kiln-ring: #ffffff;
+  --kiln-body-bg: var(--kiln-gray-50);
+
+  /* ── Gradient text glow (no-op in light, subtle in dark) ── */
+  --kiln-gradient-text-shadow: none;
+
+  /* ── Z-Index Scale ── */
+  --kiln-z-dropdown: 100;
+  --kiln-z-sticky: 200;
+  --kiln-z-overlay: 500;
+  --kiln-z-modal: 1000;
+  --kiln-z-toast: 1100;
+}
+
+/* ── Dark Theme ── */
+
+[data-theme="dark"] {
+  /* Remap neutral palette — invert light/dark ends */
+  --kiln-body-bg:  #0b1120;
+  --kiln-gray-50:  #131c2e;
+  --kiln-gray-100: #1e293b;
+  --kiln-gray-200: #334155;
+  --kiln-gray-300: #475569;
+  --kiln-gray-400: #94a3b8;
+  --kiln-gray-500: #94a3b8;
+  --kiln-gray-600: #cbd5e1;
+  --kiln-gray-700: #e2e8f0;
+  --kiln-gray-800: #f1f5f9;
+  --kiln-gray-900: #f8fafc;
+
+  /* Brand color overrides — lighten for dark backgrounds */
+  --kiln-primary: #c45ba0;
+  --kiln-primary-light: #e879c8;
+  --kiln-primary-dark: #e8a8d1;
+  --kiln-primary-200: rgba(196, 91, 160, 0.35);
+  --kiln-accent-dark: #fac85a;
+
+  /* Gradient overrides — lighten brand/danger for dark backgrounds */
+  --kiln-gradient-brand: linear-gradient(135deg, #c084fc 0%, #e879a8 50%, #f7b733 100%);
+  --kiln-gradient-brand-hover: linear-gradient(135deg, #c084fc 0%, #e879a8 50%, #f7b733 100%);
+  --kiln-gradient-warm: linear-gradient(135deg, #c084fc 0%, #e879a8 50%, #f7b733 100%);
+  --kiln-gradient-danger: linear-gradient(135deg, #c084fc 0%, #e879a8 50%, #f7b733 100%);
+
+  /* Surface overrides */
+  --kiln-gradient-surface: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --kiln-gradient-glass: linear-gradient(135deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.88) 100%);
+  --kiln-primary-50:  rgba(137,33,107,0.12);
+  --kiln-primary-100: rgba(137,33,107,0.18);
+
+  /* Deeper shadows for dark surfaces */
+  --kiln-shadow-sm:  0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+  --kiln-shadow-md:  0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.4);
+  --kiln-shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.4);
+  --kiln-shadow-inner: inset 0 2px 4px rgba(0,0,0,0.3);
+
+  /* Semantic surfaces */
+  --kiln-surface: var(--kiln-gray-50);
+  --kiln-surface-raised: #1e293b;
+  --kiln-surface-overlay: #1e293b;
+  --kiln-ring: #334155;
+
+  /* Gradient text glow for dark backgrounds */
+  --kiln-gradient-text-shadow:
+    0 0 20px rgba(247,183,51,0.35),
+    0 0 40px rgba(137,33,107,0.2);
+
+  /* Card hover gradient */
+  --kiln-gradient-card-hover: linear-gradient(135deg, rgba(137,33,107,0.08) 0%, rgba(247,183,51,0.08) 100%);
+
+  /* Status/severity backgrounds — low-opacity tints */
+  --kiln-severity-critical-bg: rgba(239,68,68,0.14);
+  --kiln-severity-high-bg:     rgba(249,115,22,0.14);
+  --kiln-severity-medium-bg:   rgba(234,179,8,0.14);
+  --kiln-severity-low-bg:      rgba(34,197,94,0.14);
+  --kiln-status-success-bg:    rgba(16,185,129,0.14);
+  --kiln-status-warning-bg:    rgba(245,158,11,0.14);
+  --kiln-status-error-bg:      rgba(239,68,68,0.14);
+  --kiln-status-info-bg:       rgba(59,130,246,0.14);
+  --kiln-status-pending-bg:    rgba(139,92,246,0.14);
+  --kiln-status-running-bg:    rgba(247,183,51,0.14);
+}
