@@ -17,6 +17,9 @@ export type { ErrorMessageProps } from './components/ErrorMessage';
 export { default as ThemeToggle } from './components/ThemeToggle';
 export type { ThemeToggleProps, KilnTheme } from './components/ThemeToggle';
 
+export { default as Nav } from './components/Nav';
+export type { NavProps, NavItem as NavBarItem } from './components/Nav';
+
 export { default as NavMenu } from './components/NavMenu';
 export type { NavMenuProps, NavItem } from './components/NavMenu';
 

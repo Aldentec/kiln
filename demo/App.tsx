@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, Input, Textarea, Card, Badge, Chip, Tabs,
+  Nav, Button, Input, Textarea, Card, Badge, Chip, Tabs,
   Modal, LoadingIndicator, ErrorMessage, ThemeToggle,
   NavMenu, Footer,
 } from '@doriansmith/kiln';
@@ -25,16 +25,9 @@ const TAB_ITEMS = [
 ];
 
 export default function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedChips, setSelectedChips] = useState<Set<string>>(new Set(['react']));
   const [activeTab, setActiveTab] = useState('overview');
-
-  const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    setTheme(next);
-  };
 
   return (
     <div style={{
@@ -44,18 +37,35 @@ export default function App() {
       fontFamily: 'var(--kiln-font-sans)',
       transition: 'background 0.3s, color 0.3s',
     }}>
-      {/* Nav */}
-      <header style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '1rem 2rem', borderBottom: '1px solid var(--kiln-gray-200)',
-        position: 'sticky', top: 0, background: 'var(--kiln-body-bg)', zIndex: 10,
-      }}>
-        <strong style={{ fontSize: 'var(--kiln-text-lg)' }}>⚗️ Kiln</strong>
-        <NavMenu items={NAV_ITEMS} isActive={(h) => h === '/demo'} />
-        <ThemeToggle defaultTheme={theme} />
-      </header>
+
+      <Nav
+        logo={<strong style={{ fontSize: 'var(--kiln-text-lg)' }}>⚗️ Kiln</strong>}
+        items={NAV_ITEMS}
+        isActive={(h) => h === '/demo'}
+        actions={<ThemeToggle />}
+      />
 
       <main style={{ maxWidth: 900, margin: '0 auto', padding: '2rem' }}>
+
+        {/* ── Nav ── */}
+        <Section title="Nav">
+          <p style={{ fontSize: 'var(--kiln-text-sm)', opacity: 0.6, margin: '0 0 1rem' }}>
+            The sticky header at the top of this page is the <code>Nav</code> component.
+            It shows desktop links above 768 px and a slide-in mobile drawer below.
+          </p>
+          <Row label="Standalone">
+            <div style={{ width: '100%', border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden' }}>
+              <Nav
+                sticky={false}
+                logo={<span style={{ fontWeight: 700 }}>⚗️ Kiln</span>}
+                items={NAV_ITEMS}
+                isActive={(h) => h === '/about'}
+                actions={<ThemeToggle />}
+                style={{ '--kiln-nav-max-width': '100%' } as React.CSSProperties}
+              />
+            </div>
+          </Row>
+        </Section>
 
         {/* ── Button ── */}
         <Section title="Button">
@@ -201,6 +211,16 @@ export default function App() {
         {/* ── ErrorMessage ── */}
         <Section title="ErrorMessage">
           <ErrorMessage message="Something went wrong. Please try again." retryAction={() => {}} retryLabel="Retry" />
+        </Section>
+
+        {/* ── NavMenu (legacy) ── */}
+        <Section title="NavMenu">
+          <p style={{ fontSize: 'var(--kiln-text-sm)', opacity: 0.6, margin: '0 0 1rem' }}>
+            The original horizontal link strip, kept for use inside custom headers.
+          </p>
+          <Row label="">
+            <NavMenu items={NAV_ITEMS} isActive={(h) => h === '/demo'} />
+          </Row>
         </Section>
 
       </main>

@@ -17,6 +17,7 @@
 @import '../components/LoadingIndicator/LoadingIndicator.css';
 @import '../components/ErrorMessage/ErrorMessage.css';
 @import '../components/ThemeToggle/ThemeToggle.css';
+@import '../components/Nav/Nav.css';
 @import '../components/NavMenu/NavMenu.css';
 @import '../components/MobileNav/MobileNav.css';
 @import '../components/Footer/Footer.css';
