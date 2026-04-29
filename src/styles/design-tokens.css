@@ -194,8 +194,8 @@
 
   /* Semantic surfaces */
   --kiln-surface: var(--kiln-gray-50);
-  --kiln-surface-raised: #1e293b;
-  --kiln-surface-overlay: #1e293b;
+  --kiln-surface-raised: #0d1525;
+  --kiln-surface-overlay: #0f1a2e;
   --kiln-ring: #334155;
 
   /* Gradient text glow for dark backgrounds */
