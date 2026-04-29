@@ -1,0 +1,15 @@
+# Reference material — never publish
+clickstorm-frontend/
+
+# Dev / source files (consumers only need dist/)
+src/
+demo/
+*.config.ts
+*.config.js
+tsconfig*.json
+.eslintrc*
+eslint.config*
+.prettierrc*
+vitest*
+.gitignore
+.npmignore

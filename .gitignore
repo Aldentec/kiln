@@ -1,0 +1,21 @@
+# Reference material — never commit
+clickstorm-frontend/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Vite / demo
+demo/dist/
+demo/node_modules/
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Misc
+.DS_Store
+*.log
