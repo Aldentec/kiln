@@ -55,20 +55,22 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({
       {label && (
         <label htmlFor={id} className="kiln-textarea-label">{label}</label>
       )}
-      <textarea
-        ref={ref}
-        id={id}
-        className={textareaClasses}
-        aria-invalid={resolved === 'error' ? 'true' : undefined}
-        aria-describedby={
-          [errorText ? errorId : null, helperText ? helperId : null].filter(Boolean).join(' ') || undefined
-        }
-        maxLength={maxLength}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={handleChange}
-        {...rest}
-      />
+      <div className="kiln-textarea-wrap">
+        <textarea
+          ref={ref}
+          id={id}
+          className={textareaClasses}
+          aria-invalid={resolved === 'error' ? 'true' : undefined}
+          aria-describedby={
+            [errorText ? errorId : null, helperText ? helperId : null].filter(Boolean).join(' ') || undefined
+          }
+          maxLength={maxLength}
+          value={value}
+          defaultValue={defaultValue}
+          onChange={handleChange}
+          {...rest}
+        />
+      </div>
       <div className="kiln-textarea-footer">
         <div>
           {errorText && <p id={errorId} className="kiln-textarea-error" role="alert">{errorText}</p>}

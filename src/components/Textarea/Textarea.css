@@ -1,68 +1,177 @@
+/* --kiln-field-angle already registered in Input.css; safe to redeclare (idempotent) */
+@property --kiln-field-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ─── Field wrapper ─────────────────────────────────────── */
+
 .kiln-textarea-field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
+
+/* ─── Label ─────────────────────────────────────────────── */
 
 .kiln-textarea-label {
   font-size: var(--kiln-text-sm);
   font-weight: 600;
-  color: var(--kiln-gray-800);
+  letter-spacing: 0.01em;
+  color: var(--kiln-gray-600);
   line-height: 1.4;
+  user-select: none;
+  transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
 }
 
+.kiln-textarea-field:focus-within .kiln-textarea-label {
+  color: var(--kiln-primary);
+}
+
+/* ─── Wrap (animated border container) ──────────────────── */
+
+.kiln-textarea-wrap {
+  position: relative;
+  border-radius: var(--kiln-radius-xl);
+  padding: 1.5px;
+  background: var(--kiln-gray-200);
+  transition:
+    background  var(--kiln-duration-fast) var(--kiln-ease-out),
+    box-shadow  var(--kiln-duration-fast) var(--kiln-ease-out),
+    transform   var(--kiln-duration-fast) var(--kiln-ease-spring);
+}
+
+/* Burst ring */
+.kiln-textarea-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(var(--kiln-radius-xl) + 3px);
+  border: 1.5px solid var(--kiln-primary);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.kiln-textarea-wrap:focus-within::after {
+  animation: kiln-textarea-burst 550ms var(--kiln-ease-out) both;
+}
+
+@keyframes kiln-textarea-burst {
+  0%   { opacity: 0.7; transform: scale(1);    }
+  100% { opacity: 0;   transform: scale(1.04); }
+}
+
+/* Hover */
+.kiln-textarea-wrap:hover:not(:focus-within) {
+  background: color-mix(in srgb, var(--kiln-primary) 22%, var(--kiln-gray-200));
+  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.07);
+  transform: translateY(-1px);
+}
+
+.kiln-textarea-wrap:has(.kiln-textarea:disabled):hover {
+  background: var(--kiln-gray-200);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Focus — spinning conic-gradient border + brand glow */
+.kiln-textarea-wrap:focus-within {
+  background: conic-gradient(
+    from var(--kiln-field-angle),
+    #89216b 0%,
+    #c45ba0 25%,
+    #f7b733 50%,
+    #c45ba0 75%,
+    #89216b 100%
+  );
+  animation: kiln-textarea-border-spin 4s linear infinite;
+  box-shadow:
+    0 0 0 3px rgba(137, 33, 107, 0.12),
+    0 0 28px rgba(137, 33, 107, 0.16),
+    0 6px 20px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+@keyframes kiln-textarea-border-spin {
+  from { --kiln-field-angle: 0deg;   }
+  to   { --kiln-field-angle: 360deg; }
+}
+
+/* Error */
+.kiln-textarea-wrap:has(.kiln-textarea--error) {
+  background: var(--kiln-severity-critical);
+  box-shadow:
+    0 0 0 3px rgba(239, 68, 68, 0.12),
+    0 0 18px rgba(239, 68, 68, 0.08);
+  animation: kiln-textarea-shake 0.38s var(--kiln-ease-out) both;
+  transform: none;
+}
+
+@keyframes kiln-textarea-shake {
+  0%, 100% { transform: translateX(0);   }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(4px);  }
+  45%      { transform: translateX(-3px); }
+  60%      { transform: translateX(2px);  }
+  75%      { transform: translateX(-1px); }
+}
+
+/* Success */
+.kiln-textarea-wrap:has(.kiln-textarea--success) {
+  background: var(--kiln-status-success);
+  box-shadow:
+    0 0 0 3px rgba(16, 185, 129, 0.12),
+    0 0 18px rgba(16, 185, 129, 0.08);
+  animation: none;
+  transform: none;
+}
+
+/* ─── Textarea element ──────────────────────────────────── */
+
 .kiln-textarea {
+  display: block;
   width: 100%;
   box-sizing: border-box;
   resize: vertical;
-  background: var(--kiln-surface-raised, #fff);
-  border: 1.5px solid var(--kiln-gray-200);
-  border-radius: var(--kiln-radius-lg);
-  padding: 0.7rem var(--kiln-space-4);
+  background: var(--kiln-surface-raised);
+  border: none;
+  border-radius: calc(var(--kiln-radius-xl) - 1.5px);
+  padding: 0.75rem var(--kiln-space-4);
   font-size: var(--kiln-text-sm);
   font-family: var(--kiln-font-sans);
+  font-weight: 500;
   color: var(--kiln-gray-900);
   line-height: var(--kiln-leading-relaxed);
-  min-height: 100px;
+  min-height: 108px;
   outline: none;
-  transition:
-    border-color var(--kiln-duration-slow) var(--kiln-ease-out),
-    box-shadow var(--kiln-duration-slow) var(--kiln-ease-out),
-    background var(--kiln-duration-slow) var(--kiln-ease-out);
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
 }
 
-.kiln-textarea::placeholder { color: var(--kiln-gray-400); }
-
-.kiln-textarea:hover:not(:disabled) {
-  border-color: var(--kiln-primary-200);
+.kiln-textarea::placeholder {
+  color: var(--kiln-gray-400);
+  font-weight: 400;
+  transition: opacity var(--kiln-duration-fast);
 }
 
-.kiln-textarea:focus {
-  border-color: var(--kiln-primary);
-  background: var(--kiln-surface-raised, #fff);
-  box-shadow: 0 0 0 3px rgba(137, 33, 107, 0.12), 0 1px 3px rgba(0,0,0,0.06);
+.kiln-textarea:focus::placeholder {
+  opacity: 0.55;
 }
 
 .kiln-textarea:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   resize: none;
+  background: var(--kiln-gray-50);
 }
 
-/* ── Variants ── */
-.kiln-textarea--error,
-.kiln-textarea--error:focus {
-  border-color: var(--kiln-severity-critical);
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
-}
+/* Variant stubs — classes kept for :has() queries above */
+.kiln-textarea--default {}
+.kiln-textarea--error   {}
+.kiln-textarea--success {}
 
-.kiln-textarea--success,
-.kiln-textarea--success:focus {
-  border-color: var(--kiln-status-success);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
-}
+/* ─── Footer ────────────────────────────────────────────── */
 
-/* ── Footer ── */
 .kiln-textarea-footer {
   display: flex;
   align-items: baseline;
@@ -81,10 +190,18 @@
 .kiln-textarea-error {
   margin: 0;
   font-size: var(--kiln-text-xs);
-  color: var(--kiln-severity-critical);
   font-weight: 500;
+  color: var(--kiln-severity-critical);
   line-height: 1.4;
+  animation: kiln-textarea-error-in var(--kiln-duration-fast) var(--kiln-ease-out) both;
 }
+
+@keyframes kiln-textarea-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ─── Char count ────────────────────────────────────────── */
 
 .kiln-textarea-charcount {
   font-size: var(--kiln-text-xs);
@@ -92,25 +209,102 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   margin-left: auto;
+  transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
 }
 
 .kiln-textarea-charcount--over {
   color: var(--kiln-severity-critical);
-  font-weight: 600;
+  font-weight: 700;
+  animation: kiln-textarea-count-pulse 1.6s ease-in-out infinite;
 }
 
-/* ── Dark mode ── */
+@keyframes kiln-textarea-count-pulse {
+  0%, 100% { opacity: 1;    }
+  50%      { opacity: 0.45; }
+}
+
+/* ─── Dark mode ─────────────────────────────────────────── */
+
+[data-theme="dark"] .kiln-textarea-wrap {
+  background: rgba(137, 33, 107, 0.22);
+}
+
+[data-theme="dark"] .kiln-textarea-wrap:hover:not(:focus-within):not(:has(.kiln-textarea:disabled)) {
+  background: rgba(196, 91, 160, 0.38);
+  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
+}
+
+[data-theme="dark"] .kiln-textarea-wrap:focus-within {
+  background: conic-gradient(
+    from var(--kiln-field-angle),
+    #c45ba0 0%,
+    #e879a8 25%,
+    #f7b733 50%,
+    #e879a8 75%,
+    #c45ba0 100%
+  );
+  box-shadow:
+    0 0 0 3px rgba(196, 91, 160, 0.2),
+    0 0 40px rgba(196, 91, 160, 0.22),
+    0 0 80px rgba(137, 33, 107, 0.1),
+    0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .kiln-textarea-wrap::after {
+  border-color: var(--kiln-primary-light);
+}
+
+[data-theme="dark"] .kiln-textarea-wrap:has(.kiln-textarea--error) {
+  background: var(--kiln-severity-critical);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22), 0 0 28px rgba(239, 68, 68, 0.12);
+}
+
+[data-theme="dark"] .kiln-textarea-wrap:has(.kiln-textarea--success) {
+  background: var(--kiln-status-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22), 0 0 28px rgba(16, 185, 129, 0.12);
+}
+
 [data-theme="dark"] .kiln-textarea {
-  background: var(--kiln-gray-100);
-  border-color: var(--kiln-gray-300);
+  background: rgba(10, 16, 30, 0.9);
   color: var(--kiln-gray-900);
+  caret-color: var(--kiln-primary-light);
 }
 
-[data-theme="dark"] .kiln-textarea:hover:not(:disabled) {
-  border-color: var(--kiln-primary-200);
-  background: var(--kiln-gray-200);
+[data-theme="dark"] .kiln-textarea:disabled {
+  background: rgba(10, 16, 30, 0.5);
 }
 
-[data-theme="dark"] .kiln-textarea:focus {
-  background: var(--kiln-gray-100);
+[data-theme="dark"] .kiln-textarea-label {
+  color: var(--kiln-gray-500);
+}
+
+[data-theme="dark"] .kiln-textarea-field:focus-within .kiln-textarea-label {
+  color: var(--kiln-primary-light);
+}
+
+/* ─── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-textarea-wrap {
+    animation: none !important;
+    transition: background 150ms linear, box-shadow 150ms linear !important;
+  }
+
+  .kiln-textarea-wrap:focus-within {
+    background: var(--kiln-primary) !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .kiln-textarea-wrap::after {
+    animation: none !important;
+  }
+
+  .kiln-textarea-charcount--over {
+    animation: none !important;
+  }
+
+  [data-theme="dark"] .kiln-textarea-wrap:focus-within {
+    background: var(--kiln-primary-light) !important;
+  }
 }

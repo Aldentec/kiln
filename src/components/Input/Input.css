@@ -1,51 +1,163 @@
+/* Registers --kiln-field-angle as animatable per-element (non-inherited) */
+@property --kiln-field-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ─── Field wrapper ─────────────────────────────────────── */
+
 .kiln-input-field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
+
+/* ─── Label ─────────────────────────────────────────────── */
 
 .kiln-input-label {
   font-size: var(--kiln-text-sm);
   font-weight: 600;
-  color: var(--kiln-gray-800);
+  letter-spacing: 0.01em;
+  color: var(--kiln-gray-600);
   line-height: 1.4;
+  user-select: none;
+  transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
 }
+
+.kiln-input-field:focus-within .kiln-input-label {
+  color: var(--kiln-primary);
+}
+
+/* ─── Wrap (animated border container) ──────────────────── */
 
 .kiln-input-wrap {
   position: relative;
   display: flex;
   align-items: center;
+  border-radius: var(--kiln-radius-xl);
+  padding: 1.5px;
+  background: var(--kiln-gray-200);
+  transition:
+    background     var(--kiln-duration-fast) var(--kiln-ease-out),
+    box-shadow     var(--kiln-duration-fast) var(--kiln-ease-out),
+    transform      var(--kiln-duration-fast) var(--kiln-ease-spring);
 }
+
+/* Burst ring — expands and fades the moment focus lands */
+.kiln-input-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(var(--kiln-radius-xl) + 3px);
+  border: 1.5px solid var(--kiln-primary);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.kiln-input-wrap:focus-within::after {
+  animation: kiln-input-burst 550ms var(--kiln-ease-out) both;
+}
+
+@keyframes kiln-input-burst {
+  0%   { opacity: 0.7; transform: scale(1);    }
+  100% { opacity: 0;   transform: scale(1.07); }
+}
+
+/* Hover — subtle purple-tinted border, slight lift */
+.kiln-input-wrap:hover:not(:focus-within) {
+  background: color-mix(in srgb, var(--kiln-primary) 22%, var(--kiln-gray-200));
+  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.07);
+  transform: translateY(-1px);
+}
+
+.kiln-input-wrap:has(.kiln-input:disabled):hover {
+  background: var(--kiln-gray-200);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Focus — spinning conic-gradient border + brand glow */
+.kiln-input-wrap:focus-within {
+  background: conic-gradient(
+    from var(--kiln-field-angle),
+    #89216b 0%,
+    #c45ba0 25%,
+    #f7b733 50%,
+    #c45ba0 75%,
+    #89216b 100%
+  );
+  animation: kiln-input-border-spin 4s linear infinite;
+  box-shadow:
+    0 0 0 3px rgba(137, 33, 107, 0.12),
+    0 0 28px rgba(137, 33, 107, 0.16),
+    0 6px 20px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+@keyframes kiln-input-border-spin {
+  from { --kiln-field-angle: 0deg;   }
+  to   { --kiln-field-angle: 360deg; }
+}
+
+/* Error — source order after :focus-within so same specificity wins here */
+.kiln-input-wrap:has(.kiln-input--error) {
+  background: var(--kiln-severity-critical);
+  box-shadow:
+    0 0 0 3px rgba(239, 68, 68, 0.12),
+    0 0 18px rgba(239, 68, 68, 0.08);
+  animation: kiln-input-shake 0.38s var(--kiln-ease-out) both;
+  transform: none;
+}
+
+@keyframes kiln-input-shake {
+  0%, 100% { transform: translateX(0);   }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(4px);  }
+  45%      { transform: translateX(-3px); }
+  60%      { transform: translateX(2px);  }
+  75%      { transform: translateX(-1px); }
+}
+
+/* Success */
+.kiln-input-wrap:has(.kiln-input--success) {
+  background: var(--kiln-status-success);
+  box-shadow:
+    0 0 0 3px rgba(16, 185, 129, 0.12),
+    0 0 18px rgba(16, 185, 129, 0.08);
+  animation: none;
+  transform: none;
+}
+
+/* ─── Input element ─────────────────────────────────────── */
 
 .kiln-input {
+  flex: 1;
+  min-width: 0;
   width: 100%;
   box-sizing: border-box;
-  background: var(--kiln-surface-raised, #fff);
-  border: 1.5px solid var(--kiln-gray-200);
-  border-radius: var(--kiln-radius-lg);
-  padding: 0.625rem var(--kiln-space-4);
+  background: var(--kiln-surface-raised);
+  border: none;
+  border-radius: calc(var(--kiln-radius-xl) - 1.5px);
+  padding: 0.7rem var(--kiln-space-4);
   font-size: var(--kiln-text-sm);
   font-family: var(--kiln-font-sans);
+  font-weight: 500;
   color: var(--kiln-gray-900);
   line-height: 1.5;
-  min-height: 42px;
+  min-height: 44px;
   outline: none;
-  transition:
-    border-color var(--kiln-duration-slow) var(--kiln-ease-out),
-    box-shadow var(--kiln-duration-slow) var(--kiln-ease-out),
-    background var(--kiln-duration-slow) var(--kiln-ease-out);
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
 }
 
-.kiln-input::placeholder { color: var(--kiln-gray-400); }
-
-.kiln-input:hover:not(:disabled) {
-  border-color: var(--kiln-primary-200);
+.kiln-input::placeholder {
+  color: var(--kiln-gray-400);
+  font-weight: 400;
+  transition: opacity var(--kiln-duration-fast);
 }
 
-.kiln-input:focus {
-  border-color: var(--kiln-primary);
-  background: var(--kiln-surface-raised, #fff);
-  box-shadow: 0 0 0 3px rgba(137, 33, 107, 0.12), 0 1px 3px rgba(0,0,0,0.06);
+.kiln-input:focus::placeholder {
+  opacity: 0.55;
 }
 
 .kiln-input:disabled {
@@ -54,20 +166,13 @@
   background: var(--kiln-gray-50);
 }
 
-/* ── Variants ── */
-.kiln-input--error,
-.kiln-input--error:focus {
-  border-color: var(--kiln-severity-critical);
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
-}
+/* Variant stubs — classes kept for :has() queries above */
+.kiln-input--default {}
+.kiln-input--error   {}
+.kiln-input--success {}
 
-.kiln-input--success,
-.kiln-input--success:focus {
-  border-color: var(--kiln-status-success);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
-}
+/* ─── Icon slots ────────────────────────────────────────── */
 
-/* ── Icon padding adjustments ── */
 .kiln-input--has-left-icon  { padding-left: 2.5rem; }
 .kiln-input--has-right-icon { padding-right: 2.5rem; }
 
@@ -81,12 +186,19 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--kiln-text-base);
+  z-index: 1;
+  transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
 }
 
 .kiln-input-icon--left  { left: var(--kiln-space-3); }
 .kiln-input-icon--right { right: var(--kiln-space-3); }
 
-/* ── Helper / error text ── */
+.kiln-input-field:focus-within .kiln-input-icon {
+  color: var(--kiln-primary);
+}
+
+/* ─── Helper / error text ───────────────────────────────── */
+
 .kiln-input-helper {
   margin: 0;
   font-size: var(--kiln-text-xs);
@@ -97,23 +209,99 @@
 .kiln-input-error {
   margin: 0;
   font-size: var(--kiln-text-xs);
-  color: var(--kiln-severity-critical);
   font-weight: 500;
+  color: var(--kiln-severity-critical);
   line-height: 1.4;
+  animation: kiln-input-error-in var(--kiln-duration-fast) var(--kiln-ease-out) both;
 }
 
-/* ── Dark mode ── */
+@keyframes kiln-input-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ─── Dark mode ─────────────────────────────────────────── */
+
+[data-theme="dark"] .kiln-input-wrap {
+  background: rgba(137, 33, 107, 0.22);
+}
+
+[data-theme="dark"] .kiln-input-wrap:hover:not(:focus-within):not(:has(.kiln-input:disabled)) {
+  background: rgba(196, 91, 160, 0.38);
+  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
+}
+
+[data-theme="dark"] .kiln-input-wrap:focus-within {
+  background: conic-gradient(
+    from var(--kiln-field-angle),
+    #c45ba0 0%,
+    #e879a8 25%,
+    #f7b733 50%,
+    #e879a8 75%,
+    #c45ba0 100%
+  );
+  box-shadow:
+    0 0 0 3px rgba(196, 91, 160, 0.2),
+    0 0 40px rgba(196, 91, 160, 0.22),
+    0 0 80px rgba(137, 33, 107, 0.1),
+    0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .kiln-input-wrap::after {
+  border-color: var(--kiln-primary-light);
+}
+
+[data-theme="dark"] .kiln-input-wrap:has(.kiln-input--error) {
+  background: var(--kiln-severity-critical);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22), 0 0 28px rgba(239, 68, 68, 0.12);
+}
+
+[data-theme="dark"] .kiln-input-wrap:has(.kiln-input--success) {
+  background: var(--kiln-status-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22), 0 0 28px rgba(16, 185, 129, 0.12);
+}
+
 [data-theme="dark"] .kiln-input {
-  background: var(--kiln-gray-100);
-  border-color: var(--kiln-gray-300);
+  background: rgba(10, 16, 30, 0.9);
   color: var(--kiln-gray-900);
+  caret-color: var(--kiln-primary-light);
 }
 
-[data-theme="dark"] .kiln-input:hover:not(:disabled) {
-  border-color: var(--kiln-primary-200);
-  background: var(--kiln-gray-200);
+[data-theme="dark"] .kiln-input:disabled {
+  background: rgba(10, 16, 30, 0.5);
 }
 
-[data-theme="dark"] .kiln-input:focus {
-  background: var(--kiln-gray-100);
+[data-theme="dark"] .kiln-input-label {
+  color: var(--kiln-gray-500);
+}
+
+[data-theme="dark"] .kiln-input-field:focus-within .kiln-input-label {
+  color: var(--kiln-primary-light);
+}
+
+[data-theme="dark"] .kiln-input-field:focus-within .kiln-input-icon {
+  color: var(--kiln-primary-light);
+}
+
+/* ─── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-input-wrap {
+    animation: none !important;
+    transition: background 150ms linear, box-shadow 150ms linear !important;
+  }
+
+  .kiln-input-wrap:focus-within {
+    background: var(--kiln-primary) !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .kiln-input-wrap::after {
+    animation: none !important;
+  }
+
+  [data-theme="dark"] .kiln-input-wrap:focus-within {
+    background: var(--kiln-primary-light) !important;
+  }
 }
