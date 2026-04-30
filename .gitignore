@@ -16,6 +16,11 @@ demo/node_modules/
 .env.local
 .env.*.local
 
+# CDK
+cdk/node_modules/
+cdk/dist/
+cdk/cdk.out/
+
 # Misc
 .DS_Store
 *.log

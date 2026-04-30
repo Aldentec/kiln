@@ -1,0 +1,14 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/kiln-ui.ts",
+  "watch": {
+    "include": ["**"],
+    "exclude": [
+      "README.md", "cdk*.json", "**/*.js",
+      "tsconfig.json", "package.json", "node_modules", "cdk.out"
+    ]
+  },
+  "context": {
+    "certificateArn": "arn:aws:acm:us-east-1:REPLACE_WITH_ACCOUNT_ID:certificate/REPLACE_WITH_CERT_ID",
+    "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": true
+  }
+}
