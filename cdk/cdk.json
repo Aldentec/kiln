@@ -8,7 +8,7 @@
     ]
   },
   "context": {
-    "certificateArn": "arn:aws:acm:us-east-1:REPLACE_WITH_ACCOUNT_ID:certificate/REPLACE_WITH_CERT_ID",
+    "certificateArn": "arn:aws:acm:us-east-1:023286919331:certificate/4b4d5447-f05b-4144-bf5f-a0e4e14e3e47",
     "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": true
   }
 }
