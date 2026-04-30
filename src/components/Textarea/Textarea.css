@@ -75,10 +75,10 @@
   border-radius: var(--kiln-textarea-radius, var(--kiln-radius-xl));
   padding: 1.5px;
   background: var(--kiln-gray-200);
+  /* box-shadow excluded — GPU-unfriendly when animated */
   transition:
-    background  var(--kiln-duration-fast) var(--kiln-ease-out),
-    box-shadow  var(--kiln-duration-fast) var(--kiln-ease-out),
-    transform   var(--kiln-duration-fast) var(--kiln-ease-spring);
+    background var(--kiln-duration-fast) var(--kiln-ease-out),
+    transform  var(--kiln-duration-fast) var(--kiln-ease-spring);
 }
 
 /* Burst ring */
@@ -294,10 +294,25 @@
 
 /* ─── Reduced motion ────────────────────────────────────── */
 
+/* iOS Safari zoom prevention + mobile font-size improvements */
+@media (max-width: 768px) {
+  /* font-size < 16px triggers zoom on focus in iOS Safari */
+  .kiln-textarea {
+    font-size: max(1rem, var(--kiln-textarea-font-size, var(--kiln-text-sm)));
+  }
+  /* Helper / error / charcount text: 12px → 14px for mobile readability */
+  .kiln-textarea-helper,
+  .kiln-textarea-error,
+  .kiln-textarea-charcount {
+    font-size: var(--kiln-text-sm);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kiln-textarea-wrap {
     animation: none !important;
-    transition: background 150ms linear, box-shadow 150ms linear !important;
+    /* box-shadow removed from reduced-motion transition */
+    transition: background 150ms linear !important;
   }
 
   .kiln-textarea-wrap:focus-within {

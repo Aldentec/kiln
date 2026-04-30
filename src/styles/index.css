@@ -13,9 +13,17 @@
 
 @import './design-tokens.css';
 
-/* Base — sets the font on body so portals (Modal, MobileNav) inherit it */
+/* Base — font, background, and margin reset so the body/html background
+   always matches the Kiln theme and never bleeds through as a white strip */
+html {
+  background: var(--kiln-body-bg);
+}
+
 body {
   font-family: var(--kiln-font-sans);
+  margin: 0;
+  padding: 0;
+  background: var(--kiln-body-bg);
 }
 @import './animations.css';
 
@@ -30,6 +38,7 @@ body {
 @import '../components/Footer/Footer.css';
 
 /* New primitives */
+@import '../components/Accordion/Accordion.css';
 @import '../components/Button/Button.css';
 @import '../components/Input/Input.css';
 @import '../components/Textarea/Textarea.css';
@@ -37,3 +46,9 @@ body {
 @import '../components/Badge/Badge.css';
 @import '../components/Chip/Chip.css';
 @import '../components/Tabs/Tabs.css';
+@import '../components/CodeBlock/CodeBlock.css';
+@import '../components/Toast/Toast.css';
+@import '../components/Tooltip/Tooltip.css';
+@import '../components/DropdownMenu/DropdownMenu.css';
+@import '../components/TableOfContents/TableOfContents.css';
+@import '../components/SideNav/SideNav.css';

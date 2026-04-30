@@ -12,8 +12,8 @@
     padding: var(--kiln-card-padding, var(--kiln-space-6));
     overflow: hidden;
     font-family: var(--kiln-font-sans);
+    /* box-shadow excluded from transition — GPU-unfriendly when animated */
     transition:
-      box-shadow   var(--kiln-duration-normal) var(--kiln-ease-out),
       transform    var(--kiln-duration-normal) var(--kiln-ease-out),
       border-color var(--kiln-duration-normal) var(--kiln-ease-out);
   }
@@ -115,7 +115,10 @@
   }
 
   /* ── Clickable ── */
-  .kiln-card--clickable { cursor: pointer; }
+  .kiln-card--clickable {
+    cursor: pointer;
+    min-height: 44px; /* WCAG 2.5.5 touch target */
+  }
 
   .kiln-card--clickable:focus-visible {
     outline: 2px solid var(--kiln-primary);
@@ -171,5 +174,15 @@
       0 0 40px rgba(196, 91, 160, 0.12),
       0 0 80px rgba(137, 33, 107, 0.06);
     border-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-card {
+      transition: none;
+    }
+    .kiln-card--hover-lift:hover,
+    .kiln-card--clickable:hover {
+      transform: none;
+    }
   }
 }

@@ -4,6 +4,10 @@
 export { cn, Slot } from './utils';
 export type { SlotProps, PolymorphicProps, PolymorphicPropsWithRef } from './utils';
 
+// Accordion
+export { default as Accordion } from './components/Accordion';
+export type { AccordionProps, AccordionItem } from './components/Accordion';
+
 // Lifted primitives
 export { default as Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
@@ -52,4 +56,30 @@ export { default as Chip } from './components/Chip';
 export type { ChipProps } from './components/Chip';
 
 export { default as Tabs } from './components/Tabs';
-export type { TabsProps, TabItem } from './components/Tabs';
+export type { TabsProps, TabItem, TabsVariant } from './components/Tabs';
+
+export { default as CodeBlock } from './components/CodeBlock';
+export type { CodeBlockProps } from './components/CodeBlock';
+
+export { toast, ToastContainer } from './components/Toast';
+export type { ToastOptions, ToastVariant, ToastItem, ToastContainerProps, ToastPosition } from './components/Toast';
+
+export { default as Tooltip } from './components/Tooltip';
+export type { TooltipProps, TooltipSide } from './components/Tooltip';
+
+export { default as DropdownMenu } from './components/DropdownMenu';
+export type {
+  DropdownMenuProps,
+  DropdownMenuEntry,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+  DropdownMenuAlign,
+  DropdownMenuSide,
+} from './components/DropdownMenu';
+
+export { default as TableOfContents } from './components/TableOfContents';
+export type { TableOfContentsProps, TocItem } from './components/TableOfContents';
+
+export { default as SideNav } from './components/SideNav';
+export type { SideNavProps, SideNavItem, SideNavGroup } from './components/SideNav';

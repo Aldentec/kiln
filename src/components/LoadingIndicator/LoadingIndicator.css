@@ -64,4 +64,17 @@
   font-size: var(--kiln-text-sm);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .kiln-loading-indicator {
+    animation: none;
+  }
+  .kiln-spinner {
+    animation: none;
+    /* Static conic gradient remains as a visual hint without spinning */
+  }
+  .kiln-loading-indicator p {
+    animation: none;
+  }
+}
+
 } /* end @layer kiln */

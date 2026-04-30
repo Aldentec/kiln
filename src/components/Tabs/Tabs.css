@@ -26,6 +26,7 @@
     background: transparent;
     border: none;
     padding: var(--kiln-space-2) var(--kiln-space-4);
+    min-height: 44px; /* WCAG 2.5.5 touch target */
     font-size: var(--kiln-text-sm);
     font-weight: 600;
     color: var(--kiln-gray-500);
@@ -33,10 +34,10 @@
     border-radius: var(--kiln-tabs-radius, var(--kiln-radius-full));
     font-family: var(--kiln-font-sans);
     white-space: nowrap;
+    /* box-shadow excluded — GPU-unfriendly when animated */
     transition:
       color      var(--kiln-duration-fast) var(--kiln-ease-out),
-      background var(--kiln-duration-fast) var(--kiln-ease-out),
-      box-shadow var(--kiln-duration-fast) var(--kiln-ease-out);
+      background var(--kiln-duration-fast) var(--kiln-ease-out);
   }
 
   .kiln-tabs__tab:hover:not(.kiln-tabs__tab--active):not(:disabled) {
@@ -64,5 +65,67 @@
     display: flex;
     align-items: center;
     line-height: 0;
+  }
+
+  /* ── Underline variant ── */
+  .kiln-tabs--underline {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--kiln-gray-200);
+    border-radius: 0;
+    padding: 0;
+    gap: 0;
+    box-shadow: none;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .kiln-tabs--underline::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kiln-tabs--underline .kiln-tabs__tab {
+    border-radius: 0;
+    padding: var(--kiln-space-3) var(--kiln-space-4);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    font-weight: 500;
+    color: var(--kiln-gray-500);
+    background: transparent;
+    box-shadow: none;
+    flex-shrink: 0;
+    transition:
+      color        var(--kiln-duration-fast) var(--kiln-ease-out),
+      border-color var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-tabs--underline .kiln-tabs__tab:hover:not(.kiln-tabs__tab--active):not(:disabled) {
+    background: transparent;
+    color: var(--kiln-gray-700);
+    border-bottom-color: var(--kiln-gray-300);
+  }
+
+  .kiln-tabs--underline .kiln-tabs__tab--active {
+    background: transparent;
+    color: var(--kiln-tabs-active-color, var(--kiln-primary));
+    border-bottom-color: var(--kiln-tabs-active-color, var(--kiln-primary));
+    box-shadow: none;
+    font-weight: 600;
+  }
+
+  [data-theme="dark"] .kiln-tabs--underline {
+    border-bottom-color: var(--kiln-gray-200);
+  }
+
+  [data-theme="dark"] .kiln-tabs--underline .kiln-tabs__tab:hover:not(.kiln-tabs__tab--active) {
+    color: var(--kiln-gray-600);
+    border-bottom-color: var(--kiln-gray-300);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-tabs__tab { transition: none; }
+    .kiln-tabs--underline .kiln-tabs__tab { transition: none; }
   }
 }

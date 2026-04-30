@@ -1,0 +1,141 @@
+/* ─── Component tokens ───────────────────────────────────
+   --kiln-tooltip-bg       background        (default: --kiln-gray-900)
+   --kiln-tooltip-color    text color        (default: #fff)
+   --kiln-tooltip-radius   border-radius     (default: --kiln-radius-md)
+   --kiln-tooltip-gap      distance from trigger (default: 8px)
+─────────────────────────────────────────────────────────── */
+
+@keyframes kiln-tooltip-in {
+  from { opacity: 0; transform: scale(0.94) translateY(2px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+@layer kiln {
+
+/* ── Wrapper ── */
+.kiln-tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Tooltip bubble ── */
+.kiln-tooltip {
+  position: absolute;
+  z-index: var(--kiln-z-dropdown, 100);
+  padding: 5px 10px;
+  background: var(--kiln-tooltip-bg, var(--kiln-gray-900));
+  color: var(--kiln-tooltip-color, #ffffff);
+  font-family: var(--kiln-font-sans);
+  font-size: var(--kiln-text-xs);
+  font-weight: 500;
+  line-height: var(--kiln-leading-normal);
+  border-radius: var(--kiln-tooltip-radius, var(--kiln-radius-md));
+  /* nowrap keeps short tooltips on one line;
+     max-width + ellipsis gracefully handles unusually long content */
+  white-space: nowrap;
+  max-width: min(260px, 90vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  animation: kiln-tooltip-in 140ms var(--kiln-ease-out) both;
+  box-shadow: var(--kiln-shadow-lg);
+}
+
+/* ── Positioning per side ── */
+
+/* Top (default) */
+.kiln-tooltip--top {
+  bottom: calc(100% + var(--kiln-tooltip-gap, 8px));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Bottom */
+.kiln-tooltip--bottom {
+  top: calc(100% + var(--kiln-tooltip-gap, 8px));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Left */
+.kiln-tooltip--left {
+  right: calc(100% + var(--kiln-tooltip-gap, 8px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Right */
+.kiln-tooltip--right {
+  left: calc(100% + var(--kiln-tooltip-gap, 8px));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ── Arrow ── */
+.kiln-tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+/* Top → arrow points down */
+.kiln-tooltip--top .kiln-tooltip__arrow {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--kiln-tooltip-bg, var(--kiln-gray-900));
+  border-bottom: none;
+}
+
+/* Bottom → arrow points up */
+.kiln-tooltip--bottom .kiln-tooltip__arrow {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--kiln-tooltip-bg, var(--kiln-gray-900));
+  border-top: none;
+}
+
+/* Left → arrow points right */
+.kiln-tooltip--left .kiln-tooltip__arrow {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--kiln-tooltip-bg, var(--kiln-gray-900));
+  border-right: none;
+}
+
+/* Right → arrow points left */
+.kiln-tooltip--right .kiln-tooltip__arrow {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--kiln-tooltip-bg, var(--kiln-gray-900));
+  border-left: none;
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] .kiln-tooltip {
+  background: var(--kiln-tooltip-bg, var(--kiln-gray-100));
+  color: var(--kiln-tooltip-color, var(--kiln-gray-900));
+  box-shadow: var(--kiln-shadow-xl), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+[data-theme="dark"] .kiln-tooltip--top    .kiln-tooltip__arrow { border-top-color:    var(--kiln-tooltip-bg, var(--kiln-gray-100)); }
+[data-theme="dark"] .kiln-tooltip--bottom .kiln-tooltip__arrow { border-bottom-color: var(--kiln-tooltip-bg, var(--kiln-gray-100)); }
+[data-theme="dark"] .kiln-tooltip--left   .kiln-tooltip__arrow { border-left-color:   var(--kiln-tooltip-bg, var(--kiln-gray-100)); }
+[data-theme="dark"] .kiln-tooltip--right  .kiln-tooltip__arrow { border-right-color:  var(--kiln-tooltip-bg, var(--kiln-gray-100)); }
+
+@media (max-width: 768px) {
+  .kiln-tooltip {
+    font-size: var(--kiln-text-sm); /* 12px → 14px for mobile readability */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-tooltip { animation: none; }
+}
+
+} /* end @layer kiln */

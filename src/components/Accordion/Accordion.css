@@ -1,0 +1,149 @@
+/* ─── Component tokens ───────────────────────────────────────────────────────
+   --kiln-accordion-border        divider color    (default: --kiln-gray-200)
+   --kiln-accordion-trigger-py    vertical padding on trigger (default: 1.25rem)
+   --kiln-accordion-content-color body text color  (default: --kiln-gray-500)
+──────────────────────────────────────────────────────────────────────────── */
+
+@keyframes kiln-accordion-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer kiln {
+
+  .kiln-accordion {
+    width: 100%;
+  }
+
+  /* ── Item ── */
+
+  .kiln-accordion__item {
+    border-top: 1px solid var(--kiln-accordion-border, var(--kiln-gray-200));
+  }
+
+  .kiln-accordion__item:last-child {
+    border-bottom: 1px solid var(--kiln-accordion-border, var(--kiln-gray-200));
+  }
+
+  /* ── Heading wrapper (semantic, no visual impact) ── */
+
+  .kiln-accordion__heading {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  /* ── Trigger ── */
+
+  .kiln-accordion__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kiln-space-4);
+    width: 100%;
+    padding: var(--kiln-accordion-trigger-py, 1.25rem) 0;
+    min-height: 44px; /* WCAG 2.5.5 touch target */
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-base);
+    font-weight: 600;
+    color: var(--kiln-gray-900);
+    transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-accordion__trigger:hover:not([aria-disabled="true"]) {
+    color: var(--kiln-primary);
+  }
+
+  .kiln-accordion__trigger[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .kiln-accordion__trigger:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+    border-radius: var(--kiln-radius-sm);
+  }
+
+  /* ── Trigger text ── */
+
+  .kiln-accordion__trigger-text {
+    flex: 1;
+  }
+
+  /* ── Chevron icon ── */
+
+  .kiln-accordion__icon {
+    flex-shrink: 0;
+    color: var(--kiln-gray-400);
+    transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-accordion__trigger[aria-expanded="true"] .kiln-accordion__icon {
+    transform: rotate(180deg);
+  }
+
+  /* ── Panel — CSS Grid height animation (user-triggered, not a CLS event) ── */
+
+  .kiln-accordion__panel-outer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--kiln-duration-normal) var(--kiln-ease-out);
+  }
+
+  .kiln-accordion__item--open .kiln-accordion__panel-outer {
+    grid-template-rows: 1fr;
+  }
+
+  .kiln-accordion__panel-inner {
+    overflow: hidden;
+  }
+
+  .kiln-accordion__panel {
+    padding-bottom: var(--kiln-accordion-trigger-py, 1.25rem);
+    font-size: var(--kiln-text-base);
+    line-height: var(--kiln-leading-relaxed);
+    color: var(--kiln-accordion-content-color, var(--kiln-gray-500));
+  }
+
+  /* Fade + slide the content in once the panel starts opening */
+  .kiln-accordion__item--open .kiln-accordion__panel {
+    animation: kiln-accordion-fade-in var(--kiln-duration-normal) var(--kiln-ease-out) both;
+  }
+
+  /* ── Dark mode ── */
+
+  [data-theme="dark"] .kiln-accordion__trigger {
+    color: var(--kiln-gray-900); /* remapped to near-white in dark */
+  }
+
+  [data-theme="dark"] .kiln-accordion__trigger:hover:not([aria-disabled="true"]) {
+    color: var(--kiln-primary); /* lightened primary in dark */
+  }
+
+  [data-theme="dark"] .kiln-accordion__icon {
+    color: var(--kiln-gray-500);
+  }
+
+  /* ── Mobile ── */
+
+  @media (max-width: 768px) {
+    .kiln-accordion__trigger {
+      font-size: var(--kiln-text-base); /* already 1rem — meets 14px floor */
+    }
+  }
+
+  /* ── Reduced motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-accordion__panel-outer { transition: none; }
+    .kiln-accordion__icon        { transition: none; }
+    .kiln-accordion__trigger     { transition: none; }
+    .kiln-accordion__item--open .kiln-accordion__panel { animation: none; }
+  }
+
+} /* end @layer kiln */

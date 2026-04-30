@@ -72,8 +72,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     background: none;
     border: none;
     color: var(--kiln-gray-500, #64748b);
@@ -112,5 +112,28 @@
   [data-theme="dark"] .kiln-modal-close:hover {
     background: rgba(255, 255, 255, 0.06);
     color: var(--kiln-gray-100);
+  }
+
+  /* ── Mobile: full-width bottom-sheet ── */
+  @media (max-width: 480px) {
+    .kiln-modal-overlay {
+      align-items: flex-end;
+    }
+    .kiln-modal-container {
+      max-width: 100%;
+      width: 100%;
+      max-height: 92vh;
+      padding: var(--kiln-space-4);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: var(--kiln-radius-xl);
+      border-top-right-radius: var(--kiln-radius-xl);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-modal-overlay { animation: none; }
+    .kiln-modal-container { animation: none; }
+    .kiln-modal-close { transition: none; }
   }
 }

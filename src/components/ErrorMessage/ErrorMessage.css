@@ -48,12 +48,17 @@
   color: white;
   border: none;
   padding: var(--kiln-space-2) var(--kiln-space-4);
+  min-height: 44px; /* WCAG 2.5.5 touch target */
   font-size: var(--kiln-text-xs);
   font-weight: 600;
   border-radius: var(--kiln-radius-md);
   margin-top: var(--kiln-space-2);
   cursor: pointer;
-  transition: all var(--kiln-duration-normal) var(--kiln-ease-out);
+  /* 'transition: all' replaced — explicit properties only */
+  transition:
+    transform  var(--kiln-duration-normal) var(--kiln-ease-out),
+    background var(--kiln-duration-normal) var(--kiln-ease-out),
+    color      var(--kiln-duration-normal) var(--kiln-ease-out);
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
 }
 
@@ -65,6 +70,19 @@
 .kiln-error-retry:focus-visible {
   outline: 2px solid var(--kiln-severity-critical);
   outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .kiln-error-retry {
+    font-size: var(--kiln-text-sm); /* 12px → 14px for mobile readability */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-error-message { animation: none; }
+  .kiln-error-icon { animation: none; }
+  .kiln-error-retry { transition: none; }
+  .kiln-error-retry:hover { transform: none; }
 }
 
 } /* end @layer kiln */

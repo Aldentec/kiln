@@ -2,7 +2,7 @@
 
 .kiln-footer {
   background: #080d18;
-  border-top: 1px solid var(--kiln-gray-800, rgba(255, 255, 255, 0.08));
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 40px clamp(0.875rem, 3vw, 1.75rem);
   font-family: var(--kiln-font-sans);
 }
@@ -44,11 +44,11 @@
   font-weight: 500;
   letter-spacing: var(--kiln-tracking-wide);
   border-radius: var(--kiln-radius-full);
+  /* box-shadow excluded — GPU-unfriendly when animated */
   transition:
-    color var(--kiln-duration-fast) var(--kiln-ease-out),
-    transform var(--kiln-duration-fast) var(--kiln-ease-spring),
-    background-color var(--kiln-duration-fast) var(--kiln-ease-out),
-    box-shadow var(--kiln-duration-normal) var(--kiln-ease-out);
+    color            var(--kiln-duration-fast)   var(--kiln-ease-out),
+    transform        var(--kiln-duration-fast)   var(--kiln-ease-spring),
+    background-color var(--kiln-duration-fast)   var(--kiln-ease-out);
 }
 
 .kiln-footer__link::before,
@@ -117,7 +117,7 @@
 }
 
 .kiln-footer__copy {
-  font-size: var(--kiln-text-xs);
+  font-size: max(0.875rem, var(--kiln-text-xs)); /* min 14px for mobile readability */
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }

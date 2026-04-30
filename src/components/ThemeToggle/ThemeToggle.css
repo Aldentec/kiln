@@ -4,14 +4,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--kiln-radius-full);
   border: 1px solid var(--kiln-gray-200);
   background: transparent;
   color: var(--kiln-gray-500);
   cursor: pointer;
-  transition: all var(--kiln-duration-normal) var(--kiln-ease-out);
+  /* 'transition: all' replaced — explicit properties only, avoids layout-triggering surprises */
+  transition:
+    background   var(--kiln-duration-normal) var(--kiln-ease-out),
+    border-color var(--kiln-duration-normal) var(--kiln-ease-out),
+    color        var(--kiln-duration-normal) var(--kiln-ease-out),
+    transform    var(--kiln-duration-normal) var(--kiln-ease-out);
   flex-shrink: 0;
   padding: 0;
 }
@@ -35,6 +40,18 @@
 
 .kiln-theme-toggle:active svg {
   transform: scale(0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-theme-toggle {
+    transition: none;
+  }
+  .kiln-theme-toggle:hover {
+    transform: none;
+  }
+  .kiln-theme-toggle svg {
+    transition: none;
+  }
 }
 
 } /* end @layer kiln */

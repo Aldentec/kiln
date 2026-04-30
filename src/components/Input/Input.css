@@ -71,10 +71,10 @@
   border-radius: var(--kiln-input-radius, var(--kiln-radius-xl));
   padding: 1.5px;
   background: var(--kiln-gray-200);
+  /* box-shadow excluded — GPU-unfriendly when animated */
   transition:
-    background     var(--kiln-duration-fast) var(--kiln-ease-out),
-    box-shadow     var(--kiln-duration-fast) var(--kiln-ease-out),
-    transform      var(--kiln-duration-fast) var(--kiln-ease-spring);
+    background var(--kiln-duration-fast) var(--kiln-ease-out),
+    transform  var(--kiln-duration-fast) var(--kiln-ease-spring);
 }
 
 /* Burst ring — expands and fades the moment focus lands */
@@ -181,6 +181,27 @@
   min-height: 44px;
   outline: none;
   transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+/* iOS Safari zoom prevention + mobile font-size improvements */
+@media (max-width: 768px) {
+  /* font-size < 16px triggers zoom on focus in iOS Safari */
+  .kiln-input {
+    font-size: max(1rem, var(--kiln-input-font-size, var(--kiln-text-sm)));
+  }
+  /* Helper / error text: 12px → 14px for mobile readability */
+  .kiln-input-helper,
+  .kiln-input-error {
+    font-size: var(--kiln-text-sm);
+  }
+}
+
+/* Forced-colors / High Contrast fallback — the wrapper animation is invisible there */
+@media (forced-colors: active) {
+  .kiln-input:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 0;
+  }
 }
 
 .kiln-input::placeholder {
@@ -321,7 +342,8 @@
 @media (prefers-reduced-motion: reduce) {
   .kiln-input-wrap {
     animation: none !important;
-    transition: background 150ms linear, box-shadow 150ms linear !important;
+    /* box-shadow removed from reduced-motion transition — was inadvertently animating it */
+    transition: background 150ms linear !important;
   }
 
   .kiln-input-wrap:focus-within {

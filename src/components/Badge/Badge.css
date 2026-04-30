@@ -20,9 +20,9 @@
     line-height: 1;
     overflow: hidden;
     user-select: none;
+    /* box-shadow excluded — GPU-unfriendly when animated */
     transition:
-      box-shadow var(--kiln-duration-fast) var(--kiln-ease-out),
-      transform  var(--kiln-duration-fast) var(--kiln-ease-spring);
+      transform var(--kiln-duration-fast) var(--kiln-ease-spring);
   }
 
   .kiln-badge:hover { transform: translateY(-1px); }
@@ -48,8 +48,8 @@
   }
 
   /* ── Sizes ── */
-  .kiln-badge--sm { padding: 3px 10px; font-size: var(--kiln-badge-font-size, 0.625rem); }
-  .kiln-badge--md { padding: 5px 13px; font-size: var(--kiln-badge-font-size, var(--kiln-text-xs)); }
+  .kiln-badge--sm { padding: 3px 10px; font-size: var(--kiln-badge-font-size, 0.75rem); }   /* was 0.625rem (10px) — raised to 12px minimum */
+  .kiln-badge--md { padding: 5px 13px; font-size: var(--kiln-badge-font-size, 0.875rem); } /* was --kiln-text-xs (12px) — raised to 14px minimum */
 
   /* ── Variants — light mode ── */
   .kiln-badge--neutral {
@@ -224,12 +224,13 @@
   to   { left: 110%; }
 }
 
+/* Pulse uses opacity only — GPU-accelerated, no repaint */
 @keyframes kiln-badge-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(247, 183, 51, 0.15), 0 0 10px rgba(247, 183, 51, 0.07); }
-  50%      { box-shadow: 0 0 0 1px rgba(247, 183, 51, 0.32), 0 0 20px rgba(247, 183, 51, 0.16); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.65; }
 }
 
 @keyframes kiln-badge-pulse-dark {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(247, 183, 51, 0.2), 0 0 14px rgba(247, 183, 51, 0.1); }
-  50%      { box-shadow: 0 0 0 1px rgba(247, 183, 51, 0.42), 0 0 28px rgba(247, 183, 51, 0.22); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
 }

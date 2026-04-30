@@ -1,6 +1,6 @@
 {
   "name": "@doriansmith/kiln",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Kiln design system — React + TypeScript component library",
   "author": "Dorian Smith",
   "license": "MIT",
@@ -55,6 +55,7 @@
     "vitest": "^2.0.5"
   },
   "dependencies": {
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "highlight.js": "^11.11.1"
   }
 }

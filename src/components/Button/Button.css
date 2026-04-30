@@ -18,9 +18,9 @@
     text-decoration: none;
     white-space: nowrap;
     position: relative;
+    /* box-shadow excluded — GPU-unfriendly when animated; snaps instead */
     transition:
       opacity      var(--kiln-duration-normal) var(--kiln-ease-out),
-      box-shadow   var(--kiln-duration-normal) var(--kiln-ease-out),
       transform    var(--kiln-duration-fast)   var(--kiln-ease-out),
       background   var(--kiln-duration-fast)   var(--kiln-ease-out),
       border-color var(--kiln-duration-fast)   var(--kiln-ease-out),
@@ -30,17 +30,20 @@
   /* ── Sizes ── */
   .kiln-button--sm {
     padding: 0.35rem 0.75rem;
+    min-height: 44px; /* WCAG 2.5.5 touch target */
     font-size: var(--kiln-text-xs);
     gap: 0.3rem;
   }
 
   .kiln-button--md {
     padding: 0.575rem 1.125rem;
+    min-height: 44px;
     font-size: var(--kiln-text-sm);
   }
 
   .kiln-button--lg {
     padding: 0.75rem 1.5rem;
+    min-height: 44px;
     font-size: var(--kiln-text-base);
     gap: 0.55rem;
   }
@@ -182,5 +185,24 @@
 
   .kiln-button--danger:focus-visible {
     outline-color: rgba(239, 68, 68, 0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-button {
+      transition: none;
+    }
+    .kiln-button__spinner {
+      animation: none;
+      border-top-color: #fff;  /* keep visual hint without spinning */
+    }
+    .kiln-button--secondary .kiln-button__spinner,
+    .kiln-button--ghost .kiln-button__spinner {
+      border-top-color: var(--kiln-primary);
+    }
+    .kiln-button--primary:hover,
+    .kiln-button--secondary:hover,
+    .kiln-button--danger:hover {
+      transform: none;
+    }
   }
 }

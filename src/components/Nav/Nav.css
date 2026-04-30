@@ -141,9 +141,9 @@
 .kiln-nav__link:hover::after  { transform: scaleX(1); opacity: 1; }
 
 .kiln-nav__link:focus-visible {
-  outline: none;
+  outline: 2px solid var(--kiln-primary);
+  outline-offset: 2px;
   color: var(--kiln-gray-900);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--kiln-primary) 28%, transparent);
 }
 
 .kiln-nav__link--active {
@@ -182,8 +182,8 @@
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -206,10 +206,11 @@
   height: 2px;
   border-radius: 2px;
   background: var(--kiln-gray-700);
+  transform-origin: center;
+  /* width transition replaced with transform — compositor-only, no reflow */
   transition:
     transform 400ms var(--kiln-ease-spring),
-    opacity   240ms var(--kiln-ease-out),
-    width     320ms var(--kiln-ease-out);
+    opacity   240ms var(--kiln-ease-out);
 }
 
 .kiln-nav__trigger-bar:nth-child(1) { transform: translateY(-7px); }
@@ -222,7 +223,7 @@
 }
 .kiln-nav__trigger--open .kiln-nav__trigger-bar:nth-child(2) {
   opacity: 0;
-  width: 0;
+  transform: scaleX(0); /* was width: 0 — compositor-only */
 }
 .kiln-nav__trigger--open .kiln-nav__trigger-bar:nth-child(3) {
   transform: translateY(0) rotate(-45deg);
@@ -308,8 +309,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--kiln-gray-200);
   border-radius: var(--kiln-radius-lg);
   background: transparent;
