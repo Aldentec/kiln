@@ -1,6 +1,6 @@
 {
   "name": "@doriansmith/kiln",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Kiln design system — React + TypeScript component library",
   "author": "Dorian Smith",
   "license": "MIT",
@@ -28,8 +28,8 @@
     "format": "prettier --write src demo",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "build:site":     "vite build",
-    "deploy:site":    "npm run build:site && cd cdk && npm run deploy"
+    "build:site": "vite build",
+    "deploy:site": "npm run build:site && cd cdk && npm run deploy"
   },
   "peerDependencies": {
     "react": ">=18",
