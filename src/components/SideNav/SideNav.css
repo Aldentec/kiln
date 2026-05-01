@@ -104,13 +104,13 @@
   }
 
   [data-theme="dark"] .kiln-side-nav__link:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--kiln-gray-100);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
   }
 
   [data-theme="dark"] .kiln-side-nav__link--active {
-    background: var(--kiln-primary-50);
-    color: var(--kiln-primary);
+    background: var(--kiln-primary-100);
+    color: #fff;
   }
 
   [data-theme="dark"] .kiln-side-nav__badge {

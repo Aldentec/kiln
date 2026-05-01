@@ -19,6 +19,11 @@
   50%       { opacity: 0.5; }
 }
 
+@keyframes kiln-pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
 @keyframes kiln-bounce-subtle {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-3px); }

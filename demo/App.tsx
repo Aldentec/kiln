@@ -1,9 +1,11 @@
-import React from 'react';
 import { useRouter } from './useRouter';
 import LandingPage from './LandingPage';
 import ComponentsPage from './ComponentsPage';
+import AboutPage from './AboutPage';
 
 export default function App() {
   const route = useRouter();
-  return route === 'components' ? <ComponentsPage /> : <LandingPage />;
+  if (route === 'components') return <ComponentsPage />;
+  if (route === 'about')      return <AboutPage />;
+  return <LandingPage />;
 }

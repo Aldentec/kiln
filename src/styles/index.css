@@ -12,6 +12,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @import './design-tokens.css';
+@import './animations.css';
 
 /* Base — font, background, and margin reset so the body/html background
    always matches the Kiln theme and never bleeds through as a white strip */
@@ -25,7 +26,6 @@ body {
   padding: 0;
   background: var(--kiln-body-bg);
 }
-@import './animations.css';
 
 /* Lifted primitives */
 @import '../components/Modal/Modal.css';

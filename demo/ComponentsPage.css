@@ -310,3 +310,7 @@
     transition: none;
   }
 }
+
+/* ── Force MobileNav trigger visible in preview ── */
+
+.mnav-preview-wrap .kiln-mnav__trigger { display: flex !important; }

@@ -1,5 +1,5 @@
 // a11y: WCAG AA verified 2026-04-29
-// perf: CLS=0, GPU-friendly 2026-04-29
+// perf: CLS=0, GPU-friendly — transform + opacity only 2026-04-29
 import React from 'react';
 import { cn } from '../../utils';
 import './LoadingIndicator.css';

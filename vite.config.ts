@@ -10,6 +10,7 @@ export default defineConfig({
       // Never watch the reference folder — it's not part of the build
       ignored: ['**/clickstorm-frontend/**', '**/node_modules/**'],
     },
+    historyApiFallback: true,
   },
   build: {
     outDir: resolve(__dirname, 'demo/dist'),
@@ -20,5 +21,8 @@ export default defineConfig({
       // During dev, resolve the library source directly so HMR works
       '@doriansmith/kiln': resolve(__dirname, 'src/index.ts'),
     },
+  },
+  preview: {
+    historyApiFallback: true,
   },
 });

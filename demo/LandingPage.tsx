@@ -4,15 +4,7 @@ import {
   Footer, ThemeToggle, CodeBlock,
 } from '@doriansmith/kiln';
 
-// ─── Nav items ────────────────────────────────────────────
-const NAV_ITEMS = [
-  { href: '#/components', label: 'Components' },
-];
-
-const FOOTER_LINKS = [
-  { href: 'https://github.com/Aldentec/kiln', label: 'GitHub', external: true as const },
-  { href: '#/components', label: 'Components' },
-];
+import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive } from './nav';
 
 // ─── Code snippets ────────────────────────────────────────
 const INSTALL_CODE = `npm install @doriansmith/kiln`;
@@ -138,7 +130,6 @@ const previewLabel: React.CSSProperties = {
 
 // ─── Component ────────────────────────────────────────────
 export default function LandingPage() {
-  const isActive = (href: string) => window.location.hash === href;
 
   return (
     <div
@@ -152,13 +143,10 @@ export default function LandingPage() {
     >
       {/* ── Nav ────────────────────────────────────────── */}
       <Nav
-        logo={
-          <span style={{ fontWeight: 700, fontSize: 'var(--kiln-text-lg)' }}>
-            ⚗️ Kiln
-          </span>
-        }
+        logo={NAV_LOGO}
         items={NAV_ITEMS}
-        isActive={isActive}
+        isActive={isNavActive}
+        onNavigate={(href) => { window.history.pushState(null, '', href); window.dispatchEvent(new Event('popstate')); }}
         actions={<ThemeToggle />}
       />
 
@@ -234,7 +222,7 @@ export default function LandingPage() {
               marginTop: 'var(--kiln-space-2)',
             }}
           >
-            <Button variant="primary" href="#/components" size="lg">
+            <Button variant="primary" href="/components" size="lg">
               View Components
             </Button>
             <Button variant="secondary" href="#install" size="lg">
@@ -496,7 +484,7 @@ export default function LandingPage() {
             </div>
 
             <div style={{ textAlign: 'center', marginTop: 'var(--kiln-space-10)' }}>
-              <Button variant="ghost" href="#/components" size="lg">
+              <Button variant="ghost" href="/components" size="lg">
                 View all 14 components →
               </Button>
             </div>
@@ -540,7 +528,7 @@ export default function LandingPage() {
       <Footer
         logo={
           <span style={{ fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-            ⚗️ Kiln
+            Kiln
           </span>
         }
         links={FOOTER_LINKS}

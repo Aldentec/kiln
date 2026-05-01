@@ -221,9 +221,9 @@ const TabsPreview: React.FC = () => (
         ]}
         defaultValue="preview"
       />
+        </div>
     </div>
-  </div>
-);
+  );
 
 const TableOfContentsPreview: React.FC = () => (
   <TableOfContents
@@ -289,12 +289,14 @@ const NavMenuPreview: React.FC = () => {
       </div>
       <div>
         <p style={{ margin: '0 0 8px', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--kiln-gray-500)' }}>MobileNav — hamburger drawer</p>
-        <MobileNav
-          items={items.map((i) => ({ ...i }))}
-          logo={<strong>Kiln</strong>}
-          isActive={(href) => href === active}
-          onNavigate={(href, e) => { e.preventDefault(); setActive(href); }}
-        />
+        <div className="mnav-preview-wrap" style={{ maxWidth: 320, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-lg)', padding: 'var(--kiln-space-6)', background: 'var(--kiln-surface)' }}>
+          <MobileNav
+            items={items.map((i) => ({ ...i }))}
+            logo={<strong>Kiln</strong>}
+            isActive={(href) => href === active}
+            onNavigate={(href, e) => { e.preventDefault(); setActive(href); }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@
   isolation: isolate;
   display: inline-flex;
   align-items: center;
-  min-height: 44px; /* WCAG 2.5.5 touch target */
+  min-height: 44px;
   color: color-mix(in srgb, var(--kiln-gray-700) 70%, transparent);
   font-size: var(--kiln-text-sm);
   font-weight: 500;
@@ -20,26 +20,9 @@
   border-radius: var(--kiln-radius-full);
   text-decoration: none;
   white-space: nowrap;
-  /* box-shadow removed — was in transition list but never changed; dead weight */
   transition:
     color     220ms var(--kiln-ease-out),
     transform 220ms var(--kiln-ease-out);
-}
-
-.kiln-nav-menu__link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--kiln-primary) 12%, transparent),
-    color-mix(in srgb, var(--kiln-primary) 4%, transparent)
-  );
-  opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 240ms var(--kiln-ease-out), transform 240ms var(--kiln-ease-out);
-  z-index: -2;
 }
 
 .kiln-nav-menu__link::after {
@@ -64,11 +47,6 @@
   transform: translateY(-1px);
 }
 
-.kiln-nav-menu__link:hover::before {
-  opacity: 1;
-  transform: scale(1);
-}
-
 .kiln-nav-menu__link:hover::after {
   transform: scaleX(1);
   opacity: 1;
@@ -80,25 +58,14 @@
   color: var(--kiln-gray-900);
 }
 
-.kiln-nav-menu__link:focus-visible::before,
 .kiln-nav-menu__link:focus-visible::after {
   opacity: 1;
-  transform: scale(1);
+  transform: scaleX(1);
 }
 
 .kiln-nav-menu__link--active {
   color: var(--kiln-primary);
   font-weight: 600;
-}
-
-.kiln-nav-menu__link--active::before {
-  opacity: 1;
-  transform: scale(1);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--kiln-primary) 18%, transparent),
-    color-mix(in srgb, var(--kiln-primary) 7%, transparent)
-  );
 }
 
 .kiln-nav-menu__link--active::after {
@@ -108,7 +75,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .kiln-nav-menu__link,
-  .kiln-nav-menu__link::before,
   .kiln-nav-menu__link::after {
     transition: none;
   }
@@ -116,6 +82,20 @@
   .kiln-nav-menu__link:hover {
     transform: none;
   }
+}
+
+/* ─── Dark mode ─────────────────────────────────────────── */
+
+[data-theme="dark"] .kiln-nav-menu__link {
+  color: color-mix(in srgb, var(--kiln-gray-300) 80%, transparent);
+}
+
+[data-theme="dark"] .kiln-nav-menu__link:hover {
+  color: #fff;
+}
+
+[data-theme="dark"] .kiln-nav-menu__link--active {
+  color: #fff;
 }
 
 } /* end @layer kiln */

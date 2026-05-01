@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../utils';
+import NavMenu from '../NavMenu/NavMenu';
 import './Nav.css';
 
 export interface NavItem {
@@ -157,19 +158,13 @@ const Nav: React.FC<NavProps> = ({
 
           {/* Desktop links */}
           {items.length > 0 && (
-            <nav className="kiln-nav__links" aria-label={ariaLabel}>
-              {items.map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className={cn('kiln-nav__link', checkActive(href) && 'kiln-nav__link--active')}
-                  aria-current={checkActive(href) ? 'page' : undefined}
-                  onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate(href, e); } }}
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
+            <NavMenu
+              items={items}
+              onNavigate={(href, e) => { if (onNavigate) onNavigate(href, e); }}
+              isActive={checkActive}
+              ariaLabel={ariaLabel}
+              className="kiln-nav__menu"
+            />
           )}
 
           {/* Right actions + mobile trigger */}

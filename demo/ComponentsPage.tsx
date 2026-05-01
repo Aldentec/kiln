@@ -4,6 +4,7 @@ import {
 } from '@doriansmith/kiln';
 import { componentDocs, COMPONENT_GROUPS } from './componentDocs';
 import type { ComponentDoc, PropDef } from './componentDocs';
+import { NAV_ITEMS, NAV_LOGO, isNavActive } from './nav';
 import './ComponentsPage.css';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -16,11 +17,6 @@ const DOC_TABS = [
 ];
 
 type DocTab = 'preview' | 'api' | 'testing' | 'usage';
-
-const NAV_ITEMS = [
-  { href: '#/', label: 'Home' },
-  { href: '#/components', label: 'Components' },
-];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -107,31 +103,15 @@ export default function ComponentsPage() {
     setSidebarOpen(false);
   }, []);
 
-  const isActive = (href: string) => {
-    if (href === '#/components') return window.location.hash === '#/components';
-    return (
-      window.location.hash === '' ||
-      window.location.hash === '#' ||
-      window.location.hash === '#/'
-    );
-  };
-
   return (
     <div className="docs-root">
       <Nav
-        logo={
-          <a
-            href="#/"
-            style={{ textDecoration: 'none', color: 'inherit', fontWeight: 700, fontSize: '1.125rem' }}
-          >
-            Kiln
-          </a>
-        }
+        logo={NAV_LOGO}
         items={NAV_ITEMS}
+        isActive={isNavActive}
         actions={<ThemeToggle />}
         sticky
-        isActive={isActive}
-        onNavigate={(href) => { window.location.hash = href; }}
+        onNavigate={(href) => { window.history.pushState(null, '', href); window.dispatchEvent(new Event('popstate')); }}
       />
 
       {/* Mobile: toggle sits in flow between Nav and the two-column area */}

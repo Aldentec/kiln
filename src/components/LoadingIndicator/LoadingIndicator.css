@@ -5,8 +5,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--kiln-space-4);
-  padding: var(--kiln-space-8);
+  gap: var(--kiln-space-5);
+  padding: var(--kiln-space-10);
   font-family: var(--kiln-font-sans);
   animation: kiln-fade-in var(--kiln-duration-normal) var(--kiln-ease-out) both;
 }
@@ -14,26 +14,24 @@
 .kiln-loading-indicator--fullscreen {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--kiln-surface-raised) 70%, transparent);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   z-index: var(--kiln-z-modal);
 }
+
+/* ── Spinner ── */
 
 .kiln-spinner {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 3px solid var(--kiln-gray-200);
-  border-top-color: transparent;
-  background:
-    conic-gradient(from 0deg, transparent 0%, var(--kiln-primary) 100%) border-box;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 3px;
-  animation: kiln-spin 0.8s linear infinite;
+  border: 3px solid color-mix(in srgb, var(--kiln-primary) 15%, transparent);
+  border-top-color: var(--kiln-primary);
+  animation: kiln-spin 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+  /* Soft glow */
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--kiln-primary) 40%, transparent));
 }
 
 .kiln-loading-indicator p {
@@ -41,22 +39,24 @@
   font-size: var(--kiln-text-sm);
   font-weight: 500;
   margin: 0;
-  animation: kiln-pulse 2s var(--kiln-ease-in-out) infinite;
+  animation: kiln-pulse-subtle 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .kiln-loading-indicator--fullscreen p {
-  color: white;
+  color: var(--kiln-gray-300);
 }
+
+/* ── Inline variant ── */
 
 .kiln-loading-indicator--inline {
   flex-direction: row;
   padding: 0;
-  gap: var(--kiln-space-2);
+  gap: var(--kiln-space-3);
 }
 
 .kiln-loading-indicator--inline .kiln-spinner {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-width: 2px;
 }
 
@@ -64,13 +64,15 @@
   font-size: var(--kiln-text-sm);
 }
 
+/* ── Reduced motion ── */
+
 @media (prefers-reduced-motion: reduce) {
   .kiln-loading-indicator {
     animation: none;
   }
   .kiln-spinner {
     animation: none;
-    /* Static conic gradient remains as a visual hint without spinning */
+    border-top-color: color-mix(in srgb, var(--kiln-primary) 50%, transparent);
   }
   .kiln-loading-indicator p {
     animation: none;
