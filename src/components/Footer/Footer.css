@@ -1,10 +1,11 @@
 @layer kiln {
 
 .kiln-footer {
-  background: #080d18;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--kiln-surface-raised);
+  border-top: 1px solid var(--kiln-gray-200);
   padding: 40px clamp(0.875rem, 3vw, 1.75rem);
   font-family: var(--kiln-font-sans);
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .kiln-footer__inner {
@@ -32,46 +33,24 @@
 
 .kiln-footer__link {
   position: relative;
-  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 44px;
   padding: var(--kiln-space-2) var(--kiln-space-4);
   font-size: var(--kiln-text-sm);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--kiln-gray-500);
   text-decoration: none;
   font-weight: 500;
   letter-spacing: var(--kiln-tracking-wide);
-  border-radius: var(--kiln-radius-full);
-  /* box-shadow excluded — GPU-unfriendly when animated */
   transition:
-    color            var(--kiln-duration-fast)   var(--kiln-ease-out),
-    transform        var(--kiln-duration-fast)   var(--kiln-ease-spring),
-    background-color var(--kiln-duration-fast)   var(--kiln-ease-out);
+    color      var(--kiln-duration-fast) var(--kiln-ease-out),
+    transform  var(--kiln-duration-fast) var(--kiln-ease-spring);
 }
 
-.kiln-footer__link::before,
 .kiln-footer__link::after {
   content: '';
   position: absolute;
-  pointer-events: none;
-  transition:
-    transform var(--kiln-duration-normal) var(--kiln-ease-out),
-    opacity var(--kiln-duration-fast) var(--kiln-ease-out);
-}
-
-.kiln-footer__link::before {
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(137, 33, 107, 0.22) 0%, rgba(247, 183, 51, 0.18) 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  opacity: 0;
-  transform: scale(0.92);
-  z-index: -2;
-}
-
-.kiln-footer__link::after {
   left: var(--kiln-space-4);
   right: var(--kiln-space-4);
   bottom: 7px;
@@ -81,21 +60,15 @@
   opacity: 0.7;
   transform: scaleX(0.2);
   transform-origin: center;
-  z-index: -1;
+  transition:
+    transform var(--kiln-duration-normal) var(--kiln-ease-out),
+    opacity   var(--kiln-duration-fast) var(--kiln-ease-out);
+  pointer-events: none;
 }
 
 .kiln-footer__link:hover,
 .kiln-footer__link:focus-visible {
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow: 0 0 0 1px rgba(232, 121, 200, 0.18), 0 10px 28px rgba(137, 33, 107, 0.25);
-  transform: translateY(-2px) scale(1.02);
-}
-
-.kiln-footer__link:hover::before,
-.kiln-footer__link:focus-visible::before {
-  opacity: 1;
-  transform: scale(1);
+  color: var(--kiln-gray-900);
 }
 
 .kiln-footer__link:hover::after,
@@ -105,11 +78,8 @@
 }
 
 .kiln-footer__link:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 3px rgba(8, 13, 24, 0.94),
-    0 0 0 5px rgba(247, 183, 51, 0.58),
-    0 10px 28px rgba(137, 33, 107, 0.25);
+  outline: 2px solid var(--kiln-primary);
+  outline-offset: 2px;
 }
 
 .kiln-footer__link:active {
@@ -117,8 +87,8 @@
 }
 
 .kiln-footer__copy {
-  font-size: max(0.875rem, var(--kiln-text-xs)); /* min 14px for mobile readability */
-  color: rgba(255, 255, 255, 0.5);
+  font-size: max(0.875rem, var(--kiln-text-xs));
+  color: var(--kiln-gray-500);
   margin: 0;
 }
 
@@ -133,6 +103,34 @@
   border: 0;
 }
 
+/* ── Dark mode ── */
+
+[data-theme="dark"] .kiln-footer {
+  background: #080d18;
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .kiln-footer__link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .kiln-footer__link:hover,
+[data-theme="dark"] .kiln-footer__link:focus-visible {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] .kiln-footer__copy {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Logo: white in dark mode */
+[data-theme="dark"] .kiln-footer__logo img,
+[data-theme="dark"] .kiln-nav__brand img {
+  filter: brightness(0) invert(1);
+}
+
+/* ── Responsive ── */
+
 @media (max-width: 768px) {
   .kiln-footer__inner {
     flex-direction: column;
@@ -145,7 +143,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .kiln-footer__link,
-  .kiln-footer__link::before,
   .kiln-footer__link::after {
     transition: none;
   }

@@ -18,13 +18,14 @@
     text-decoration: none;
     white-space: nowrap;
     position: relative;
-    /* box-shadow excluded — GPU-unfriendly when animated; snaps instead */
+    will-change: transform;
     transition:
-      opacity      var(--kiln-duration-normal) var(--kiln-ease-out),
-      transform    var(--kiln-duration-fast)   var(--kiln-ease-out),
-      background   var(--kiln-duration-fast)   var(--kiln-ease-out),
-      border-color var(--kiln-duration-fast)   var(--kiln-ease-out),
-      color        var(--kiln-duration-fast)   var(--kiln-ease-out);
+      box-shadow   280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform    280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity      200ms var(--kiln-ease-out),
+      background   200ms var(--kiln-ease-out),
+      border-color 200ms var(--kiln-ease-out),
+      color        200ms var(--kiln-ease-out);
   }
 
   /* ── Sizes ── */
@@ -52,18 +53,22 @@
   .kiln-button--primary {
     background: var(--kiln-button-primary-bg, var(--kiln-gradient-brand));
     color: var(--kiln-button-primary-color, #ffffff);
-    box-shadow: var(--kiln-button-primary-shadow, 0 4px 14px rgba(137, 33, 107, 0.35));
+    box-shadow: 0 4px 14px rgba(137, 33, 107, 0.35),
+                0 1px 3px rgba(137, 33, 107, 0.2);
   }
 
   .kiln-button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
-    opacity: 0.92;
-    box-shadow: 0 6px 20px rgba(137, 33, 107, 0.45);
-    transform: translateY(-1px);
+    transform: scale(1.03);
+    box-shadow: 0 8px 28px rgba(137, 33, 107, 0.4),
+                0 2px 8px rgba(137, 33, 107, 0.25);
   }
 
-  .kiln-button--primary:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(137, 33, 107, 0.3);
+  .kiln-button--primary:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(0.96);
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25),
+                inset 0 1px 2px rgba(0, 0, 0, 0.15),
+                0 1px 3px rgba(137, 33, 107, 0.15);
+    transition-duration: 100ms;
   }
 
   /* ── Secondary ── */
@@ -71,35 +76,49 @@
     background: var(--kiln-button-secondary-bg, var(--kiln-surface-raised, #ffffff));
     color: var(--kiln-button-secondary-color, var(--kiln-gray-700));
     border: 1.5px solid var(--kiln-button-secondary-border, var(--kiln-gray-200));
-    box-shadow: var(--kiln-shadow-xs);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06),
+                0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
   .kiln-button--secondary:hover:not(:disabled) {
+    transform: scale(1.03);
     background: var(--kiln-gray-50);
     border-color: var(--kiln-gray-300);
     color: var(--kiln-gray-900);
-    box-shadow: var(--kiln-shadow-sm);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
   .kiln-button--secondary:active:not(:disabled) {
-    transform: translateY(0);
+    transform: scale(0.97);
     background: var(--kiln-gray-100);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition-duration: 120ms;
   }
 
   [data-theme="dark"] .kiln-button--secondary {
     background: transparent;
     border-color: rgba(255, 255, 255, 0.12);
     color: var(--kiln-gray-300);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   [data-theme="dark"] .kiln-button--secondary:hover:not(:disabled) {
+    transform: scale(1.03);
     border-color: rgba(255, 255, 255, 0.22);
-    color: var(--kiln-gray-100);
+    color: #ffffff;
     background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  /* ── Ghost ── */
+  [data-theme="dark"] .kiln-button--secondary:active:not(:disabled) {
+    transform: scale(0.97);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition-duration: 120ms;
+  }
+
+  /* ── Ghost ─ */
   .kiln-button--ghost {
     background: transparent;
     color: var(--kiln-gray-600);
@@ -107,30 +126,37 @@
   }
 
   .kiln-button--ghost:hover:not(:disabled) {
+    transform: scale(1.03);
     background: color-mix(in srgb, var(--kiln-primary) 8%, transparent);
     color: var(--kiln-primary);
     border-color: color-mix(in srgb, var(--kiln-primary) 20%, transparent);
   }
 
   .kiln-button--ghost:active:not(:disabled) {
-    background: color-mix(in srgb, var(--kiln-primary) 12%, transparent);
+    transform: scale(0.97);
+    background: color-mix(in srgb, var(--kiln-primary) 14%, transparent);
+    transition-duration: 120ms;
   }
 
   /* ── Danger ── */
   .kiln-button--danger {
     background: var(--kiln-button-danger-bg, linear-gradient(135deg, #ef4444 0%, #dc2626 100%));
     color: var(--kiln-button-danger-color, #ffffff);
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35),
+                0 1px 3px rgba(239, 68, 68, 0.2);
   }
 
   .kiln-button--danger:hover:not(:disabled) {
-    opacity: 0.92;
-    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.42);
-    transform: translateY(-1px);
+    transform: scale(1.03);
+    box-shadow: 0 8px 28px rgba(239, 68, 68, 0.4),
+                0 2px 8px rgba(239, 68, 68, 0.25);
   }
 
   .kiln-button--danger:active:not(:disabled) {
-    transform: translateY(0);
+    transform: scale(0.97);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.18),
+                0 1px 3px rgba(239, 68, 68, 0.2);
+    transition-duration: 120ms;
   }
 
   /* ── Disabled ── */
@@ -193,7 +219,7 @@
     }
     .kiln-button__spinner {
       animation: none;
-      border-top-color: #fff;  /* keep visual hint without spinning */
+      border-top-color: #fff;
     }
     .kiln-button--secondary .kiln-button__spinner,
     .kiln-button--ghost .kiln-button__spinner {
@@ -201,7 +227,8 @@
     }
     .kiln-button--primary:hover,
     .kiln-button--secondary:hover,
-    .kiln-button--danger:hover {
+    .kiln-button--danger:hover,
+    .kiln-button--ghost:hover {
       transform: none;
     }
   }

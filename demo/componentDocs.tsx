@@ -258,7 +258,7 @@ const ThemeTogglePreview: React.FC = () => (
 const FooterPreview: React.FC = () => (
   <div style={{ width: '100%' }}>
     <Footer
-      logo={<strong style={{ fontSize: '1.125rem' }}>Kiln</strong>}
+      logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />}
       links={[
         { href: '#', label: 'Docs' },
         { href: '#', label: 'GitHub', external: true },
@@ -292,7 +292,7 @@ const NavMenuPreview: React.FC = () => {
         <div className="mnav-preview-wrap" style={{ maxWidth: 320, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-lg)', padding: 'var(--kiln-space-6)', background: 'var(--kiln-surface)' }}>
           <MobileNav
             items={items.map((i) => ({ ...i }))}
-            logo={<strong>Kiln</strong>}
+logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />}
             isActive={(href) => href === active}
             onNavigate={(href, e) => { e.preventDefault(); setActive(href); }}
           />
@@ -853,7 +853,7 @@ it('shows retry button when retryAction provided', () => {
     code: `import { Footer } from '@doriansmith/kiln';
 
 <Footer
-  logo={<strong>Kiln</strong>}
+  logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />}
   links={[
     { href: '/docs', label: 'Docs' },
     { href: 'https://github.com/...', label: 'GitHub', external: true },
@@ -873,7 +873,7 @@ it('shows retry button when retryAction provided', () => {
 import { Footer } from '@doriansmith/kiln';
 
 it('renders logo slot', () => {
-  render(<Footer logo={<span>Kiln</span>} />);
+  render(<Footer logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />} />);
   expect(screen.getByText('Kiln')).toBeInTheDocument();
 });
 
@@ -1117,7 +1117,7 @@ const NAV_ITEMS = [
 // Mobile — self-contained hamburger + slide-out drawer
 <MobileNav
   items={NAV_ITEMS}
-  logo={<strong>Kiln</strong>}
+  logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />}
   isActive={(href) => window.location.pathname === href}
   onNavigate={(href) => navigate(href)}
 />`,
@@ -1528,7 +1528,7 @@ it('shows error and links aria-describedby', () => {
 
 // In your Nav actions slot
 <Nav
-  logo={<span>Kiln</span>}
+  logo={<img src="/logo.png" alt="Kiln" style={{ height: 32, width: 'auto' }} />}
   actions={<ThemeToggle />}
 />
 

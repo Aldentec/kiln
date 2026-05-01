@@ -8,9 +8,7 @@ export const NAV_ITEMS = [
 ];
 
 export const NAV_LOGO = (
-  <span style={{ fontWeight: 700, fontSize: 'var(--kiln-text-lg)' }}>
-    Kiln
-  </span>
+  <img src="/logo.png" alt="Kiln" style={{ height: 36, width: 'auto' }} />
 );
 
 export const FOOTER_LINKS = [

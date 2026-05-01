@@ -1,11 +1,16 @@
-# Kiln
+<p align="center">
+  <img src="src/assets/logo.png" alt="Kiln" width="120" />
+</p>
 
-**Ship fast without compromise.**
+<h1 align="center">Kiln</h1>
 
-An accessible, performant React component library for indie developers and small teams.
-Stop rebuilding the same buttons, inputs, cards, and modals every project — drop in Kiln and ship.
+<p align="center"><strong>Ship fast without compromise.</strong></p>
 
-[**→ Live Demo**](https://github.com/Aldentec/kiln) · [**npm**](https://www.npmjs.com/package/@doriansmith/kiln)
+<p align="center">An accessible, performant React component library for indie developers and small teams.<br>Stop rebuilding the same buttons, inputs, cards, and modals every project — drop in Kiln and ship.</p>
+
+<p align="center">
+  <a href="https://github.com/Aldentec/kiln"><strong>→ Live Demo</strong></a> · <a href="https://www.npmjs.com/package/@doriansmith/kiln"><strong>npm</strong></a>
+</p>
 
 ---
 

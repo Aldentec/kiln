@@ -20,6 +20,7 @@
 .docs-sidebar-wrap {
   width: 15rem;
   flex-shrink: 0;
+  align-self: flex-start;
   position: sticky;
   top: 60px;
   height: calc(100vh - 60px);

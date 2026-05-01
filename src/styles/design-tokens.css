@@ -173,6 +173,7 @@
   --kiln-primary-dark: #e8a8d1;
   --kiln-primary-200: rgba(196, 91, 160, 0.35);
   --kiln-accent-dark: #fac85a;
+  --kiln-button-primary-color: #1a1a1a;
 
   /* Gradient overrides — lighten brand/danger for dark backgrounds */
   --kiln-gradient-brand: linear-gradient(135deg, #c084fc 0%, #e879a8 50%, #f7b733 100%);

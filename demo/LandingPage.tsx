@@ -243,7 +243,7 @@ export default function LandingPage() {
           >
             <Badge variant="success">WCAG AA</Badge>
             <Badge variant="info">TypeScript</Badge>
-            <Badge variant="running">14 Primitives</Badge>
+            <Badge variant="running">20+ Primitives</Badge>
             <Badge variant="pending">v0.1.0</Badge>
           </div>
         </section>
@@ -399,7 +399,7 @@ export default function LandingPage() {
             <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
               <p style={sectionLabel}>Components</p>
               <h2 id="preview-heading" style={sectionHeading}>
-                14 primitives, ready to ship.
+                20+ primitives, ready to ship.
               </h2>
               <p style={{ color: 'var(--kiln-gray-500)', maxWidth: 480, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
                 Everything you need for a polished app. Nothing you don't.
@@ -485,7 +485,7 @@ export default function LandingPage() {
 
             <div style={{ textAlign: 'center', marginTop: 'var(--kiln-space-10)' }}>
               <Button variant="ghost" href="/components" size="lg">
-                View all 14 components →
+                View all 20+ components →
               </Button>
             </div>
           </div>
@@ -526,11 +526,7 @@ export default function LandingPage() {
 
       {/* ── Footer ──────────────────────────────────── */}
       <Footer
-        logo={
-          <span style={{ fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-            Kiln
-          </span>
-        }
+        logo={<img src="/logo.png" alt="Kiln" style={{ height: 36, width: 'auto' }} />}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
         credit="Kiln v0.1.0 — MIT License"
