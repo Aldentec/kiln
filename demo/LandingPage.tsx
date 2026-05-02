@@ -197,20 +197,21 @@ export default function LandingPage() {
               maxWidth: 680,
             }}
           >
-            Ship fast without compromise.
+            Accessible React Component Library — Ship Fast Without Compromise
           </h1>
 
           <p
             style={{
               fontSize: 'clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg))',
               color: 'var(--kiln-gray-500)',
-              maxWidth: 520,
+              maxWidth: 560,
               margin: 0,
               lineHeight: 'var(--kiln-leading-relaxed)',
             }}
           >
-            An accessible, performant React component library for indie developers
-            and small teams. Stop rebuilding the same components every project.
+            Kiln is a lightweight React component library with 20+ WCAG AA-compliant
+            components. Zero config, zero dependencies, under 25 KB gzipped.
+            Install and ship accessible UIs in under 2 minutes.
           </p>
 
           <div

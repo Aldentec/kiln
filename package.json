@@ -1,7 +1,32 @@
 {
   "name": "@doriansmith/kiln",
   "version": "0.2.2",
-  "description": "Kiln design system — React + TypeScript component library",
+  "description": "Accessible React component library for indie developers. WCAG AA, < 25 KB gzipped, zero dependencies, zero config. Install and ship in under 2 minutes.",
+  "keywords": [
+    "react",
+    "component-library",
+    "accessible",
+    "wcag",
+    "aria",
+    "ui-components",
+    "typescript",
+    "lightweight",
+    "zero-dependency",
+    "design-system",
+    "frontend",
+    "indie-developer",
+    "dark-mode",
+    "mobile-first",
+    "performant"
+  ],
+  "homepage": "https://kiln-ui.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aldentec/kiln.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aldentec/kiln/issues"
+  },
   "author": "Dorian Smith",
   "license": "MIT",
   "type": "module",

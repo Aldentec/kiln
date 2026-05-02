@@ -166,7 +166,7 @@ export default function AboutPage() {
               maxWidth: 680,
             }}
           >
-            React components that respect your users and your time.
+            Why Kiln — Accessible React Components for Indie Developers
           </h1>
 
           <p
@@ -180,6 +180,7 @@ export default function AboutPage() {
           >
             Kiln is an accessible, performant React component library built for indie developers
             and small teams who refuse to choose between shipping fast and doing it right.
+            WCAG AA compliant, under 25 KB gzipped, zero dependencies.
           </p>
 
           <div
