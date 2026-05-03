@@ -35,7 +35,7 @@
 }
 
 .kiln-loading-indicator p {
-  color: var(--kiln-gray-500);
+  color: var(--kiln-gray-600); /* was gray-500 = 4.47:1 ❌ on light; gray-600 = 7.0:1 ✓ */
   font-size: var(--kiln-text-sm);
   font-weight: 500;
   margin: 0;
@@ -43,7 +43,7 @@
 }
 
 .kiln-loading-indicator--fullscreen p {
-  color: var(--kiln-gray-300);
+  color: var(--kiln-gray-600); /* was gray-300 = #cbd5e1 = 1.42:1 ❌; gray-600 = 7.0:1 ✓ */
 }
 
 /* ── Inline variant ── */

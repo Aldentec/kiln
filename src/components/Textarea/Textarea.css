@@ -220,7 +220,7 @@
 
 .kiln-textarea-charcount {
   font-size: var(--kiln-text-xs);
-  color: var(--kiln-gray-400);
+  color: var(--kiln-gray-500); /* was gray-400 = 2.45:1 ❌; gray-500 = 4.55:1 ✓ */
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   margin-left: auto;

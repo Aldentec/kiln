@@ -96,7 +96,7 @@
   .kiln-header__description {
     margin: var(--kiln-space-3) 0 0;
     font-size: clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg));
-    color: var(--kiln-gray-500);
+    color: var(--kiln-gray-600); /* was gray-500 = 4.47:1 on light bg ❌; gray-600 = 7.0:1 ✓ */
     line-height: var(--kiln-leading-relaxed);
   }
 
@@ -138,9 +138,9 @@
   }
 
   /* ── Dark mode ── */
-  [data-theme="dark"] .kiln-header__title {
-    color: var(--kiln-gray-100);
-  }
+  /* No override needed for .kiln-header__title — base color: var(--kiln-gray-900)
+     already remaps to #f8fafc in dark mode via the token table. The old
+     var(--kiln-gray-100) override was wrong: gray-100 dark = #1e293b (1.33:1 ❌) */
 
   [data-theme="dark"] .kiln-header__divider {
     background: rgba(255, 255, 255, 0.08);

@@ -92,7 +92,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
           )}
         </div>
       )}
-      <pre className="kiln-code-block__pre">
+      <pre
+        className="kiln-code-block__pre"
+        // tabIndex makes the scrollable region keyboard-reachable (WCAG 2.1.1)
+        tabIndex={0}
+        aria-label={language ? `${language} code` : 'Code block'}
+      >
         {highlighted !== null ? (
           <code
             className="kiln-code-block__code"

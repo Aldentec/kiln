@@ -30,7 +30,7 @@
   --kiln-gradient-shimmer: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
 
   /* ── Severity Colors ── */
-  --kiln-severity-critical: #ef4444;
+  --kiln-severity-critical: #dc2626; /* was #ef4444 = 3.34:1 on light bg ❌; #dc2626 = 4.67:1 ✓ */
   --kiln-severity-critical-bg: #fef2f2;
   --kiln-severity-critical-border: #fecaca;
   --kiln-severity-high: #f97316;
@@ -133,6 +133,10 @@
   --kiln-duration-slow: 500ms;
   --kiln-duration-slower: 700ms;
 
+  /* ── Primary as background — guaranteed white-text contrast ── */
+  --kiln-primary-bg: #89216b; /* same as --kiln-primary in light; white = 7.2:1 ✓ */
+  --kiln-primary-fg: #ffffff;
+
   /* ── Semantic Surfaces ── */
   --kiln-surface: var(--kiln-gray-50);
   --kiln-surface-raised: #ffffff;
@@ -167,8 +171,12 @@
   --kiln-gray-800: #f1f5f9;
   --kiln-gray-900: #f8fafc;
 
-  /* Brand color overrides — lighten for dark backgrounds */
-  --kiln-primary: #c45ba0;
+  /* Brand color overrides — darkened enough for text use on dark surfaces,
+     but --kiln-primary-bg is a separate darker value for use as a background
+     so white text (--kiln-primary-fg) always meets 4.5:1 */
+  --kiln-primary: #cc6cac;    /* 5.1:1 on dark surface ✓ — for text on dark bg */
+  --kiln-primary-bg: #89216b; /* use as background in dark mode; white on this = 7.2:1 ✓ */
+  --kiln-primary-fg: #ffffff;
   --kiln-primary-light: #e879c8;
   --kiln-primary-dark: #e8a8d1;
   --kiln-primary-200: rgba(196, 91, 160, 0.35);
@@ -206,6 +214,9 @@
 
   /* Card hover gradient */
   --kiln-gradient-card-hover: linear-gradient(135deg, rgba(137,33,107,0.08) 0%, rgba(247,183,51,0.08) 100%);
+
+  /* Severity text colours — brightened for dark surfaces */
+  --kiln-severity-critical: #f87171; /* was inherited #dc2626 = 4.0:1 on dark bg ❌; #f87171 = 7.0:1 ✓ */
 
   /* Status/severity backgrounds — low-opacity tints */
   --kiln-severity-critical-bg: rgba(239,68,68,0.14);

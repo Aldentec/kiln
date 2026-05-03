@@ -144,7 +144,7 @@ export default function AboutPage() {
             >
               You shouldn&apos;t have to rebuild UI primitives every project.
             </Header>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
               <p style={{ margin: 0 }}>
                 Every new project starts the same way: you need a button that looks good, an input
                 with proper labels, a modal that traps focus, tabs that work with arrow keys. So you
@@ -193,8 +193,8 @@ export default function AboutPage() {
                   >
                     <div
                       style={{
-                        background: 'var(--kiln-primary)',
-                        color: '#fff',
+                        background: 'var(--kiln-primary-bg)',
+                        color: 'var(--kiln-primary-fg)',
                         fontSize: 'var(--kiln-text-xs)',
                         fontWeight: 700,
                         padding: '3px 12px',
@@ -221,7 +221,7 @@ export default function AboutPage() {
                             <span style={{ fontSize: 'var(--kiln-text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--kiln-critical)' }}>
                               The problem
                             </span>
-                            <p style={{ fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-500)', margin: 'var(--kiln-space-2) 0 0', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+                            <p style={{ fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', margin: 'var(--kiln-space-2) 0 0', lineHeight: 'var(--kiln-leading-relaxed)' }}>
                               {problem}
                             </p>
                           </div>
@@ -302,7 +302,7 @@ export default function AboutPage() {
                   <p
                     style={{
                       fontSize: 'var(--kiln-text-xs)',
-                      color: 'var(--kiln-gray-500)',
+                      color: 'var(--kiln-gray-600)',
                       margin: 'var(--kiln-space-2) 0 0',
                       textTransform: 'uppercase',
                       letterSpacing: '0.08em',
@@ -329,7 +329,7 @@ export default function AboutPage() {
             >
               Your users don&apos;t care about your tech stack.
             </Header>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
               <p style={{ margin: 0 }}>
                 They care that your app loads fast, works on their phone, and lets them navigate
                 with a keyboard if they need to. They care that forms are clear, buttons are
@@ -385,7 +385,7 @@ export default function AboutPage() {
               id="credit-heading"
               style={{
                 fontSize: 'var(--kiln-text-sm)',
-                color: 'var(--kiln-gray-500)',
+                color: 'var(--kiln-gray-600)',
                 margin: 0,
                 lineHeight: 'var(--kiln-leading-relaxed)',
               }}

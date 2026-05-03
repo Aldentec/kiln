@@ -29,7 +29,7 @@
     min-height: 44px; /* WCAG 2.5.5 touch target */
     font-size: var(--kiln-text-sm);
     font-weight: 600;
-    color: var(--kiln-gray-500);
+    color: var(--kiln-gray-600); /* was gray-500 = 4.34:1 on gray-100 ❌; gray-600 = 6.92:1 ✓ */
     cursor: pointer;
     border-radius: var(--kiln-tabs-radius, var(--kiln-radius-full));
     font-family: var(--kiln-font-sans);
@@ -92,7 +92,7 @@
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
     font-weight: 500;
-    color: var(--kiln-gray-500);
+    color: var(--kiln-gray-600); /* was gray-500 = 4.34:1 on body bg ❌; gray-600 = 6.92:1 ✓ */
     background: transparent;
     box-shadow: none;
     flex-shrink: 0;

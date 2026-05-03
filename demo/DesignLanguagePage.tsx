@@ -126,17 +126,29 @@ export default function DesignLanguagePage() {
         {/* ══════════════════════════════════════════════
             COMING SOON + TOPIC GRID
         ══════════════════════════════════════════════ */}
+        {/* Coming soon card — centred in its own section */}
+        <section
+          aria-label="Documentation status"
+          style={{
+            background: 'var(--kiln-surface)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 'var(--kiln-space-16) clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8))',
+            minHeight: 280,
+          }}
+        >
+          <Card
+            variant="coming-soon"
+            description="The design language documentation is in progress. Here's a preview of what's on the way."
+          />
+        </section>
+
         <section
           aria-labelledby="dl-browse-heading"
           style={{ background: 'var(--kiln-surface)', paddingBottom: 'var(--kiln-space-16)' }}
         >
           <div style={SECTION_CONTAINER}>
-            <Card
-              variant="coming-soon"
-              description="The design language documentation is in progress. Here's a preview of what's on the way."
-              style={{ margin: 'var(--kiln-space-10) auto var(--kiln-space-12)' }}
-            />
-
             <Header id="dl-browse-heading" variant="h2" divider>
               What's coming
             </Header>
@@ -148,12 +160,12 @@ export default function DesignLanguagePage() {
                     key={title}
                     variant="default"
                     style={{
-                      opacity: 0.72,
                       '--kiln-card-padding': 'var(--kiln-space-6)',
                     } as React.CSSProperties}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-3)' }}>
-                      <div>{icon}</div>
+                      {/* Dim only the decorative icon — not the text, which would break contrast */}
+                      <div style={{ opacity: 0.72 }}>{icon}</div>
                       <div>
                         <p
                           style={{
@@ -169,7 +181,7 @@ export default function DesignLanguagePage() {
                         <p
                           style={{
                             fontSize: 'var(--kiln-text-sm)',
-                            color: 'var(--kiln-gray-500)',
+                            color: 'var(--kiln-gray-600)',
                             margin: 0,
                             lineHeight: 'var(--kiln-leading-relaxed)',
                             fontFamily: 'var(--kiln-font-sans)',

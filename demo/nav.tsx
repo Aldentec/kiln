@@ -14,7 +14,10 @@ export const NAV_ITEMS = [
 
 export const NAV_LOGO = (
   <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-    <img src="/logo.png" alt="Kiln" width={36} height={36} fetchPriority="high" style={{ height: 36, width: 'auto' }} />
+    <picture>
+      <source type="image/webp" srcSet="/logo.webp" />
+      <img src="/logo.png" alt="Kiln" width={36} height={36} fetchPriority="high" style={{ height: 36, width: 36 }} />
+    </picture>
   </a>
 );
 

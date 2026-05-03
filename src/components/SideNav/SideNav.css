@@ -212,7 +212,7 @@
     font-size: var(--kiln-text-xs);
     font-weight: 600;
     background: var(--kiln-gray-200);
-    color: var(--kiln-gray-500);
+    color: var(--kiln-gray-700); /* was gray-500 = 3.86:1 on gray-200 ❌; gray-700 = 7.2:1 ✓ */
     border-radius: var(--kiln-radius-full);
     margin-left: var(--kiln-space-2);
   }

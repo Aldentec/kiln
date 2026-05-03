@@ -51,6 +51,7 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
 ) => {
   const panelId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
 
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
@@ -59,6 +60,17 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
     if (controlledOpen === undefined) setInternalOpen(next);
     onOpenChange?.(next);
   }, [controlledOpen, onOpenChange]);
+
+  // Apply/remove inert imperatively — React 18 doesn't support inert via JSX
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    if (open) {
+      el.removeAttribute('inert');
+    } else {
+      el.setAttribute('inert', '');
+    }
+  }, [open]);
 
   // Escape closes panel
   useEffect(() => {
@@ -86,7 +98,12 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
 
       {/* ── Panel ───────────────────────────────────────────────────── */}
       <aside
-        ref={ref}
+        ref={(node) => {
+          // Attach both the internal ref (for inert) and the forwarded consumer ref
+          (panelRef as React.MutableRefObject<HTMLElement | null>).current = node;
+          if (typeof ref === 'function') ref(node);
+          else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
+        }}
         id={panelId}
         className={cn(
           'kiln-tools-panel',

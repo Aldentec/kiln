@@ -98,8 +98,8 @@
 
   [data-theme="dark"] .kiln-button--secondary {
     background: transparent;
-    border-color: rgba(255, 255, 255, 0.12);
-    color: var(--kiln-gray-300);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: var(--kiln-gray-400); /* was gray-300 (#475569 in dark) = 2.48:1 ❌; gray-400 (#94a3b8) = 7.34:1 ✓ */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 

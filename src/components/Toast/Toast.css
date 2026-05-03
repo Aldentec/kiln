@@ -90,7 +90,7 @@
   border-color: rgba(16, 185, 129, 0.25);
   background: var(--kiln-status-success-bg);
 }
-.kiln-toast--success .kiln-toast__icon { color: var(--kiln-status-success); }
+.kiln-toast--success .kiln-toast__icon { color: #059669; } /* was #10b981 = 2.31:1 on success bg ❌; #059669 = 3.6:1 ✓ */
 .kiln-toast--success .kiln-toast__progress { background: var(--kiln-status-success); }
 
 .kiln-toast--error {
@@ -104,7 +104,7 @@
   border-color: rgba(245, 158, 11, 0.25);
   background: var(--kiln-status-warning-bg);
 }
-.kiln-toast--warning .kiln-toast__icon { color: var(--kiln-status-warning); }
+.kiln-toast--warning .kiln-toast__icon { color: #b45309; } /* was #f59e0b = 1.99:1 on warning bg ❌; #b45309 = 4.6:1 ✓ */
 .kiln-toast--warning .kiln-toast__progress { background: var(--kiln-status-warning); }
 
 .kiln-toast--info {
@@ -159,7 +159,7 @@
   background: none;
   border: none;
   border-radius: var(--kiln-radius-sm);
-  color: var(--kiln-gray-400);
+  color: var(--kiln-gray-500); /* was gray-400 = 2.45:1 ❌; gray-500 = 4.55:1 ✓ */
   cursor: pointer;
   transition:
     background var(--kiln-duration-fast) var(--kiln-ease-out),

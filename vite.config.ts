@@ -15,6 +15,19 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, 'demo/dist'),
     emptyOutDir: true,
+    // Split vendor and kiln into separate chunks to avoid critical request chaining
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
+  // Pre-bundle kiln source in dev so the browser gets one request instead of
+  // a deep chain of individual module files (fixes Lighthouse critical request chain)
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'highlight.js'],
   },
   resolve: {
     alias: {

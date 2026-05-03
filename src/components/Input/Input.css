@@ -235,7 +235,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--kiln-gray-400);
+  color: var(--kiln-gray-500); /* was gray-400 = 2.45:1 ❌; gray-500 = 4.55:1 ✓ (WCAG 1.4.11: 3:1 min for UI graphics) */
   pointer-events: none;
   top: 50%;
   transform: translateY(-50%);

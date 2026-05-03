@@ -286,7 +286,9 @@
 
 /* ── Dark mode ── */
 [data-theme="dark"] .kiln-mnav__trigger-bar { background: var(--kiln-gray-400); }
-[data-theme="dark"] .kiln-mnav__trigger--active .kiln-mnav__trigger-bar { background: var(--kiln-gray-300); }
+[data-theme="dark"] .kiln-mnav__trigger--active .kiln-mnav__trigger-bar {
+  background: var(--kiln-gray-400); /* was gray-300 (#475569 in dark) = 2.41:1 ❌; gray-400 (#94a3b8) = 7.12:1 ✓ */
+}
 
 [data-theme="dark"] .kiln-mnav__panel {
   background: linear-gradient(

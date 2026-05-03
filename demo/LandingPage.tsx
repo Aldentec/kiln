@@ -38,7 +38,7 @@ const PILLARS = [
         />
       </svg>
     ),
-    title: 'Accessibility-first',
+    title: 'Accessible by default',
     description:
       'Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA are built in, not bolted on. Accessibility debt costs more to fix later than to build correctly now.',
   },
@@ -62,6 +62,19 @@ const PILLARS = [
   {
     icon: (
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
+        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
+        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
+        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+    title: 'Genuinely mobile-ready',
+    description:
+      'Every component works on real devices at 375px. All interactive elements meet the 44x44px touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.',
+  },
+  {
+    icon: (
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
         <rect x="6" y="8" width="24" height="20" rx="3" stroke="var(--kiln-primary)" strokeWidth="2" fill="none" />
         <path
@@ -79,22 +92,9 @@ const PILLARS = [
         />
       </svg>
     ),
-    title: 'Solo-dev friendly',
+    title: 'Built for solo devs',
     description:
       'From npm install to a rendered Kiln page in under 2 minutes. No config files, no setup wizards, no theme providers, no context wrappers. Every example is copy-paste ready. TypeScript is fully inferred.',
-  },
-  {
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
-        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
-        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
-        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: 'Mobile-first',
-    description:
-      'Every component works on real devices at 375px. All interactive elements meet the 44x44px touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.',
   },
 ];
 
@@ -137,7 +137,7 @@ const previewLabel: React.CSSProperties = {
   fontWeight: 600,
   textTransform: 'uppercase',
   letterSpacing: '0.1em',
-  opacity: 0.4,
+  color: 'var(--kiln-gray-500)', /* was opacity:0.4 which blends to ~2:1 in both modes ❌ */
   marginBottom: 'var(--kiln-space-4)',
 };
 
@@ -216,7 +216,7 @@ export default function LandingPage() {
           <p
             style={{
               fontSize: 'clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg))',
-              color: 'var(--kiln-gray-500)',
+              color: 'var(--kiln-gray-600)',
               maxWidth: 560,
               margin: 0,
               lineHeight: 'var(--kiln-leading-relaxed)',
@@ -272,7 +272,7 @@ export default function LandingPage() {
               <h2 id="pillars-heading" style={sectionHeading}>
                 Built on four non-negotiables.
               </h2>
-              <p style={{ color: 'var(--kiln-gray-500)', maxWidth: 540, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+              <p style={{ color: 'var(--kiln-gray-600)', maxWidth: 540, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
                 Every decision in this codebase is evaluated against one question:
                 "Does this help an indie dev ship a real product faster?"
               </p>
@@ -282,7 +282,7 @@ export default function LandingPage() {
               {PILLARS.map(({ icon, title, description }) => (
                 <Card
                   key={title}
-                  variant="raised"
+                  variant="default"
                   style={{ '--kiln-card-padding': 'var(--kiln-space-8)' } as React.CSSProperties}
                 >
                   <div style={{ marginBottom: 'var(--kiln-space-5)' }}>{icon}</div>
@@ -299,7 +299,7 @@ export default function LandingPage() {
                   <p
                     style={{
                       fontSize: 'var(--kiln-text-sm)',
-                      color: 'var(--kiln-gray-500)',
+                      color: 'var(--kiln-gray-600)',
                       margin: 0,
                       lineHeight: 'var(--kiln-leading-relaxed)',
                     }}
@@ -337,7 +337,7 @@ export default function LandingPage() {
                 </h2>
                 <p
                   style={{
-                    color: 'var(--kiln-gray-500)',
+                    color: 'var(--kiln-gray-600)',
                     lineHeight: 'var(--kiln-leading-relaxed)',
                     marginBottom: 'var(--kiln-space-6)',
                   }}
@@ -363,7 +363,7 @@ export default function LandingPage() {
                   style={{
                     marginTop: 'var(--kiln-space-6)',
                     fontSize: 'var(--kiln-text-sm)',
-                    color: 'var(--kiln-gray-500)',
+                    color: 'var(--kiln-gray-600)',
                     padding: 'var(--kiln-space-3) var(--kiln-space-4)',
                     background: 'var(--kiln-primary-50)',
                     borderRadius: 'var(--kiln-radius-md)',
@@ -409,7 +409,7 @@ export default function LandingPage() {
               <h2 id="preview-heading" style={sectionHeading}>
                 20+ primitives, ready to ship.
               </h2>
-              <p style={{ color: 'var(--kiln-gray-500)', maxWidth: 480, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+              <p style={{ color: 'var(--kiln-gray-600)', maxWidth: 480, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
                 Everything you need for a polished app. Nothing you don't.
               </p>
             </div>
@@ -479,7 +479,7 @@ export default function LandingPage() {
                       <span
                         style={{
                           fontSize: 'var(--kiln-text-xs)',
-                          opacity: 0.6,
+                          color: 'var(--kiln-gray-600)',
                           textTransform: 'capitalize',
                         }}
                       >
@@ -516,7 +516,7 @@ export default function LandingPage() {
               >
                 Every component meets WCAG AA.
               </h2>
-              <p style={{ color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)', maxWidth: 540, margin: '0 auto var(--kiln-space-6)' }}>
+              <p style={{ color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)', maxWidth: 540, margin: '0 auto var(--kiln-space-6)' }}>
                 Keyboard navigable end-to-end. Proper focus management and ARIA on every primitive.
                 Tested with axe DevTools and manual keyboard navigation. Accessibility isn't
                 an add-on. It's how Kiln ships.

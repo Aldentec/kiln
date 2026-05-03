@@ -15,7 +15,7 @@
     --kiln-breadcrumbs-link-color: var(--kiln-primary);
     --kiln-breadcrumbs-current-bg: var(--kiln-gray-100);
     --kiln-breadcrumbs-current-color: var(--kiln-gray-600);
-    --kiln-breadcrumbs-separator-color: var(--kiln-gray-400);
+    --kiln-breadcrumbs-separator-color: var(--kiln-gray-500); /* was gray-400 = 2.45:1 ❌; gray-500 = 4.55:1 ✓ */
   }
 
   .kiln-breadcrumbs__list {

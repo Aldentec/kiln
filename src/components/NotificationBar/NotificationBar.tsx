@@ -87,7 +87,7 @@ const NotificationBar = React.forwardRef<HTMLDivElement, NotificationBarProps>((
           >
             <span
               className="kiln-notification-bar__icon"
-              aria-label={TYPE_LABELS[type]}
+              aria-hidden="true"
             >
               {ICONS[type]}
             </span>

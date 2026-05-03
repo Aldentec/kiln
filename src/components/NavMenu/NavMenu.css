@@ -11,7 +11,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: color-mix(in srgb, var(--kiln-gray-700) 70%, transparent);
+  color: var(--kiln-gray-700); /* was color-mix 70% → ~4.23:1 ❌; gray-700 = 9.9:1 ✓ */
   font-size: var(--kiln-text-sm);
   font-weight: 500;
   font-family: var(--kiln-font-sans);
@@ -87,7 +87,7 @@
 /* ─── Dark mode ─────────────────────────────────────────── */
 
 [data-theme="dark"] .kiln-nav-menu__link {
-  color: color-mix(in srgb, var(--kiln-gray-300) 80%, transparent);
+  color: var(--kiln-gray-400); /* was color-mix(gray-300 80%) → ~1.98:1 ❌; gray-400=#94a3b8 = 7.1:1 ✓ */
 }
 
 [data-theme="dark"] .kiln-nav-menu__link:hover {

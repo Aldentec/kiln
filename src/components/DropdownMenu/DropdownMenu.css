@@ -137,7 +137,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--kiln-gray-400);
+  color: var(--kiln-gray-600); /* was gray-400 = 2.56:1 on white ❌; gray-600 = 7.58:1 ✓ */
   pointer-events: none;
 }
 

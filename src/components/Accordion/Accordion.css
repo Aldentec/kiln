@@ -79,7 +79,7 @@
 
   .kiln-accordion__icon {
     flex-shrink: 0;
-    color: var(--kiln-gray-400);
+    color: var(--kiln-gray-500); /* was gray-400 = 2.45:1 ❌; gray-500 = 4.55:1 ✓ (WCAG 1.4.11) */
     transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
   }
 

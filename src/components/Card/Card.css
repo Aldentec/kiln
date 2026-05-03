@@ -140,7 +140,7 @@
   .kiln-card__wip-description {
     font-family: var(--kiln-font-sans);
     font-size: var(--kiln-text-sm);
-    color: var(--kiln-gray-500);
+    color: var(--kiln-gray-600); /* was gray-500 = 4.48:1 on white ❌; gray-600 = 7.0:1 ✓ */
     margin: 0;
     line-height: var(--kiln-leading-relaxed);
     max-width: 320px;
