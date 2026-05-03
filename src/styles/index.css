@@ -9,23 +9,10 @@
 
 @layer kiln;
 
+/* ── Imports MUST come before any CSS rules (per CSS spec / Vite) ── */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
 @import './design-tokens.css';
 @import './animations.css';
-
-/* Base — font, background, and margin reset so the body/html background
-   always matches the Kiln theme and never bleeds through as a white strip */
-html {
-  background: var(--kiln-body-bg);
-}
-
-body {
-  font-family: var(--kiln-font-sans);
-  margin: 0;
-  padding: 0;
-  background: var(--kiln-body-bg);
-}
 
 /* Lifted primitives */
 @import '../components/Modal/Modal.css';
@@ -56,6 +43,17 @@ body {
 @import '../components/AppLayout/AppLayout.css';
 @import '../components/Breadcrumbs/Breadcrumbs.css';
 @import '../components/NotificationBar/NotificationBar.css';
-@import '../components/SidebarPanel/SidebarPanel.css';
 @import '../components/ToolsPanel/ToolsPanel.css';
 @import '../components/SplitPanel/SplitPanel.css';
+
+/* ── Base reset — must come AFTER all @imports ── */
+html {
+  background: var(--kiln-body-bg);
+}
+
+body {
+  font-family: var(--kiln-font-sans);
+  margin: 0;
+  padding: 0;
+  background: var(--kiln-body-bg);
+}

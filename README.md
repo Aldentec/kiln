@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="src/assets/logo.png" alt="Kiln" width="120" />
-</p>
-
 <h1 align="center">Kiln</h1>
 
 <p align="center"><strong>Ship fast without compromise.</strong></p>

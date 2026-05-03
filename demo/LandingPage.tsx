@@ -222,7 +222,7 @@ export default function LandingPage() {
               lineHeight: 'var(--kiln-leading-relaxed)',
             }}
           >
-            Kiln is a lightweight React component library with 20+ WCAG AA-compliant
+            Kiln is a lightweight React component library with 25+ WCAG AA-compliant
             components. Zero config, zero dependencies, under 26 KB gzipped.
             Install and ship accessible UIs in under 2 minutes.
           </p>
