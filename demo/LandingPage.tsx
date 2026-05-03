@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
-  Footer, ThemeToggle, CodeBlock, Grid,
+  Footer, CodeBlock, Grid,
 } from '@doriansmith/kiln';
 
-import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive } from './nav';
+import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, NavActions } from './nav';
 
 // ─── Code snippets ────────────────────────────────────────
 const INSTALL_CODE = `npm install @doriansmith/kiln`;
@@ -160,7 +160,7 @@ export default function LandingPage() {
         items={NAV_ITEMS}
         isActive={isNavActive}
         onNavigate={(href) => { window.history.pushState(null, '', href); window.dispatchEvent(new Event('popstate')); }}
-        actions={<ThemeToggle />}
+        actions={<NavActions />}
       />
 
       <main>
@@ -547,7 +547,7 @@ export default function LandingPage() {
 
 function PreviewCard({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <Card variant="raised">
+    <Card variant="default">
       <p style={previewLabel}>{label}</p>
       {children}
     </Card>

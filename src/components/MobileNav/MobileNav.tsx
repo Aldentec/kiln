@@ -23,6 +23,10 @@ export interface MobileNavProps {
   onNavigate?: (href: string, e: React.MouseEvent<HTMLAnchorElement>) => void;
   /** aria-label for the nav landmark. */
   ariaLabel?: string;
+  /** Open the drawer on first render — useful for demos and testing. */
+  defaultOpen?: boolean;
+  /** Override desktop media-query hiding — forces the trigger and panel to render at any viewport width. */
+  forceVisible?: boolean;
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({
@@ -32,8 +36,10 @@ const MobileNav: React.FC<MobileNavProps> = ({
   isActive,
   onNavigate,
   ariaLabel = 'Mobile navigation',
+  defaultOpen = false,
+  forceVisible = false,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -85,10 +91,12 @@ const MobileNav: React.FC<MobileNavProps> = ({
         className={cn('kiln-mnav__overlay', open && 'kiln-mnav__overlay--visible')}
         onClick={close}
         aria-hidden="true"
+        {...(forceVisible ? { 'data-force-visible': '' } : {})}
       />
       <div
         ref={panelRef}
         className={cn('kiln-mnav__panel', open && 'kiln-mnav__panel--open')}
+        {...(forceVisible ? { 'data-force-visible': '' } : {})}
         role={open ? 'dialog' : undefined}
         aria-modal={open ? 'true' : undefined}
         aria-label={open ? ariaLabel : undefined}
@@ -151,6 +159,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+        {...(forceVisible ? { 'data-force-visible': '' } : {})}
       >
         <span className="kiln-mnav__trigger-bar" />
         <span className="kiln-mnav__trigger-bar" />

@@ -30,4 +30,17 @@ describe('Card', () => {
     render(<Card as="article">Article</Card>);
     expect(screen.getByRole('article')).toBeInTheDocument();
   });
+
+  it('coming-soon variant renders default title', () => {
+    render(<Card variant="coming-soon" />);
+    expect(screen.getByText('Coming soon')).toBeInTheDocument();
+  });
+
+  it('coming-soon variant renders custom title and description', () => {
+    render(
+      <Card variant="coming-soon" title="In progress" description="Back shortly." />,
+    );
+    expect(screen.getByText('In progress')).toBeInTheDocument();
+    expect(screen.getByText('Back shortly.')).toBeInTheDocument();
+  });
 });

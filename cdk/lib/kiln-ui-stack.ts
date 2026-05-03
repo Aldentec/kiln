@@ -114,6 +114,17 @@ class Dns extends Construct {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Deployment — syncs demo/dist to S3 and invalidates CloudFront on every deploy
+//
+// Two separate passes to apply different Cache-Control headers:
+//
+//  1. SyncHashedAssets — files under assets/ have content-hash filenames
+//     (e.g. index-COUUPQ2L.css). Safe to cache for a year; the hash changes
+//     whenever the content changes so there is no stale-content risk.
+//
+//  2. SyncRoot — index.html, logo.png, robots.txt, sitemap.xml, og-image.png
+//     have no content hash. Must-revalidate ensures browsers always check for
+//     a fresh copy. CloudFront invalidation (distributionPaths: ['/*']) runs
+//     here so it fires once per deploy after both passes have completed.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface DeploymentProps {
@@ -125,11 +136,24 @@ class Deployment extends Construct {
   constructor(scope: Construct, id: string, props: DeploymentProps) {
     super(scope, id);
 
-    new s3deploy.BucketDeployment(this, 'Sync', {
+    // Pass 1 — hashed JS/CSS bundles: cache for 1 year, immutable
+    new s3deploy.BucketDeployment(this, 'SyncHashedAssets', {
+      sources:           [s3deploy.Source.asset(path.join(__dirname, '../../demo/dist'))],
+      destinationBucket: props.bucket,
+      exclude:           ['*'],
+      include:           ['assets/*'],
+      cacheControl:      [s3deploy.CacheControl.fromString('public, max-age=31536000, immutable')],
+      prune:             false,
+    });
+
+    // Pass 2 — unversioned root files: always revalidate; triggers CF invalidation
+    new s3deploy.BucketDeployment(this, 'SyncRoot', {
       sources:           [s3deploy.Source.asset(path.join(__dirname, '../../demo/dist'))],
       destinationBucket: props.bucket,
       distribution:      props.distribution,
       distributionPaths: ['/*'],
+      exclude:           ['assets/*'],
+      cacheControl:      [s3deploy.CacheControl.fromString('public, max-age=0, must-revalidate')],
       prune:             true,
     });
   }

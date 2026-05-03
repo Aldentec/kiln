@@ -15,7 +15,7 @@ const BreadcrumbsPreview: React.FC = () => {
 export const breadcrumbs: ComponentDoc = {
   id: 'breadcrumbs',
   name: 'Breadcrumbs',
-  description: "Hierarchical navigation trail showing the user's location within the app, with chevron separators and mobile truncation.",
+  description: "Sleek, animated navigation trail with GPU-accelerated micro-interactions, pill-style current page indicator, and progressive disclosure on mobile.",
   preview: BreadcrumbsPreview,
   code: `import { Breadcrumbs } from '@doriansmith/kiln';
 
@@ -27,8 +27,8 @@ export const breadcrumbs: ComponentDoc = {
   ]}
 />`,
   props: [
-    { name: 'items', type: 'BreadcrumbItem[]', default: '—', required: true, description: 'Array of breadcrumb items. Last item is the current page (no link rendered).' },
-    { name: 'separator', type: 'React.ReactNode', default: 'chevron SVG', required: false, description: 'Custom separator between items.' },
+    { name: 'items', type: 'BreadcrumbItem[]', default: '—', required: true, description: 'Array of breadcrumb items. Last item is the current page (no link rendered, shown as a pill).' },
+    { name: 'separator', type: 'React.ReactNode', default: 'animated chevron SVG', required: false, description: 'Custom separator between items.' },
     { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
     { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles for CSS token overrides.' },
   ],
@@ -61,6 +61,11 @@ it('does not render a link for the last item', () => {
 it('renders links for non-last items', () => {
   render(<Breadcrumbs items={items} />);
   expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
+});
+
+it('adds title attribute to current page for truncation tooltip', () => {
+  render(<Breadcrumbs items={items} />);
+  expect(screen.getByText('Dashboard')).toHaveAttribute('title', 'Dashboard');
 });`,
   usage: `// Basic usage
 <Breadcrumbs items={[
@@ -88,5 +93,14 @@ it('renders links for non-last items', () => {
 <Breadcrumbs
   items={crumbs}
   style={{ '--kiln-breadcrumbs-font-size': 'var(--kiln-text-xs)' } as React.CSSProperties}
+/>
+
+// Custom colors via tokens
+<Breadcrumbs
+  items={crumbs}
+  style={{
+    '--kiln-breadcrumbs-link-color': 'var(--kiln-accent)',
+    '--kiln-breadcrumbs-current-bg': 'var(--kiln-accent-50)',
+  } as React.CSSProperties}
 />`,
 };

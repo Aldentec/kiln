@@ -1,7 +1,10 @@
 /* ─── Breadcrumbs component tokens ──────────────────────────────────────────
-   --kiln-breadcrumbs-font-size   text size (default: --kiln-text-sm)
-   --kiln-breadcrumbs-gap         gap between items (default: --kiln-space-1)
-   --kiln-breadcrumbs-link-color  link color (default: --kiln-primary)
+   --kiln-breadcrumbs-font-size         text size (default: --kiln-text-sm)
+   --kiln-breadcrumbs-gap               gap between items (default: --kiln-space-1)
+   --kiln-breadcrumbs-link-color        link color (default: --kiln-primary)
+   --kiln-breadcrumbs-current-bg        background for current page pill (default: --kiln-gray-100)
+   --kiln-breadcrumbs-current-color     text color for current item (default: --kiln-gray-600)
+   --kiln-breadcrumbs-separator-color   separator color (default: --kiln-gray-400)
 ────────────────────────────────────────────────────────────────────────── */
 
 @layer kiln {
@@ -10,6 +13,9 @@
     --kiln-breadcrumbs-font-size: var(--kiln-text-sm);
     --kiln-breadcrumbs-gap: var(--kiln-space-1);
     --kiln-breadcrumbs-link-color: var(--kiln-primary);
+    --kiln-breadcrumbs-current-bg: var(--kiln-gray-100);
+    --kiln-breadcrumbs-current-color: var(--kiln-gray-600);
+    --kiln-breadcrumbs-separator-color: var(--kiln-gray-400);
   }
 
   .kiln-breadcrumbs__list {
@@ -28,65 +34,189 @@
     display: flex;
     align-items: center;
     gap: var(--kiln-breadcrumbs-gap);
+    /* Staggered entry animation — transform & opacity only (performance-first) */
+    animation: kiln-breadcrumbs__fade-in 0.3s ease-out both;
   }
 
+  .kiln-breadcrumbs__item:nth-child(1) { animation-delay: 0ms; }
+  .kiln-breadcrumbs__item:nth-child(2) { animation-delay: 30ms; }
+  .kiln-breadcrumbs__item:nth-child(3) { animation-delay: 60ms; }
+  .kiln-breadcrumbs__item:nth-child(4) { animation-delay: 90ms; }
+  .kiln-breadcrumbs__item:nth-child(5) { animation-delay: 120ms; }
+  .kiln-breadcrumbs__item:nth-child(n+6) { animation-delay: 150ms; }
+
+  @keyframes kiln-breadcrumbs__fade-in {
+    from {
+      opacity: 0;
+      transform: translateX(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* ── Link ──────────────────────────────────────────────────────────────── */
+
   .kiln-breadcrumbs__link {
+    position: relative;
     color: var(--kiln-breadcrumbs-link-color);
     text-decoration: none;
-    border-radius: var(--kiln-radius-sm);
-    padding: 2px var(--kiln-space-1);
+    border-radius: var(--kiln-radius-md);
+    padding: 4px 8px;
+    /* 44px minimum touch target (performance + mobile-first) */
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+    font-weight: 500;
+    letter-spacing: var(--kiln-tracking-tight);
+    background: transparent;
+    /* GPU-friendly transitions only */
     transition:
       color      var(--kiln-duration-fast) var(--kiln-ease-out),
-      background var(--kiln-duration-fast) var(--kiln-ease-out);
+      background var(--kiln-duration-fast) var(--kiln-ease-out),
+      transform  var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  /* Animated underline — uses ::after with scaleX (transform, GPU-accelerated) */
+  .kiln-breadcrumbs__link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    right: 8px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
   }
 
   .kiln-breadcrumbs__link:hover {
     color: var(--kiln-primary-dark);
     background: var(--kiln-primary-50);
+    transform: translateY(-1px);
+  }
+
+  .kiln-breadcrumbs__link:hover::after {
+    transform: scaleX(1);
   }
 
   .kiln-breadcrumbs__link:focus-visible {
     outline: 2px solid var(--kiln-primary);
     outline-offset: 2px;
+    transform: translateY(-1px);
   }
+
+  .kiln-breadcrumbs__link:active {
+    transform: translateY(0);
+    transition-duration: 0ms;
+  }
+
+  /* ── Separator ─────────────────────────────────────────────────────────── */
 
   .kiln-breadcrumbs__sep {
     display: inline-flex;
     align-items: center;
-    color: var(--kiln-gray-400);
+    color: var(--kiln-breadcrumbs-separator-color);
     user-select: none;
     flex-shrink: 0;
+    padding: 4px;
+    border-radius: var(--kiln-radius-sm);
+    /* Subtle animation on adjacent link hover */
+    transition:
+      color var(--kiln-duration-fast) var(--kiln-ease-out),
+      transform var(--kiln-duration-fast) var(--kiln-ease-out);
   }
 
   .kiln-breadcrumbs__sep-icon {
     display: block;
+    transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
   }
 
+  /* Separator slides slightly right when adjacent link is hovered */
+  .kiln-breadcrumbs__link:hover + .kiln-breadcrumbs__sep,
+  .kiln-breadcrumbs__link:hover ~ .kiln-breadcrumbs__sep {
+    transform: translateX(2px);
+    color: var(--kiln-primary);
+  }
+
+  .kiln-breadcrumbs__link:hover + .kiln-breadcrumbs__sep .kiln-breadcrumbs__sep-icon,
+  .kiln-breadcrumbs__link:hover ~ .kiln-breadcrumbs__sep .kiln-breadcrumbs__sep-icon {
+    transform: translateX(2px);
+  }
+
+  /* ── Current page pill ─────────────────────────────────────────────────── */
+
   .kiln-breadcrumbs__current {
-    color: var(--kiln-gray-600);
-    font-weight: 500;
-    padding: 2px var(--kiln-space-1);
+    color: var(--kiln-breadcrumbs-current-color);
+    font-weight: 600;
+    padding: 3px 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--kiln-radius-md);
+    background: var(--kiln-breadcrumbs-current-bg);
+    /* Subtle shimmer — opacity animation on pseudo-element (GPU) */
+    position: relative;
+    overflow: hidden;
     /* Truncate if very long */
     max-width: 20ch;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  /* Shimmer effect on current item — uses transform, not layout */
+  .kiln-breadcrumbs__current::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: kiln-breadcrumbs__shimmer 4s ease-in-out infinite;
+  }
+
+  @keyframes kiln-breadcrumbs__shimmer {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(250%); }
+  }
+
   /* ── Dark theme ────────────────────────────────────────────────────── */
+
   [data-theme="dark"] .kiln-breadcrumbs__link:hover {
     background: var(--kiln-primary-200);
+    color: var(--kiln-primary-light);
   }
 
   [data-theme="dark"] .kiln-breadcrumbs__current {
-    color: var(--kiln-gray-500);
+    background: var(--kiln-gray-800);
+    color: var(--kiln-gray-400);
   }
 
-  /* ── Mobile ────────────────────────────────────────────────────────── */
+  [data-theme="dark"] .kiln-breadcrumbs__current::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  /* ── Mobile (375px minimum) ─────────────────────────────────────────── */
+
   @media (max-width: 767px) {
+    .kiln-breadcrumbs__link,
+    .kiln-breadcrumbs__current {
+      font-size: var(--kiln-text-sm); /* no smaller than 14px (mobile-first) */
+    }
+
     /* On narrow screens collapse all but the last two items behind an ellipsis */
     .kiln-breadcrumbs__item:not(:nth-last-child(-n+2)):not(:first-child) {
       display: none;
@@ -100,10 +230,26 @@
     }
   }
 
-  /* ── Reduced motion ────────────────────────────────────────────────── */
+  /* ── Reduced motion (accessibility-first) ───────────────────────────── */
+
   @media (prefers-reduced-motion: reduce) {
-    .kiln-breadcrumbs__link {
+    .kiln-breadcrumbs__item {
+      animation: none !important;
+    }
+
+    .kiln-breadcrumbs__link,
+    .kiln-breadcrumbs__link::after,
+    .kiln-breadcrumbs__sep,
+    .kiln-breadcrumbs__sep-icon {
       transition: none !important;
+    }
+
+    .kiln-breadcrumbs__current::before {
+      animation: none !important;
+    }
+
+    .kiln-breadcrumbs__link:hover {
+      transform: none;
     }
   }
 

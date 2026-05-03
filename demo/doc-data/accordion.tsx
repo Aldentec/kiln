@@ -20,8 +20,9 @@ export const accordion: ComponentDoc = {
   code: `import { Accordion } from '@doriansmith/kiln';
 
 const items = [
-  { id: 'q1', title: 'What is Kiln?', content: 'A CSS-first React component library.' },
-  { id: 'q2', title: 'Does it support dark mode?', content: 'Yes — set data-theme="dark" on <html>.' },
+  { id: 'q1', title: 'What is Kiln?', content: 'A CSS-first React component library built for indie developers and small teams.' },
+  { id: 'q2', title: 'Does it support dark mode?', content: 'Yes — add data-theme="dark" to <html> and every component adapts automatically.' },
+  { id: 'q3', title: 'Is TypeScript required?', content: 'No, but all props are fully typed with inferred generics for a smooth DX.' },
 ];
 
 <Accordion items={items} defaultOpenIds={['q1']} />`,

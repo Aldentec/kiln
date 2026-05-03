@@ -1,0 +1,171 @@
+@layer kiln {
+  /* ─── Component tokens ───────────────────────────────────
+     --kiln-header-max-width   max-width of the content area  (default: 1100px)
+     --kiln-header-padding-x   horizontal padding             (default: clamp)
+  ─────────────────────────────────────────────────────────── */
+
+  .kiln-header {
+    width: 100%;
+    max-width: var(--kiln-header-max-width, 1100px);
+    margin-inline: auto;
+    box-sizing: border-box;
+    padding-inline: var(--kiln-header-padding-x, clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8)));
+    font-family: var(--kiln-font-sans);
+
+    /* Vertical padding — h2/h3 default */
+    padding-top: var(--kiln-space-10);
+    padding-bottom: var(--kiln-space-8);
+  }
+
+  /* Page-level header (h1) gets a bit more breathing room at the top */
+  .kiln-header--h1 {
+    padding-top: var(--kiln-space-12);
+  }
+
+  /* ── Tagline (decorative display text above heading) ── */
+  .kiln-header__tagline {
+    font-size: clamp(3rem, 9vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: 1;
+    /* Fallback colour for browsers that don't support background-clip: text */
+    color: var(--kiln-primary);
+    background: var(--kiln-gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: var(--kiln-gradient-text-shadow, none);
+    margin-bottom: var(--kiln-space-4);
+    /* Prevent very long taglines from overflowing on narrow viewports */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    /* Centre the tagline for h1; leave left-aligned for h2/h3 */
+  }
+
+  .kiln-header--h1 .kiln-header__tagline {
+    text-align: center;
+  }
+
+  /* ── Top row: title-group (left) + actions (right) ── */
+  .kiln-header__top {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kiln-space-6);
+    justify-content: space-between;
+  }
+
+  /* Centre the top row for h1 (page hero style) */
+  .kiln-header--h1 .kiln-header__top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--kiln-space-4);
+  }
+
+  .kiln-header__title-group {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Title ── */
+  .kiln-header__title {
+    margin: 0;
+    color: var(--kiln-gray-900);
+    font-family: var(--kiln-font-sans);
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+  }
+
+  .kiln-header--h1 .kiln-header__title {
+    font-size: clamp(1.5rem, 4vw, var(--kiln-text-4xl));
+    max-width: 680px;
+    /* Keep visually centred when inside the flex-column top row */
+    margin-inline: auto;
+  }
+
+  .kiln-header--h2 .kiln-header__title {
+    font-size: clamp(1.25rem, 2.5vw, var(--kiln-text-2xl));
+  }
+
+  .kiln-header--h3 .kiln-header__title {
+    font-size: var(--kiln-text-xl);
+  }
+
+  /* ── Description ── */
+  .kiln-header__description {
+    margin: var(--kiln-space-3) 0 0;
+    font-size: clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg));
+    color: var(--kiln-gray-500);
+    line-height: var(--kiln-leading-relaxed);
+  }
+
+  .kiln-header--h1 .kiln-header__description {
+    max-width: 560px;
+    /* Keep centred inside the flex-column top row */
+    margin-inline: auto;
+    margin-top: var(--kiln-space-3);
+  }
+
+  .kiln-header--h2 .kiln-header__description,
+  .kiln-header--h3 .kiln-header__description {
+    font-size: var(--kiln-text-base);
+    max-width: 640px;
+    margin-top: var(--kiln-space-2);
+  }
+
+  /* ── Actions ── */
+  .kiln-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--kiln-space-3);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  /* For h1, actions go below the description */
+  .kiln-header--h1 .kiln-header__actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* ── Divider ── */
+  .kiln-header__divider {
+    border: none;
+    height: 1px;
+    background: var(--kiln-gray-200);
+    margin: var(--kiln-space-6) 0 0;
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] .kiln-header__title {
+    color: var(--kiln-gray-100);
+  }
+
+  [data-theme="dark"] .kiln-header__divider {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Mobile — stack title + actions vertically on narrow viewports ── */
+  /* Applies to h2/h3 only; h1 is already flex-column */
+  @media (max-width: 599px) {
+    .kiln-header--h2 .kiln-header__top,
+    .kiln-header--h3 .kiln-header__top {
+      flex-direction: column;
+      gap: var(--kiln-space-4);
+    }
+
+    /* Actions fill the full width so button groups wrap naturally */
+    .kiln-header--h2 .kiln-header__actions,
+    .kiln-header--h3 .kiln-header__actions {
+      width: 100%;
+    }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-header__tagline {
+      filter: none;
+    }
+  }
+}

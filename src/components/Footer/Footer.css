@@ -1,6 +1,7 @@
 @layer kiln {
 
 .kiln-footer {
+  margin-top: auto;
   background: var(--kiln-surface-raised);
   border-top: 1px solid var(--kiln-gray-200);
   padding: 40px clamp(0.875rem, 3vw, 1.75rem);

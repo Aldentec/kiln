@@ -21,11 +21,13 @@ export const badge: ComponentDoc = {
   preview: BadgePreview,
   code: `import { Badge } from '@doriansmith/kiln';
 
-<Badge variant="success">Active</Badge>
-<Badge variant="error">Failed</Badge>
-<Badge variant="warning">Degraded</Badge>
-<Badge variant="info">Scheduled</Badge>
-<Badge variant="critical">Outage</Badge>`,
+<Badge variant="neutral">Neutral</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="info">Info</Badge>
+<Badge variant="pending">Pending</Badge>
+<Badge variant="critical">Critical</Badge>`,
   props: [
     { name: 'variant', type: "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'pending' | 'running' | 'critical' | 'high' | 'medium' | 'low'", default: "'neutral'", required: false, description: 'Visual severity or status variant' },
     { name: 'size', type: "'sm' | 'md'", default: "'md'", required: false, description: 'Badge size' },

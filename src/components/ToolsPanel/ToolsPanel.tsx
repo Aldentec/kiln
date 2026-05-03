@@ -16,6 +16,8 @@ export interface ToolsPanelProps {
   defaultOpen?: boolean;
   /** aria-label for the aside landmark */
   label?: string;
+  /** Hide the floating FAB toggle button — use when the header close button is sufficient. */
+  hideFab?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -41,6 +43,7 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
     onOpenChange,
     defaultOpen = false,
     label = 'Tools panel',
+    hideFab = false,
     className,
     style,
   },
@@ -119,20 +122,22 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
       </aside>
 
       {/* ── FAB toggle ──────────────────────────────────────────────── */}
-      <button
-        ref={toggleRef}
-        type="button"
-        className={cn(
-          'kiln-tools-panel__fab',
-          open && 'kiln-tools-panel__fab--active',
-        )}
-        aria-label={open ? 'Close tools panel' : 'Open tools panel'}
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={() => setOpen(!open)}
-      >
-        <ToolsIcon />
-      </button>
+      {!hideFab && (
+        <button
+          ref={toggleRef}
+          type="button"
+          className={cn(
+            'kiln-tools-panel__fab',
+            open && 'kiln-tools-panel__fab--active',
+          )}
+          aria-label={open ? 'Close tools panel' : 'Open tools panel'}
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen(!open)}
+        >
+          <ToolsIcon />
+        </button>
+      )}
     </>
   );
 });

@@ -1,24 +1,34 @@
 import { useState, useEffect } from 'react';
 
-export type Route = 'landing' | 'components' | 'about';
+export type Route = 'landing' | 'components' | 'about' | 'demos' | 'design-language';
 
-function getRoute(pathname: string): Route {
-  const path = pathname.replace(/\/$/, '') || '/';
-  if (path === '/components') return 'components';
-  if (path === '/about') return 'about';
-  return 'landing';
+interface RouterState {
+  route: Route;
+  slug: string;
 }
 
-export function useRouter(): Route {
-  const [route, setRoute] = useState<Route>(() => getRoute(window.location.pathname));
+function getState(pathname: string): RouterState {
+  const path = pathname.replace(/\/$/, '') || '/';
+  if (path === '/about')            return { route: 'about',           slug: '' };
+  if (path === '/demos')            return { route: 'demos',           slug: '' };
+  if (path === '/design-language')  return { route: 'design-language', slug: '' };
+  if (path === '/components') return { route: 'components', slug: '' };
+  // /components/badge, /components/app-layout, etc.
+  const match = path.match(/^\/components\/([^/]+)$/);
+  if (match) return { route: 'components', slug: match[1] };
+  return { route: 'landing', slug: '' };
+}
+
+export function useRouter(): RouterState {
+  const [state, setState] = useState<RouterState>(() => getState(window.location.pathname));
 
   useEffect(() => {
-    const handler = () => setRoute(getRoute(window.location.pathname));
+    const handler = () => setState(getState(window.location.pathname));
     window.addEventListener('popstate', handler);
     return () => window.removeEventListener('popstate', handler);
   }, []);
 
-  return route;
+  return state;
 }
 
 export function navigate(path: string) {

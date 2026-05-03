@@ -101,6 +101,85 @@
     pointer-events: none;
   }
 
+  /* ── Coming soon ── */
+  .kiln-card--coming-soon {
+    --kiln-card-padding: var(--kiln-space-8);
+    max-width: var(--kiln-card-coming-soon-max-width, 440px);
+    width: 100%;
+    margin-inline: auto;
+    box-sizing: border-box;
+    background: var(--kiln-card-bg, var(--kiln-surface-raised, #fff));
+    border: 1px solid var(--kiln-gray-100);
+    box-shadow: var(--kiln-card-shadow, var(--kiln-shadow-sm));
+  }
+
+  .kiln-card__wip-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--kiln-space-3);
+  }
+
+  .kiln-card__wip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--kiln-primary);
+  }
+
+  .kiln-card__wip-title {
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-lg);
+    font-weight: 700;
+    color: var(--kiln-gray-900);
+    margin: 0;
+    line-height: var(--kiln-leading-tight);
+  }
+
+  .kiln-card__wip-description {
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-sm);
+    color: var(--kiln-gray-500);
+    margin: 0;
+    line-height: var(--kiln-leading-relaxed);
+    max-width: 320px;
+  }
+
+  /* coming-soon top strip matches default */
+  .kiln-card--coming-soon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+      rgba(137, 33, 107, 0.35) 0%,
+      rgba(196, 91, 160, 0.45) 45%,
+      rgba(247, 183, 51, 0.35) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Dark mode — coming-soon */
+  [data-theme="dark"] .kiln-card--coming-soon {
+    background: var(--kiln-card-bg, var(--kiln-surface-raised));
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  [data-theme="dark"] .kiln-card--coming-soon::after {
+    background: linear-gradient(90deg, #89216b 0%, #c45ba0 45%, #f7b733 100%);
+  }
+
+  [data-theme="dark"] .kiln-card__wip-title {
+    color: var(--kiln-gray-100);
+  }
+
+  [data-theme="dark"] .kiln-card__wip-icon {
+    color: var(--kiln-primary-light);
+  }
+
   /* ── Hover lift ── */
   .kiln-card--hover-lift:hover,
   .kiln-card--clickable:hover {

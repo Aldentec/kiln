@@ -1,38 +1,42 @@
 import React from 'react';
-import { AppLayout } from '@doriansmith/kiln';
+import { AppLayout, Nav, SideNav } from '@doriansmith/kiln';
 import type { AppLayoutNotification } from '@doriansmith/kiln';
 import type { ComponentDoc } from './types';
 
 const APP_LAYOUT_STATS = ['Shipped', 'In Review', 'Drafts', 'Archived'];
 const APP_LAYOUT_COUNTS = [12, 4, 7, 31];
 
+const APP_LAYOUT_NAV_ITEMS = [
+  { href: '#', label: 'Home' },
+  { href: '#', label: 'Docs' },
+];
+const APP_LAYOUT_SIDE_NAV_GROUPS = [
+  { items: [
+    { id: 'dashboard', label: 'Dashboard' },
+    { id: 'projects',  label: 'Projects'  },
+    { id: 'settings',  label: 'Settings'  },
+  ]},
+];
+const APP_LAYOUT_LOGO = (
+  <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)', fontWeight: 700 }}>
+    <span style={{ width: 24, height: 24, background: 'var(--kiln-primary)', borderRadius: 4, display: 'inline-block' }} />
+    My App
+  </span>
+);
+
 const AppLayoutPreview: React.FC = () => {
-  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const [activeId, setActiveId] = React.useState('dashboard');
   const [notifications, setNotifications] = React.useState<AppLayoutNotification[]>([
     { id: 'n1', type: 'info', message: 'AppLayout — sidebar, breadcrumbs, notifications, and more.', dismissible: true, onDismiss: (id: string) => setNotifications((prev) => prev.filter((n) => n.id !== id)) },
   ]);
   return (
     <div style={{ height: 420, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden', position: 'relative' }}>
       <AppLayout
-        topBar={
-          <div style={{ height: 52, background: 'var(--kiln-gray-900)', display: 'flex', alignItems: 'center', padding: '0 var(--kiln-space-4)', color: '#fff', fontWeight: 700, fontSize: 'var(--kiln-text-base)', gap: 'var(--kiln-space-3)' }}>
-            <span style={{ width: 28, height: 28, background: 'var(--kiln-primary)', borderRadius: 6, display: 'inline-block' }} />
-            My App
-          </div>
-        }
-        sidebar={
-          <nav>
-            {['Dashboard', 'Projects', 'Settings'].map((label) => (
-              <div key={label} style={{ padding: 'var(--kiln-space-2) var(--kiln-space-3)', borderRadius: 'var(--kiln-radius-md)', fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-700)', cursor: 'pointer' }}>{label}</div>
-            ))}
-          </nav>
-        }
-        sidebarOpen={sidebarOpen}
-        onSidebarChange={setSidebarOpen}
+        topBar={<Nav logo={APP_LAYOUT_LOGO} items={APP_LAYOUT_NAV_ITEMS} sticky={false} />}
+        sideBar={<SideNav groups={APP_LAYOUT_SIDE_NAV_GROUPS} activeId={activeId} onSelect={setActiveId} />}
         breadcrumbs={[{ label: 'Projects', href: '#' }, { label: 'Kiln' }]}
         notifications={notifications}
         header={<h2 style={{ margin: 0, fontSize: 'var(--kiln-text-xl)', fontWeight: 700 }}>Overview</h2>}
-        sidebarWidth="160px"
       >
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--kiln-space-4)' }}>
           {APP_LAYOUT_STATS.map((s, i) => (
@@ -52,27 +56,44 @@ export const appLayout: ComponentDoc = {
   name: 'AppLayout',
   description: 'Full-page application shell with collapsible sidebar, tools panel, breadcrumbs, notifications, page header, and split panel.',
   preview: AppLayoutPreview,
-  code: `import { AppLayout } from '@doriansmith/kiln';
+  code: `import { AppLayout, Nav, SideNav } from '@doriansmith/kiln';
+
+const logo = (
+  <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)', fontWeight: 700 }}>
+    <span style={{ width: 24, height: 24, background: 'var(--kiln-primary)', borderRadius: 4, display: 'inline-block' }} />
+    My App
+  </span>
+);
+const navItems = [{ href: '#', label: 'Home' }, { href: '#', label: 'Docs' }];
+const groups = [{ items: [
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'projects',  label: 'Projects'  },
+  { id: 'settings',  label: 'Settings'  },
+]}];
+
+const [activeId, setActiveId] = useState('dashboard');
+const [notifications, setNotifications] = useState([
+  {
+    id: 'n1', type: 'info',
+    message: 'AppLayout — sidebar, breadcrumbs, notifications, and more.',
+    dismissible: true,
+    onDismiss: (id) => setNotifications((prev) => prev.filter((n) => n.id !== id)),
+  },
+]);
 
 <AppLayout
   topBar={<Nav logo={logo} items={navItems} />}
-  sidebar={<SideNav groups={groups} activeId={activeId} onSelect={setActive} />}
-  sidebarOpen={sidebarOpen}
-  onSidebarChange={setSidebarOpen}
-  breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Dashboard' }]}
-  notifications={[{ id: '1', type: 'info', message: 'Deployed successfully.', dismissible: true }]}
-  header={<h1>Dashboard</h1>}
+  sideBar={<SideNav groups={groups} activeId={activeId} onSelect={setActiveId} />}
+  breadcrumbs={[{ label: 'Projects', href: '#' }, { label: 'Kiln' }]}
+  notifications={notifications}
+  header={<h2 style={{ margin: 0, fontSize: 'var(--kiln-text-xl)', fontWeight: 700 }}>Overview</h2>}
 >
   <YourPageContent />
 </AppLayout>`,
   props: [
     { name: 'children', type: 'React.ReactNode', default: '—', required: true, description: 'Main page content' },
     { name: 'topBar', type: 'React.ReactNode', default: '—', required: false, description: 'Sticky top bar slot (e.g. <Nav />)' },
-    { name: 'sidebar', type: 'React.ReactNode', default: '—', required: false, description: 'Collapsible left sidebar content' },
-    { name: 'sidebarOpen', type: 'boolean', default: '—', required: false, description: 'Controlled sidebar open state' },
-    { name: 'onSidebarChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when sidebar open state should change' },
-    { name: 'defaultSidebarOpen', type: 'boolean', default: 'true on ≥768px', required: false, description: 'Initial sidebar state (uncontrolled)' },
-    { name: 'sidebarWidth', type: 'string', default: "'260px'", required: false, description: 'Sidebar width (also overridable via --kiln-app-layout-sidebar-width)' },
+    { name: 'sideBar', type: 'React.ReactNode', default: '—', required: false, description: 'Left sidebar content — pass a <SideNav> that manages its own open/collapse state' },
     { name: 'toolsPanel', type: 'React.ReactNode', default: '—', required: false, description: 'Collapsible right tools/help panel content' },
     { name: 'toolsOpen', type: 'boolean', default: '—', required: false, description: 'Controlled tools panel open state' },
     { name: 'onToolsChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when tools panel open state should change' },
@@ -95,22 +116,11 @@ it('renders children inside main landmark', () => {
   expect(screen.getByRole('main')).toHaveTextContent('Page content');
 });
 
-it('renders sidebar when sidebarOpen=true', () => {
+it('renders sideBar content', () => {
   render(
-    <AppLayout sidebar={<nav>Side</nav>} sidebarOpen={true}>Content</AppLayout>
+    <AppLayout sideBar={<nav>Side</nav>}>Content</AppLayout>
   );
-  expect(screen.getByRole('complementary', { name: /sidebar/i })).toBeInTheDocument();
-});
-
-it('calls onSidebarChange when FAB is clicked', () => {
-  const onSidebarChange = vi.fn();
-  render(
-    <AppLayout sidebar={<nav>Side</nav>} sidebarOpen={false} onSidebarChange={onSidebarChange}>
-      Content
-    </AppLayout>
-  );
-  fireEvent.click(screen.getByRole('button', { name: /open sidebar/i }));
-  expect(onSidebarChange).toHaveBeenCalledWith(true);
+  expect(screen.getByText('Side')).toBeInTheDocument();
 });
 
 it('renders breadcrumbs with correct aria-current on last item', () => {
@@ -133,22 +143,20 @@ it('calls onDismiss when notification dismiss button is clicked', () => {
   expect(onDismiss).toHaveBeenCalledWith('x');
 });`,
   usage: `// Minimal — just a shell with sticky nav
-<AppLayout topBar={<Nav logo={logo} items={navItems} />}>
+<AppLayout topBar={<MyTopBar />}>
   <Dashboard />
 </AppLayout>
 
 // Full application shell
-const [sidebarOpen, setSidebarOpen] = useState(true);
 const [notifications, setNotifications] = useState([
   { id: '1', type: 'success', message: 'Deployment complete.', dismissible: true,
     onDismiss: (id) => setNotifications((n) => n.filter((x) => x.id !== id)) },
 ]);
 
+// Full shell — SideNav manages its own open/collapse state internally
 <AppLayout
-  topBar={<Nav logo={logo} items={navItems} actions={<ThemeToggle />} />}
-  sidebar={<SideNav groups={navGroups} activeId={activeId} onSelect={setActiveId} />}
-  sidebarOpen={sidebarOpen}
-  onSidebarChange={setSidebarOpen}
+  topBar={<Nav logo={logo} items={navItems} />}
+  sideBar={<SideNav groups={groups} activeId={activeId} onSelect={setActiveId} />}
   breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects' }, { label: 'Kiln' }]}
   notifications={notifications}
   header={<h1>Kiln</h1>}
@@ -157,10 +165,13 @@ const [notifications, setNotifications] = useState([
   <ProjectOverview />
 </AppLayout>
 
-// Override sidebar width via CSS token
+// With a tools panel (controlled)
+const [toolsOpen, setToolsOpen] = useState(false);
 <AppLayout
-  sidebar={<SideNav groups={groups} />}
-  style={{ '--kiln-app-layout-sidebar-width': '200px' } as React.CSSProperties}
+  sideBar={<SideNav groups={groups} />}
+  toolsPanel={<HelpPanel />}
+  toolsOpen={toolsOpen}
+  onToolsChange={setToolsOpen}
 >
   <Content />
 </AppLayout>`,

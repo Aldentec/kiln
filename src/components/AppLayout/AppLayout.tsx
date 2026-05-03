@@ -5,7 +5,6 @@ import React from 'react';
 import { cn } from '../../utils';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import NotificationBar from '../NotificationBar/NotificationBar';
-import SidebarPanel from '../SidebarPanel/SidebarPanel';
 import ToolsPanel from '../ToolsPanel/ToolsPanel';
 import SplitPanel from '../SplitPanel/SplitPanel';
 import './AppLayout.css';
@@ -23,16 +22,11 @@ export interface AppLayoutProps {
   /** Sticky top navigation bar */
   topBar?: React.ReactNode;
 
-  /** Sidebar content — rendered inside a SidebarPanel */
-  sidebar?: React.ReactNode;
-  /** Sidebar panel header */
-  sidebarHeader?: React.ReactNode;
-  /** Controlled sidebar open state */
-  sidebarOpen?: boolean;
-  onSidebarChange?: (open: boolean) => void;
-  defaultSidebarOpen?: boolean;
-  /** Override via --kiln-sidebar-panel-width or this shorthand */
-  sidebarWidth?: string;
+  /**
+   * Sidebar content — pass a <SideNav> with its own open/onOpenChange/header
+   * props for collapsible behaviour.
+   */
+  sideBar?: React.ReactNode;
 
   /** Tools panel content — rendered inside a ToolsPanel */
   toolsPanel?: React.ReactNode;
@@ -75,12 +69,7 @@ export interface AppLayoutProps {
 const AppLayout = React.forwardRef<HTMLDivElement, AppLayoutProps>((
   {
     topBar,
-    sidebar,
-    sidebarHeader,
-    sidebarOpen,
-    onSidebarChange,
-    defaultSidebarOpen,
-    sidebarWidth,
+    sideBar,
     toolsPanel,
     toolsPanelHeader,
     toolsOpen,
@@ -106,68 +95,51 @@ const AppLayout = React.forwardRef<HTMLDivElement, AppLayoutProps>((
   <div
     ref={ref}
     className={cn('kiln-app-layout', className)}
-    style={{
-      ...(sidebarWidth
-        ? { '--kiln-sidebar-panel-width': sidebarWidth } as React.CSSProperties
-        : {}),
-      ...style,
-    }}
+    style={style}
   >
-    {/* ── Top bar ───────────────────────────────────────────────────── */}
+    {/* ── Top bar ───────────────────────────────────────────────── */}
     {topBar && (
       <header className="kiln-app-layout__topbar" role="banner">
         {topBar}
       </header>
     )}
 
-    {/* ── Body row ──────────────────────────────────────────────────── */}
+    {/* ── Body row ──────────────────────────────────────────────── */}
     <div className="kiln-app-layout__body">
 
-      {/* ── Sidebar ─────────────────────────────────────────────────── */}
-      {sidebar && (
-        <SidebarPanel
-          header={sidebarHeader}
-          open={sidebarOpen}
-          onOpenChange={onSidebarChange}
-          defaultOpen={defaultSidebarOpen}
-          togglePlacement="outside"
-          label="Sidebar navigation"
-          className="kiln-app-layout__sidebar"
-        >
-          {sidebar}
-        </SidebarPanel>
-      )}
+      {/* ── Sidebar — rendered directly; SideNav manages its own state */}
+      {sideBar}
 
-      {/* ── Content column ──────────────────────────────────────────── */}
+      {/* ── Content column ──────────────────────────────────────── */}
       <div className="kiln-app-layout__content-column">
 
-        {/* ── Breadcrumbs ───────────────────────────────────────────── */}
+        {/* ── Breadcrumbs ───────────────────────────────────────── */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <div className="kiln-app-layout__breadcrumb-bar">
             <Breadcrumbs items={breadcrumbs} />
           </div>
         )}
 
-        {/* ── Notifications ─────────────────────────────────────────── */}
+        {/* ── Notifications ─────────────────────────────────────── */}
         {notifications && notifications.length > 0 && (
           <div className="kiln-app-layout__notification-bar">
             <NotificationBar items={notifications} />
           </div>
         )}
 
-        {/* ── Page header ───────────────────────────────────────────── */}
+        {/* ── Page header ───────────────────────────────────────── */}
         {header && (
           <div className="kiln-app-layout__page-header">
             {header}
           </div>
         )}
 
-        {/* ── Main ──────────────────────────────────────────────────── */}
+        {/* ── Main ──────────────────────────────────────────────── */}
         <main className="kiln-app-layout__main" aria-label={contentLabel}>
           {children}
         </main>
 
-        {/* ── Split panel ───────────────────────────────────────────── */}
+        {/* ── Split panel ───────────────────────────────────────── */}
         {splitPanel && (
           <SplitPanel
             header={splitPanelHeader}
@@ -183,7 +155,7 @@ const AppLayout = React.forwardRef<HTMLDivElement, AppLayoutProps>((
         )}
       </div>
 
-      {/* ── Tools panel ─────────────────────────────────────────────── */}
+      {/* ── Tools panel ─────────────────────────────────────────── */}
       {toolsPanel && (
         <ToolsPanel
           header={toolsPanelHeader}

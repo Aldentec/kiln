@@ -311,6 +311,11 @@
   .kiln-mnav__panel { display: none !important; }
 }
 
+/* Force-visible override — used in demos/previews to show the component at any viewport width */
+.kiln-mnav__trigger[data-force-visible] { display: flex !important; }
+.kiln-mnav__overlay[data-force-visible] { display: block !important; }
+.kiln-mnav__panel[data-force-visible]   { display: flex !important; }
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .kiln-mnav__panel { transition: visibility 0ms; }

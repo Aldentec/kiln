@@ -26,7 +26,7 @@ describe('Nav', () => {
   it('marks the active link via isActive', () => {
     render(<Nav items={ITEMS} isActive={(h) => h === '/about'} />);
     const activeLinks = screen.getAllByRole('link', { name: 'About' });
-    const desktopActive = activeLinks.find((el) => el.classList.contains('kiln-nav__link--active'));
+    const desktopActive = activeLinks.find((el) => el.classList.contains('kiln-nav-menu__link--active'));
     expect(desktopActive).toBeTruthy();
     expect(desktopActive).toHaveAttribute('aria-current', 'page');
   });

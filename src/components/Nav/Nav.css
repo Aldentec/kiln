@@ -343,7 +343,7 @@
 /* ─── Responsive breakpoints ────────────────────────────── */
 
 @media (max-width: 767px) {
-  .kiln-nav__links   { display: none; }
+  .kiln-nav__menu    { display: none; }
   .kiln-nav__trigger { display: flex; }
 }
 

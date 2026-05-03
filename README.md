@@ -84,16 +84,17 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `Button` | Primary / secondary / ghost / danger. Loading state, icons, link mode. |
 | `Input` | Label, helper text, error state, left/right icons. ARIA-linked. |
 | `Textarea` | Like Input, plus character counter. |
-| `Card` | Default / raised / glass / gradient-border. Hover lift. |
+| `Card` | Default / raised / glass / gradient-border / coming-soon. Hover lift. |
+| `Header` | Page and section heading block with optional tagline, description, and actions slot. Provides consistent spacing after the Nav. |
 | `Badge` | Severity (critical → low) and status (success / warning / error / info / pending / running). |
 | `Chip` | Selectable filter chip. Controlled and uncontrolled. |
+| `Toggle` | Binary switch for boolean settings. Three sizes, controlled and uncontrolled. |
 | `Tabs` | Arrow-key navigation, ARIA tablist / tab / tabpanel. |
 | `Modal` | Portal, focus trap, Escape to close, returns focus on dismiss. |
-| `Nav` | Sticky header, mobile slide-in drawer with focus trap. |
-| `NavMenu` | Horizontal link strip for use inside custom headers. |
-| `MobileNav` | Standalone mobile navigation panel. |
+| `Nav` | Complete drop-in nav bar — logo slot, desktop links, actions slot, and built-in mobile hamburger + slide-out drawer. |
+| `NavMenu` | Desktop-only link strip. Used inside `Nav`, also available as a primitive for custom nav bars. |
+| `MobileNav` | Standalone mobile hamburger + slide-out drawer. Use with `NavMenu` when building a custom nav bar without `Nav`. |
 | `NotificationBar` | Stacked dismissible banners with info / success / warning / error variants and `aria-live`. |
-| `SidebarPanel` | Collapsible left panel. Desktop slide animation, mobile overlay drawer with backdrop. |
 | `SideNav` | Grouped vertical nav with active state and keyboard navigation. |
 | `SplitPanel` | Expandable bottom panel with drag-to-resize handle and keyboard resize (arrow keys). |
 | `TableOfContents` | Sticky ToC with IntersectionObserver active-section tracking. |
@@ -107,6 +108,44 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `ErrorMessage` | Error display with optional retry button. |
 | `ScrollToTop` | Scrolls to top on route change. Renders nothing. |
 | `CodeBlock` | Styled `<pre><code>` with copy button and language label. |
+
+---
+
+## Nav
+
+A complete, drop-in navigation bar. Renders a sticky `<header>` with a logo slot on the left, a desktop link strip in the centre, a right-side actions slot, and a fully accessible mobile hamburger with a focus-trapped slide-out drawer — all from a single component.
+
+```tsx
+import { Nav, ThemeToggle } from '@doriansmith/kiln';
+
+const NAV_ITEMS = [
+  { href: '/', label: 'Home' },
+  { href: '/docs', label: 'Docs' },
+  { href: '/about', label: 'About' },
+];
+
+<Nav
+  logo={<img src="/logo.png" alt="MyApp" style={{ height: 32 }} />}
+  items={NAV_ITEMS}
+  isActive={(href) => window.location.pathname === href}
+  onNavigate={(href) => navigate(href)}
+  actions={<ThemeToggle />}
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `logo` | `React.ReactNode` | — | Left-side brand slot |
+| `items` | `NavItem[]` | `[]` | `{ href, label, icon? }` links — rendered on desktop and in the mobile drawer |
+| `actions` | `React.ReactNode` | — | Right-side slot (ThemeToggle, avatar, CTAs, etc.) |
+| `sticky` | `boolean` | `true` | Sticks the bar to the top of the viewport |
+| `isActive` | `(href) => boolean` | pathname match | Returns `true` to mark a link active (`aria-current="page"`) |
+| `onNavigate` | `(href, e) => void` | — | Called on any link click — call `e.preventDefault()` for client-side routing |
+| `ariaLabel` | `string` | `'Main navigation'` | Accessible label for the nav landmark and mobile dialog |
+
+For full control over the nav bar layout, use the lower-level [`NavMenu`](#navmenu--mobilenav) and `MobileNav` primitives instead.
 
 ---
 
@@ -179,6 +218,107 @@ Override panel widths via inline `style` or `sidebarWidth` / `toolsWidth` props:
 
 ---
 
+## Header
+
+A consistent page and section heading block. Eliminates custom per-page hero layouts — use `Header` everywhere a heading is needed and spacing is automatically correct.
+
+```tsx
+import { Header, Button } from '@doriansmith/kiln';
+
+// Page-level header with decorative brand tagline
+<section aria-labelledby="page-heading">
+  <Header
+    id="page-heading"
+    variant="h1"
+    tagline="Analytics"
+    description="Monitor usage, performance, and billing across all workspaces."
+  >
+    Dashboard
+  </Header>
+</section>
+
+// Section header with inline actions
+<Header
+  variant="h2"
+  description="Manage access for your organisation."
+  actions={
+    <>
+      <Button variant="secondary">Export CSV</Button>
+      <Button variant="primary">Add user</Button>
+    </>
+  }
+  divider
+>
+  Users
+</Header>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `'h1' \| 'h2' \| 'h3'` | `'h2'` | Heading level and visual size. `h1` centres content for page heroes; `h2`/`h3` are left-aligned for sections. |
+| `tagline` | `string` | — | Large decorative display text above the heading, rendered with the Kiln brand gradient. Hidden from assistive technology. |
+| `description` | `React.ReactNode` | — | Subtitle rendered below the heading in muted text. |
+| `actions` | `React.ReactNode` | — | Right-aligned slot for buttons or badges. Centres below the description for `h1`. |
+| `divider` | `boolean` | `false` | Renders a hairline separator below the header block. |
+| `id` | `string` | — | Forwards to the heading element — pair with `aria-labelledby` on the parent `<section>`. |
+| `style` | `React.CSSProperties` | — | Use `--kiln-header-max-width` (default `1100px`) and `--kiln-header-padding-x` to customise the container. |
+
+---
+
+## Card — `coming-soon` variant
+
+Pass `variant="coming-soon"` to render a self-contained "work in progress" placeholder. No children required.
+
+```tsx
+import { Card } from '@doriansmith/kiln';
+
+// Default text
+<Card variant="coming-soon" />
+
+// Custom text
+<Card
+  variant="coming-soon"
+  title="Under construction"
+  description="This section will be ready soon."
+/>
+```
+
+Use `--kiln-card-coming-soon-max-width` to override the default 440 px maximum width.
+
+---
+
+## NavMenu + MobileNav
+
+Use these when `Nav`'s layout doesn't fit your design and you need to assemble your own nav bar.
+
+**`NavMenu`** — the desktop-only link strip (a `<nav>` with styled links and active-state handling).  
+**`MobileNav`** — a self-contained hamburger button + focus-trapped slide-out drawer.
+
+```tsx
+import { NavMenu, MobileNav } from '@doriansmith/kiln';
+
+// Desktop link strip
+<NavMenu
+  items={NAV_ITEMS}
+  isActive={(href) => location.pathname === href}
+  onNavigate={(href) => navigate(href)}
+/>
+
+// Mobile hamburger + drawer
+<MobileNav
+  items={NAV_ITEMS}
+  logo={<img src="/logo.png" alt="MyApp" style={{ height: 32 }} />}
+  isActive={(href) => location.pathname === href}
+  onNavigate={(href) => navigate(href)}
+/>
+```
+
+For most cases, use `Nav` — it handles all of the above automatically.
+
+---
+
 ## Breadcrumbs
 
 Hierarchical navigation trail. Last item is the current page (no link, `aria-current="page"`).
@@ -216,27 +356,6 @@ const dismiss = (id) => setItems((n) => n.filter((x) => x.id !== id));
 
 ---
 
-## SidebarPanel
-
-Collapsible left sidebar with desktop slide animation and mobile overlay drawer.
-
-```tsx
-import { SidebarPanel } from '@doriansmith/kiln';
-
-const [open, setOpen] = useState(true);
-
-<div style={{ display: 'flex' }}>
-  <SidebarPanel header="Navigation" open={open} onOpenChange={setOpen}>
-    <nav>...</nav>
-  </SidebarPanel>
-  <main style={{ flex: 1 }}>...</main>
-</div>
-```
-
-Token override: `--kiln-sidebar-panel-width` (default `260px`).
-
----
-
 ## SplitPanel
 
 Expandable bottom panel with drag-to-resize handle and keyboard resize (↑/↓ arrow keys in 20px steps).
@@ -253,7 +372,7 @@ import { SplitPanel } from '@doriansmith/kiln';
 
 ## ToolsPanel
 
-Collapsible right-side panel — identical ergonomics to `SidebarPanel` but anchored to the right edge.
+Collapsible right-side panel anchored to the right edge.
 
 ```tsx
 import { ToolsPanel } from '@doriansmith/kiln';
@@ -348,7 +467,7 @@ import type {
   TabItem, NavItem, CodeBlockProps,
   BreadcrumbItem,
   NotificationBarItem, NotificationBarType,
-  SidebarPanelProps, ToolsPanelProps, SplitPanelProps,
+  ToolsPanelProps, SplitPanelProps,
   AppLayoutBreadcrumb, AppLayoutNotification,
 } from '@doriansmith/kiln';
 ```

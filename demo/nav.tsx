@@ -1,39 +1,42 @@
 // Shared nav constants — consumed by LandingPage, ComponentsPage, and AboutPage.
+import React from 'react';
+import { ThemeToggle, Badge } from '@doriansmith/kiln';
 import { navigate } from './useRouter';
 
+export { navigate };
+
 export const NAV_ITEMS = [
-  { href: '/components', label: 'Components' },
-  { href: '/about',      label: 'About' },
+  { href: '/components',      label: 'Components' },
+  { href: '/design-language', label: 'Design Language' },
+  { href: '/demos',           label: 'Demos' },
+  { href: '/about',           label: 'About' },
 ];
 
 export const NAV_LOGO = (
   <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-    <img src="/logo.png" alt="Kiln" style={{ height: 36, width: 'auto' }} />
-    <span style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      padding: '2px 7px',
-      borderRadius: '999px',
-      background: 'var(--kiln-primary)',
-      color: '#fff',
-      fontSize: '11px',
-      fontWeight: 600,
-      letterSpacing: '0.04em',
-      lineHeight: 1.4,
-      verticalAlign: 'middle',
-    }}>Beta</span>
+    <img src="/logo.png" alt="Kiln" width={36} height={36} fetchPriority="high" style={{ height: 36, width: 'auto' }} />
   </a>
+);
+
+export const NavActions: React.FC = () => (
+  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+    <Badge variant="pending" size="sm">Beta</Badge>
+    <ThemeToggle />
+  </div>
 );
 
 export const FOOTER_LINKS = [
   { href: 'https://github.com/Aldentec/kiln', label: 'GitHub', external: true as const },
   { href: 'https://www.npmjs.com/package/@doriansmith/kiln', label: 'npm', external: true as const },
-  { href: '/components', label: 'Components' },
-  { href: '/about',      label: 'About' },
+  { href: '/components',      label: 'Components' },
+  { href: '/design-language', label: 'Design Language' },
+  { href: '/demos',           label: 'Demos' },
+  { href: '/about',           label: 'About' },
 ];
 
 export function isNavActive(href: string): boolean {
   const path = window.location.pathname.replace(/\/$/, '') || '/';
   if (href === '/') return path === '/';
-  return path === href;
+  // Match /components and /components/badge etc.
+  return path === href || path.startsWith(href + '/');
 }

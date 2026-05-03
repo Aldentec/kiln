@@ -55,6 +55,9 @@ export type { BadgeProps, BadgeVariant, BadgeSeverity, BadgeStatus, BadgeSize } 
 export { default as Chip } from './components/Chip';
 export type { ChipProps } from './components/Chip';
 
+export { default as Toggle } from './components/Toggle';
+export type { ToggleProps, ToggleSize } from './components/Toggle';
+
 export { default as Tabs } from './components/Tabs';
 export type { TabsProps, TabItem, TabsVariant } from './components/Tabs';
 
@@ -99,11 +102,11 @@ export type { BreadcrumbsProps, BreadcrumbItem } from './components/Breadcrumbs'
 export { NotificationBar } from './components/NotificationBar';
 export type { NotificationBarProps, NotificationBarItem, NotificationBarType } from './components/NotificationBar';
 
-export { SidebarPanel } from './components/SidebarPanel';
-export type { SidebarPanelProps } from './components/SidebarPanel';
-
 export { ToolsPanel } from './components/ToolsPanel';
 export type { ToolsPanelProps } from './components/ToolsPanel';
 
 export { SplitPanel } from './components/SplitPanel';
 export type { SplitPanelProps } from './components/SplitPanel';
+
+export { default as Header } from './components/Header';
+export type { HeaderProps, HeaderVariant } from './components/Header';

@@ -32,10 +32,11 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="theme-color" content="#6366f1" />
 
-    <!-- Preconnect -->
+    <!-- Preconnect + async font load (non-render-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" /></noscript>
 
     <!-- JSON-LD: SoftwareApplication -->
     <script type="application/ld+json">

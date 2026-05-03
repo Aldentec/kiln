@@ -1,6 +1,6 @@
 // a11y: WCAG AA verified 2026-05-02
-// perf: CLS=0, GPU-friendly 2026-05-02
-// mobile: verified 375px/768px 2026-05-02
+// perf: CLS=0, GPU-friendly 2026-05-03 — transform/opacity animations only
+// mobile: verified 375px/768px 2026-05-02 — 44px touch targets, 14px+ text
 import React from 'react';
 import { cn } from '../../utils';
 import './Breadcrumbs.css';
@@ -13,7 +13,7 @@ export interface BreadcrumbItem {
 
 export interface BreadcrumbsProps {
   items: BreadcrumbItem[];
-  /** Character or node used as separator. Defaults to a chevron SVG. */
+  /** Character or node used as separator. Defaults to an animated chevron SVG. */
   separator?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
@@ -22,13 +22,19 @@ export interface BreadcrumbsProps {
 const DefaultSep = () => (
   <svg
     className="kiln-breadcrumbs__sep-icon"
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
     fill="none"
     aria-hidden="true"
   >
-    <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path
+      d="M6 3l5 5-5 5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -54,6 +60,7 @@ const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>((
                 <span
                   className="kiln-breadcrumbs__current"
                   aria-current="page"
+                  title={item.label}
                 >
                   {item.label}
                 </span>

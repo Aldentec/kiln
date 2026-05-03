@@ -1,6 +1,6 @@
 import React from 'react';
-import { Nav, Footer, ThemeToggle, Card, Badge } from '@doriansmith/kiln';
-import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive } from './nav';
+import { Nav, Footer, Header, Card, Badge, Button } from '@doriansmith/kiln';
+import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
 
 // ─── Shared layout styles ────────────────────────────────
 const sectionBase: React.CSSProperties = {
@@ -9,24 +9,6 @@ const sectionBase: React.CSSProperties = {
   width: '100%',
   boxSizing: 'border-box',
   margin: '0 auto',
-};
-
-const sectionLabel: React.CSSProperties = {
-  fontSize: 'var(--kiln-text-xs)',
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.12em',
-  color: 'var(--kiln-primary)',
-  marginBottom: 'var(--kiln-space-3)',
-};
-
-const sectionHeading: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 3vw, var(--kiln-text-3xl))',
-  fontWeight: 700,
-  letterSpacing: 'var(--kiln-tracking-tight)',
-  lineHeight: 'var(--kiln-leading-tight)',
-  color: 'var(--kiln-gray-900)',
-  margin: '0 0 var(--kiln-space-4)',
 };
 
 // ─── The 4 Pillars ───────────────────────────────────────
@@ -117,81 +99,33 @@ export default function AboutPage() {
         items={NAV_ITEMS}
         isActive={isNavActive}
         onNavigate={(href) => { window.history.pushState(null, '', href); window.dispatchEvent(new Event('popstate')); }}
-        actions={<ThemeToggle />}
+        actions={<NavActions />}
       />
 
       <main>
         {/* ══════════════════════════════════════════════
             HERO
         ══════════════════════════════════════════════ */}
-        <section
-          aria-labelledby="about-hero-heading"
-          style={{
-            minHeight: '60vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: 'var(--kiln-space-20) clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8))',
-            flexDirection: 'column',
-            gap: 'var(--kiln-space-6)',
-          }}
-        >
-          <div
-            aria-hidden="true"
-            style={{
-              fontSize: 'clamp(3.5rem, 10vw, 6rem)',
-              fontWeight: 700,
-              letterSpacing: 'var(--kiln-tracking-tight)',
-              lineHeight: 1,
-              background: 'var(--kiln-gradient-brand)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'var(--kiln-gradient-text-shadow, none)',
-            }}
-          >
-            Why Kiln
-          </div>
-
-          <h1
+        <section aria-labelledby="about-hero-heading">
+          <Header
             id="about-hero-heading"
-            style={{
-              fontSize: 'clamp(1.5rem, 4vw, var(--kiln-text-4xl))',
-              fontWeight: 700,
-              letterSpacing: 'var(--kiln-tracking-tight)',
-              lineHeight: 'var(--kiln-leading-tight)',
-              margin: 0,
-              color: 'var(--kiln-gray-900)',
-              maxWidth: 680,
-            }}
+            variant="h1"
+            tagline="Why Kiln"
+            description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 25 KB gzipped, zero dependencies."
+            actions={
+              <div
+                style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
+                aria-label="Key differentiators"
+              >
+                <Badge variant="success">WCAG AA</Badge>
+                <Badge variant="info">&lt; 25 KB gzipped</Badge>
+                <Badge variant="running">Zero dependencies</Badge>
+                <Badge variant="pending">v0.1.0</Badge>
+              </div>
+            }
           >
             Why Kiln — Accessible React Components for Indie Developers
-          </h1>
-
-          <p
-            style={{
-              fontSize: 'clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg))',
-              color: 'var(--kiln-gray-500)',
-              maxWidth: 560,
-              margin: 0,
-              lineHeight: 'var(--kiln-leading-relaxed)',
-            }}
-          >
-            Kiln is an accessible, performant React component library built for indie developers
-            and small teams who refuse to choose between shipping fast and doing it right.
-            WCAG AA compliant, under 25 KB gzipped, zero dependencies.
-          </p>
-
-          <div
-            style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center', marginTop: 'var(--kiln-space-2)' }}
-            aria-label="Key differentiators"
-          >
-            <Badge variant="success">WCAG AA</Badge>
-            <Badge variant="info">&lt; 25 KB gzipped</Badge>
-            <Badge variant="running">Zero dependencies</Badge>
-            <Badge variant="pending">v0.1.0</Badge>
-          </div>
+          </Header>
         </section>
 
         {/* ══════════════════════════════════════════════
@@ -199,13 +133,17 @@ export default function AboutPage() {
         ══════════════════════════════════════════════ */}
         <section
           aria-labelledby="problem-heading"
-          style={{ background: 'var(--kiln-surface)', padding: 'var(--kiln-space-16) 0' }}
+          style={{ background: 'var(--kiln-surface)', paddingBottom: 'var(--kiln-space-16)' }}
         >
           <div style={{ ...sectionBase, maxWidth: 800 }}>
-            <p style={sectionLabel}>The problem</p>
-            <h2 id="problem-heading" style={sectionHeading}>
+            <Header
+              id="problem-heading"
+              variant="h2"
+              description="The problem"
+              divider
+            >
               You shouldn&apos;t have to rebuild UI primitives every project.
-            </h2>
+            </Header>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
               <p style={{ margin: 0 }}>
                 Every new project starts the same way: you need a button that looks good, an input
@@ -228,17 +166,17 @@ export default function AboutPage() {
         {/* ══════════════════════════════════════════════
             THE 4 PILLARS
         ══════════════════════════════════════════════ */}
-        <section aria-labelledby="pillars-heading" style={{ padding: 'var(--kiln-space-16) 0' }}>
+        <section aria-labelledby="pillars-heading" style={{ paddingBottom: 'var(--kiln-space-16)' }}>
           <div style={sectionBase}>
-            <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
-              <p style={sectionLabel}>The four pillars</p>
-              <h2 id="pillars-heading" style={sectionHeading}>
-                Non-negotiables, not nice-to-haves.
-              </h2>
-              <p style={{ color: 'var(--kiln-gray-500)', maxWidth: 600, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
-                Every Kiln component is evaluated against four criteria. If it fails any one of them, it doesn&apos;t ship.
-              </p>
-            </div>
+            <Header
+              id="pillars-heading"
+              variant="h2"
+              description="Every Kiln component is evaluated against four criteria. If it fails any one of them, it doesn't ship."
+              divider
+              style={{ '--kiln-header-max-width': '100%' } as React.CSSProperties}
+            >
+              Non-negotiables, not nice-to-haves.
+            </Header>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-10)' }}>
               {PILLARS.map(({ number, icon, title, problem, solution, benefit }, index) => (
@@ -320,15 +258,18 @@ export default function AboutPage() {
         ══════════════════════════════════════════════ */}
         <section
           aria-labelledby="stats-heading"
-          style={{ background: 'var(--kiln-surface)', padding: 'var(--kiln-space-16) 0' }}
+          style={{ background: 'var(--kiln-surface)', paddingBottom: 'var(--kiln-space-16)' }}
         >
           <div style={sectionBase}>
-            <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
-              <p style={sectionLabel}>By the numbers</p>
-              <h2 id="stats-heading" style={sectionHeading}>
-                Small bundle. Zero compromises.
-              </h2>
-            </div>
+            <Header
+              id="stats-heading"
+              variant="h2"
+              description="By the numbers"
+              divider
+              style={{ '--kiln-header-max-width': '100%' } as React.CSSProperties}
+            >
+              Small bundle. Zero compromises.
+            </Header>
 
             <div
               style={{
@@ -378,12 +319,16 @@ export default function AboutPage() {
         {/* ══════════════════════════════════════════════
             WHY IT MATTERS
         ══════════════════════════════════════════════ */}
-        <section aria-labelledby="why-heading" style={{ padding: 'var(--kiln-space-16) 0' }}>
+        <section aria-labelledby="why-heading" style={{ paddingBottom: 'var(--kiln-space-16)' }}>
           <div style={{ ...sectionBase, maxWidth: 800 }}>
-            <p style={sectionLabel}>Why it matters</p>
-            <h2 id="why-heading" style={sectionHeading}>
+            <Header
+              id="why-heading"
+              variant="h2"
+              description="Why it matters"
+              divider
+            >
               Your users don&apos;t care about your tech stack.
-            </h2>
+            </Header>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
               <p style={{ margin: 0 }}>
                 They care that your app loads fast, works on their phone, and lets them navigate
@@ -402,55 +347,31 @@ export default function AboutPage() {
         {/* ══════════════════════════════════════════════
             CTA
         ══════════════════════════════════════════════ */}
-        <section aria-labelledby="cta-heading" style={{ background: 'var(--kiln-surface)', padding: 'var(--kiln-space-16) 0' }}>
-          <div style={{ ...sectionBase, maxWidth: 800, textAlign: 'center' }}>
-            <Card variant="gradient-border" style={{ '--kiln-card-padding': 'var(--kiln-space-10)' } as React.CSSProperties}>
-              <h2 id="cta-heading" style={{ fontSize: 'var(--kiln-text-2xl)', fontWeight: 700, margin: '0 0 var(--kiln-space-4)', color: 'var(--kiln-gray-900)' }}>
+        <section aria-labelledby="cta-heading" style={{ background: 'var(--kiln-surface)', paddingBottom: 'var(--kiln-space-16)' }}>
+          <div style={{ ...sectionBase, maxWidth: 800 }}>
+            <Card variant="gradient-border" style={{ '--kiln-card-padding': 'var(--kiln-space-10)', textAlign: 'center' } as React.CSSProperties}>
+              <Header
+                id="cta-heading"
+                variant="h2"
+                description="Install Kiln, import the CSS once, and start building your product — not your infrastructure."
+                actions={
+                  <div style={{ display: 'flex', gap: 'var(--kiln-space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <Button variant="primary" asChild>
+                      <a href="/components" onClick={(e) => { e.preventDefault(); navigate('/components'); }}>
+                        View all components
+                      </a>
+                    </Button>
+                    <Button variant="secondary" asChild>
+                      <a href="https://github.com/Aldentec/kiln" target="_blank" rel="noopener noreferrer">
+                        View on GitHub
+                      </a>
+                    </Button>
+                  </div>
+                }
+                style={{ '--kiln-header-max-width': '100%', paddingTop: 0 } as React.CSSProperties}
+              >
                 Ready to stop rebuilding the same components?
-              </h2>
-              <p style={{ color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)', maxWidth: 540, margin: '0 auto var(--kiln-space-6)' }}>
-                Install Kiln, import the CSS once, and start building your product — not your
-                infrastructure.
-              </p>
-              <div style={{ display: 'flex', gap: 'var(--kiln-space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <a
-                  href="/components"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    padding: 'var(--kiln-space-3) var(--kiln-space-6)',
-                    background: 'var(--kiln-primary)',
-                    color: '#fff',
-                    borderRadius: 'var(--kiln-radius-md)',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                    fontSize: 'var(--kiln-text-sm)',
-                    transition: 'background 0.2s',
-                  }}
-                >
-                  View all components
-                </a>
-                <a
-                  href="https://github.com/Aldentec/kiln"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    padding: 'var(--kiln-space-3) var(--kiln-space-6)',
-                    background: 'transparent',
-                    color: 'var(--kiln-gray-700)',
-                    border: '1px solid var(--kiln-gray-300)',
-                    borderRadius: 'var(--kiln-radius-md)',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                    fontSize: 'var(--kiln-text-sm)',
-                    transition: 'border-color 0.2s',
-                  }}
-                >
-                  View on GitHub
-                </a>
-              </div>
+              </Header>
             </Card>
           </div>
         </section>

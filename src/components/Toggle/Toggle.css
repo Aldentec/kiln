@@ -1,0 +1,148 @@
+/* Thumb slide keyframe — outside @layer so it is always available */
+@keyframes kiln-toggle-slide-on {
+  0%   { transform: translateX(0); }
+  60%  { transform: translateX(calc(var(--kiln-toggle-travel) + 3px)); }
+  100% { transform: translateX(var(--kiln-toggle-travel)); }
+}
+
+@layer kiln {
+  /* ─── Component tokens ─────────────────────────────────────────────
+     --kiln-toggle-radius      track border-radius (default: --kiln-radius-full)
+     --kiln-toggle-track-on    track bg color when checked (default: --kiln-primary)
+     --kiln-toggle-thumb-color thumb fill color          (default: #ffffff)
+  ─────────────────────────────────────────────────────────────────── */
+
+  /* ── size variants — define local vars consumed by track/thumb ── */
+  .kiln-toggle--sm {
+    --kiln-toggle-track-w:    28px;
+    --kiln-toggle-track-h:    16px;
+    --kiln-toggle-thumb-size: 12px;
+    --kiln-toggle-travel:     12px; /* track-w minus track-h */
+  }
+
+  .kiln-toggle--md {
+    --kiln-toggle-track-w:    44px;
+    --kiln-toggle-track-h:    24px;
+    --kiln-toggle-thumb-size: 18px;
+    --kiln-toggle-travel:     20px;
+  }
+
+  .kiln-toggle--lg {
+    --kiln-toggle-track-w:    56px;
+    --kiln-toggle-track-h:    32px;
+    --kiln-toggle-thumb-size: 26px;
+    --kiln-toggle-travel:     24px;
+  }
+
+  /* ── wrapper ── */
+  .kiln-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kiln-space-2);
+    vertical-align: middle;
+  }
+
+  /* ── button — the tappable hit area ── */
+  .kiln-toggle__btn {
+    /* 44×44 touch target (WCAG 2.5.5); padding expands hit area without CLS */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--kiln-toggle-radius, var(--kiln-radius-full));
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+
+  .kiln-toggle__btn:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+  }
+
+  .kiln-toggle--disabled .kiln-toggle__btn {
+    cursor: not-allowed;
+  }
+
+  /* ── track ── */
+  .kiln-toggle__track {
+    position: relative;
+    width: var(--kiln-toggle-track-w);
+    height: var(--kiln-toggle-track-h);
+    border-radius: var(--kiln-toggle-radius, var(--kiln-radius-full));
+    background: var(--kiln-gray-300);
+    transition: background var(--kiln-duration-normal) var(--kiln-ease-out);
+    flex-shrink: 0;
+    pointer-events: none; /* clicks handled by parent button */
+  }
+
+  .kiln-toggle__btn--on .kiln-toggle__track {
+    background: var(--kiln-toggle-track-on, var(--kiln-primary));
+  }
+
+  .kiln-toggle--disabled .kiln-toggle__track {
+    opacity: 0.45;
+  }
+
+  /* ── thumb ── */
+  .kiln-toggle__thumb {
+    position: absolute;
+    /* vertically and horizontally centred in the off position */
+    top: calc((var(--kiln-toggle-track-h) - var(--kiln-toggle-thumb-size)) / 2);
+    left: calc((var(--kiln-toggle-track-h) - var(--kiln-toggle-thumb-size)) / 2);
+    width: var(--kiln-toggle-thumb-size);
+    height: var(--kiln-toggle-thumb-size);
+    border-radius: var(--kiln-radius-full);
+    background: var(--kiln-toggle-thumb-color, #ffffff);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+    /* GPU-only animation — transform only, no layout properties */
+    transform: translateX(0);
+    transition: transform var(--kiln-duration-normal) var(--kiln-ease-spring);
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .kiln-toggle__btn--on .kiln-toggle__thumb {
+    transform: translateX(var(--kiln-toggle-travel));
+    animation: kiln-toggle-slide-on var(--kiln-duration-normal) var(--kiln-ease-spring) both;
+  }
+
+  /* ── label ── */
+  .kiln-toggle__label {
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-sm);
+    font-weight: 500;
+    color: var(--kiln-gray-700);
+    line-height: var(--kiln-leading-normal);
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .kiln-toggle--disabled .kiln-toggle__label {
+    opacity: 0.45;
+  }
+
+  /* sr-only equivalent — visually hidden but accessible */
+  .kiln-toggle__label--hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* ── reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-toggle__track { transition: none !important; }
+    .kiln-toggle__thumb { transition: none !important; animation: none !important; }
+  }
+}
