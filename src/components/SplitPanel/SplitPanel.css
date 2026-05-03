@@ -1,0 +1,158 @@
+/* ─── SplitPanel component tokens ───────────────────────────────────────────
+   --kiln-split-panel-bg        background (default: --kiln-surface-raised)
+   --kiln-split-panel-border    border color (default: --kiln-gray-200)
+   --kiln-split-panel-padding   content padding (default: --kiln-space-4)
+   Note: content height is controlled imperatively via JS (el.style.height)
+────────────────────────────────────────────────────────────────────────── */
+
+@keyframes kiln-split-panel-expand {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer kiln {
+
+  .kiln-split-panel {
+    --kiln-split-panel-bg: var(--kiln-surface-raised);
+    --kiln-split-panel-border: var(--kiln-gray-200);
+    --kiln-split-panel-padding: var(--kiln-space-4);
+
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--kiln-split-panel-border);
+    background: var(--kiln-split-panel-bg);
+  }
+
+  /* ── Drag handle ────────────────────────────────────────────────────── */
+  .kiln-split-panel__handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 12px;
+    cursor: ns-resize;
+    flex-shrink: 0;
+    /* Touch target */
+    padding: 4px 0;
+    min-height: 44px;
+    margin-top: -16px; /* Pull it to overlap the border area */
+    position: relative;
+    z-index: 1;
+  }
+
+  .kiln-split-panel__handle:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+  }
+
+  .kiln-split-panel__handle-grip {
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: var(--kiln-radius-full);
+    background: var(--kiln-gray-300);
+    transition: background var(--kiln-duration-fast) var(--kiln-ease-out),
+                transform  var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-split-panel__handle:hover .kiln-split-panel__handle-grip,
+  .kiln-split-panel__handle:focus-visible .kiln-split-panel__handle-grip {
+    background: var(--kiln-primary);
+    transform: scaleX(1.15);
+  }
+
+  /* ── Toggle bar ─────────────────────────────────────────────────────── */
+  .kiln-split-panel__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--kiln-space-2);
+    width: 100%;
+    /* Touch target */
+    min-height: 44px;
+    padding: var(--kiln-space-2) var(--kiln-space-5);
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--kiln-gray-600);
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-sm);
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background var(--kiln-duration-fast) var(--kiln-ease-out),
+      color     var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-split-panel__toggle:hover {
+    background: var(--kiln-gray-100);
+    color: var(--kiln-gray-900);
+  }
+
+  .kiln-split-panel__toggle:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: -2px;
+  }
+
+  .kiln-split-panel--open .kiln-split-panel__toggle {
+    border-bottom-color: var(--kiln-split-panel-border);
+  }
+
+  .kiln-split-panel__toggle-chevron {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-split-panel__toggle-label {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Content ────────────────────────────────────────────────────────── */
+  /* Height is set imperatively via el.style.height in the component.
+     Collapsed = height:0 (JS clears inline style); open = JS-driven px value. */
+  .kiln-split-panel__content {
+    overflow: hidden;
+    height: 0;
+  }
+
+  .kiln-split-panel--open .kiln-split-panel__content {
+    overflow-y: auto;
+    padding: var(--kiln-split-panel-padding);
+    animation: kiln-split-panel-expand var(--kiln-duration-normal) var(--kiln-ease-out) both;
+  }
+
+  /* ── Dark theme ─────────────────────────────────────────────────────── */
+  [data-theme="dark"] .kiln-split-panel__handle-grip {
+    background: var(--kiln-gray-300);
+  }
+
+  /* ── Mobile ─────────────────────────────────────────────────────────── */
+  @media (max-width: 767px) {
+    .kiln-split-panel__toggle {
+      padding: var(--kiln-space-2) var(--kiln-space-4);
+    }
+
+    /* Disable drag-resize on touch (handled by touch events on the handle) */
+    .kiln-split-panel__handle {
+      cursor: default;
+    }
+  }
+
+  /* ── Reduced motion ─────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-split-panel__content,
+    .kiln-split-panel__handle-grip,
+    .kiln-split-panel__toggle,
+    .kiln-split-panel__toggle-chevron {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+} /* end @layer kiln */

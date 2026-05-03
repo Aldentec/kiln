@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import {
-  Accordion, Badge, Button, Card, Chip, CodeBlock,
-  DropdownMenu, ErrorMessage, Footer, Input, LoadingIndicator,
-  Modal, MobileNav, NavMenu, ScrollToTop, Tabs, Textarea, ThemeToggle, Tooltip,
-  TableOfContents, SideNav, toast, ToastContainer,
+  Accordion, AppLayout, Badge, Breadcrumbs, Button, Card, Chip, CodeBlock,
+  DropdownMenu, ErrorMessage, Footer, Grid, GridItem, Input, LoadingIndicator,
+  Modal, MobileNav, NavMenu, NotificationBar, ScrollToTop, SidebarPanel, SideNav,
+  SplitPanel, Tabs, Textarea, ThemeToggle, Tooltip,
+  TableOfContents, ToolsPanel, toast, ToastContainer,
 } from '@doriansmith/kiln';
-import type { DropdownMenuEntry, AccordionItem } from '@doriansmith/kiln';
+import type {
+  DropdownMenuEntry, AccordionItem, AppLayoutNotification, BreadcrumbItem, NotificationBarItem,
+} from '@doriansmith/kiln';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -29,6 +32,144 @@ export interface ComponentDoc {
 }
 
 // ─── Preview components ────────────────────────────────────────────────────────
+
+const APP_LAYOUT_STATS = ['Shipped', 'In Review', 'Drafts', 'Archived'];
+const APP_LAYOUT_COUNTS = [12, 4, 7, 31];
+
+const AppLayoutPreview: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const [notifications, setNotifications] = React.useState<AppLayoutNotification[]>([
+    { id: 'n1', type: 'info', message: 'AppLayout — sidebar, breadcrumbs, notifications, and more.', dismissible: true, onDismiss: (id: string) => setNotifications((prev) => prev.filter((n) => n.id !== id)) },
+  ]);
+  return (
+    <div style={{ height: 420, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden', position: 'relative' }}>
+      <AppLayout
+        topBar={
+          <div style={{ height: 52, background: 'var(--kiln-gray-900)', display: 'flex', alignItems: 'center', padding: '0 var(--kiln-space-4)', color: '#fff', fontWeight: 700, fontSize: 'var(--kiln-text-base)', gap: 'var(--kiln-space-3)' }}>
+            <span style={{ width: 28, height: 28, background: 'var(--kiln-primary)', borderRadius: 6, display: 'inline-block' }} />
+            My App
+          </div>
+        }
+        sidebar={
+          <nav>
+            {['Dashboard', 'Projects', 'Settings'].map((label) => (
+              <div key={label} style={{ padding: 'var(--kiln-space-2) var(--kiln-space-3)', borderRadius: 'var(--kiln-radius-md)', fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-700)', cursor: 'pointer' }}>{label}</div>
+            ))}
+          </nav>
+        }
+        sidebarOpen={sidebarOpen}
+        onSidebarChange={setSidebarOpen}
+        breadcrumbs={[{ label: 'Projects', href: '#' }, { label: 'Kiln' }]}
+        notifications={notifications}
+        header={<h2 style={{ margin: 0, fontSize: 'var(--kiln-text-xl)', fontWeight: 700 }}>Overview</h2>}
+        sidebarWidth="160px"
+      >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--kiln-space-4)' }}>
+          {APP_LAYOUT_STATS.map((s, i) => (
+            <div key={s} style={{ background: 'var(--kiln-surface-raised)', border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-lg)', padding: 'var(--kiln-space-4)' }}>
+              <div style={{ fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-500)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s}</div>
+              <div style={{ fontSize: 'var(--kiln-text-2xl)', fontWeight: 700, marginTop: 4 }}>{APP_LAYOUT_COUNTS[i]}</div>
+            </div>
+          ))}
+        </div>
+      </AppLayout>
+    </div>
+  );
+};
+
+const BreadcrumbsPreview: React.FC = () => {
+  const items: BreadcrumbItem[] = [
+    { label: 'Home', href: '#' },
+    { label: 'Projects', href: '#' },
+    { label: 'Kiln' },
+  ];
+  return <Breadcrumbs items={items} />;
+};
+
+const NotificationBarPreview: React.FC = () => {
+  const [items, setItems] = React.useState<NotificationBarItem[]>([
+    { id: 'i1', type: 'info',    message: 'Your deployment is queued.',             dismissible: true },
+    { id: 'i2', type: 'success', message: 'v1.2.0 published successfully.',          dismissible: true },
+    { id: 'i3', type: 'warning', message: 'API rate limit at 85%.',                  dismissible: true },
+    { id: 'i4', type: 'error',   message: 'Build failed — check the logs.',          dismissible: true },
+  ]);
+  const dismiss = (id: string) => setItems((prev) => prev.filter((n) => n.id !== id));
+  return (
+    <div style={{ width: '100%', maxWidth: 520 }}>
+      <NotificationBar items={items.map((n) => ({ ...n, onDismiss: dismiss }))} />
+      {items.length === 0 && (
+        <p style={{ textAlign: 'center', color: 'var(--kiln-gray-500)', fontSize: 'var(--kiln-text-sm)' }}>
+          All dismissed — refresh to reset.
+        </p>
+      )}
+    </div>
+  );
+};
+
+const SidebarPanelPreview: React.FC = () => {
+  const [open, setOpen] = useState(true);
+  return (
+    <div style={{ display: 'flex', height: 320, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden', position: 'relative', width: '100%' }}>
+      <SidebarPanel
+        header="Navigation"
+        open={open}
+        onOpenChange={setOpen}
+        togglePlacement="both"
+        style={{ '--kiln-sidebar-panel-width': '180px' } as React.CSSProperties}
+      >
+        {['Dashboard', 'Projects', 'Team', 'Settings'].map((l) => (
+          <div key={l} style={{ padding: 'var(--kiln-space-2) var(--kiln-space-2)', borderRadius: 'var(--kiln-radius-md)', fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-700)', cursor: 'pointer' }}>{l}</div>
+        ))}
+      </SidebarPanel>
+      <div style={{ flex: 1, padding: 'var(--kiln-space-6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--kiln-gray-500)', fontSize: 'var(--kiln-text-sm)' }}>
+        Main content area
+      </div>
+    </div>
+  );
+};
+
+const ToolsPanelPreview: React.FC = () => {
+  const [open, setOpen] = useState(true);
+  return (
+    <div style={{ display: 'flex', height: 320, border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden', position: 'relative', width: '100%' }}>
+      <div style={{ flex: 1, padding: 'var(--kiln-space-6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--kiln-gray-500)', fontSize: 'var(--kiln-text-sm)' }}>
+        Main content area
+      </div>
+      <ToolsPanel
+        header="Help"
+        open={open}
+        onOpenChange={setOpen}
+        style={{ '--kiln-tools-panel-width': '200px' } as React.CSSProperties}
+      >
+        <p style={{ margin: 0, fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+          This panel provides contextual help and tools for the current view. Close it with the × button or by pressing Escape.
+        </p>
+      </ToolsPanel>
+    </div>
+  );
+};
+
+const SplitPanelPreview: React.FC = () => {
+  const [open, setOpen] = useState(true);
+  return (
+    <div style={{ border: '1px solid var(--kiln-gray-200)', borderRadius: 'var(--kiln-radius-xl)', overflow: 'hidden', width: '100%' }}>
+      <div style={{ height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--kiln-gray-500)', fontSize: 'var(--kiln-text-sm)' }}>
+        Main content area
+      </div>
+      <SplitPanel
+        header="Logs"
+        open={open}
+        onOpenChange={setOpen}
+        defaultHeight={140}
+        resizable
+      >
+        <pre style={{ margin: 0, fontFamily: 'var(--kiln-font-mono)', fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-600)', lineHeight: 1.6 }}>
+          {`[10:42:01] Build started\n[10:42:03] Compiling TypeScript...\n[10:42:07] CSS bundle: 74 KB\n[10:42:08] Build complete ✓`}
+        </pre>
+      </SplitPanel>
+    </div>
+  );
+};
 
 const AccordionPreview: React.FC = () => {
   const items: AccordionItem[] = [
@@ -134,6 +275,47 @@ const ErrorMessagePreview: React.FC = () => (
     retryLabel="Retry"
   />
 );
+
+const GridPreview: React.FC = () => {
+  const labelStyle: React.CSSProperties = {
+    margin: '0 0 var(--kiln-space-2)',
+    fontSize: 'var(--kiln-text-xs)',
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    color: 'var(--kiln-gray-500)',
+  };
+  const Cell = ({ label }: { label: string }) => (
+    <Card variant="raised" style={{ '--kiln-card-padding': 'var(--kiln-space-4)' } as React.CSSProperties}>
+      <span style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 600, color: 'var(--kiln-gray-600)' }}>{label}</span>
+    </Card>
+  );
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-8)', width: '100%' }}>
+      <div>
+        <p style={labelStyle}>Fixed cols — 4 cols at desktop, 2 at tablet, 1 on mobile</p>
+        <Grid cols={4} gap="sm">
+          {['A', 'B', 'C', 'D'].map((l) => <Cell key={l} label={l} />)}
+        </Grid>
+      </div>
+      <div>
+        <p style={labelStyle}>Auto-fit — minColWidth 140px, browser decides column count</p>
+        <Grid minColWidth={140} gap="sm">
+          {['A', 'B', 'C', 'D', 'E'].map((l) => <Cell key={l} label={l} />)}
+        </Grid>
+      </div>
+      <div>
+        <p style={labelStyle}>GridItem colSpan — 3-col grid, first item spans 2 columns</p>
+        <Grid cols={3} gap="sm">
+          <GridItem colSpan={2}><Cell label="spans 2" /></GridItem>
+          <Cell label="1" />
+          <Cell label="2" />
+          <Cell label="3" />
+        </Grid>
+      </div>
+    </div>
+  );
+};
 
 const InputPreview: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%', maxWidth: '400px', margin: '0 auto' }}>
@@ -420,6 +602,125 @@ const items = [
   },
 
   {
+    id: 'app-layout',
+    name: 'AppLayout',
+    description: 'Full-page application shell with collapsible sidebar, tools panel, breadcrumbs, notifications, page header, and split panel.',
+    preview: AppLayoutPreview,
+    code: `import { AppLayout } from '@doriansmith/kiln';
+
+<AppLayout
+  topBar={<Nav logo={logo} items={navItems} />}
+  sidebar={<SideNav groups={groups} activeId={activeId} onSelect={setActive} />}
+  sidebarOpen={sidebarOpen}
+  onSidebarChange={setSidebarOpen}
+  breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Dashboard' }]}
+  notifications={[{ id: '1', type: 'info', message: 'Deployed successfully.', dismissible: true }]}
+  header={<h1>Dashboard</h1>}
+>
+  <YourPageContent />
+</AppLayout>`,
+    props: [
+      { name: 'children', type: 'React.ReactNode', default: '—', required: true, description: 'Main page content' },
+      { name: 'topBar', type: 'React.ReactNode', default: '—', required: false, description: 'Sticky top bar slot (e.g. <Nav />)' },
+      { name: 'sidebar', type: 'React.ReactNode', default: '—', required: false, description: 'Collapsible left sidebar content' },
+      { name: 'sidebarOpen', type: 'boolean', default: '—', required: false, description: 'Controlled sidebar open state' },
+      { name: 'onSidebarChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when sidebar open state should change' },
+      { name: 'defaultSidebarOpen', type: 'boolean', default: 'true on ≥768px', required: false, description: 'Initial sidebar state (uncontrolled)' },
+      { name: 'sidebarWidth', type: 'string', default: "'260px'", required: false, description: 'Sidebar width (also overridable via --kiln-app-layout-sidebar-width)' },
+      { name: 'toolsPanel', type: 'React.ReactNode', default: '—', required: false, description: 'Collapsible right tools/help panel content' },
+      { name: 'toolsOpen', type: 'boolean', default: '—', required: false, description: 'Controlled tools panel open state' },
+      { name: 'onToolsChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when tools panel open state should change' },
+      { name: 'defaultToolsOpen', type: 'boolean', default: 'false', required: false, description: 'Initial tools panel state (uncontrolled)' },
+      { name: 'breadcrumbs', type: 'AppLayoutBreadcrumb[]', default: '—', required: false, description: 'Breadcrumb trail rendered above notifications' },
+      { name: 'notifications', type: 'AppLayoutNotification[]', default: '—', required: false, description: 'Notification banners with optional dismiss' },
+      { name: 'header', type: 'React.ReactNode', default: '—', required: false, description: 'Page header rendered above main content' },
+      { name: 'splitPanel', type: 'React.ReactNode', default: '—', required: false, description: 'Expandable bottom split panel' },
+      { name: 'splitPanelOpen', type: 'boolean', default: '—', required: false, description: 'Controlled split panel open state' },
+      { name: 'onSplitPanelChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when split panel open state should change' },
+      { name: 'contentLabel', type: 'string', default: "'Main content'", required: false, description: 'aria-label for the <main> landmark' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes on the root element' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles — use for CSS token overrides' },
+    ],
+    testing: `import { render, screen, fireEvent } from '@testing-library/react';
+import { AppLayout } from '@doriansmith/kiln';
+
+it('renders children inside main landmark', () => {
+  render(<AppLayout>Page content</AppLayout>);
+  expect(screen.getByRole('main')).toHaveTextContent('Page content');
+});
+
+it('renders sidebar when sidebarOpen=true', () => {
+  render(
+    <AppLayout sidebar={<nav>Side</nav>} sidebarOpen={true}>Content</AppLayout>
+  );
+  expect(screen.getByRole('complementary', { name: /sidebar/i })).toBeInTheDocument();
+});
+
+it('calls onSidebarChange when FAB is clicked', () => {
+  const onSidebarChange = vi.fn();
+  render(
+    <AppLayout sidebar={<nav>Side</nav>} sidebarOpen={false} onSidebarChange={onSidebarChange}>
+      Content
+    </AppLayout>
+  );
+  fireEvent.click(screen.getByRole('button', { name: /open sidebar/i }));
+  expect(onSidebarChange).toHaveBeenCalledWith(true);
+});
+
+it('renders breadcrumbs with correct aria-current on last item', () => {
+  render(
+    <AppLayout breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Dashboard' }]}>
+      Content
+    </AppLayout>
+  );
+  expect(screen.getByText('Dashboard')).toHaveAttribute('aria-current', 'page');
+});
+
+it('calls onDismiss when notification dismiss button is clicked', () => {
+  const onDismiss = vi.fn();
+  render(
+    <AppLayout notifications={[{ id: 'x', message: 'Hello', dismissible: true, onDismiss }]}>
+      Content
+    </AppLayout>
+  );
+  fireEvent.click(screen.getByRole('button', { name: /dismiss/i }));
+  expect(onDismiss).toHaveBeenCalledWith('x');
+});`,
+    usage: `// Minimal — just a shell with sticky nav
+<AppLayout topBar={<Nav logo={logo} items={navItems} />}>
+  <Dashboard />
+</AppLayout>
+
+// Full application shell
+const [sidebarOpen, setSidebarOpen] = useState(true);
+const [notifications, setNotifications] = useState([
+  { id: '1', type: 'success', message: 'Deployment complete.', dismissible: true,
+    onDismiss: (id) => setNotifications((n) => n.filter((x) => x.id !== id)) },
+]);
+
+<AppLayout
+  topBar={<Nav logo={logo} items={navItems} actions={<ThemeToggle />} />}
+  sidebar={<SideNav groups={navGroups} activeId={activeId} onSelect={setActiveId} />}
+  sidebarOpen={sidebarOpen}
+  onSidebarChange={setSidebarOpen}
+  breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Projects', href: '/projects' }, { label: 'Kiln' }]}
+  notifications={notifications}
+  header={<h1>Kiln</h1>}
+  splitPanel={<LogViewer />}
+>
+  <ProjectOverview />
+</AppLayout>
+
+// Override sidebar width via CSS token
+<AppLayout
+  sidebar={<SideNav groups={groups} />}
+  style={{ '--kiln-app-layout-sidebar-width': '200px' } as React.CSSProperties}
+>
+  <Content />
+</AppLayout>`,
+  },
+
+  {
     id: 'badge',
     name: 'Badge',
     description: 'Compact status labels for communicating severity, state, or category at a glance.',
@@ -471,6 +772,85 @@ it('prepends hidden variant label for colour-blind accessibility', () => {
 <Badge variant="critical" aria-label="Severity: critical">
   P0
 </Badge>`,
+  },
+
+  {
+    id: 'breadcrumbs',
+    name: 'Breadcrumbs',
+    description: 'Hierarchical navigation trail showing the user\'s location within the app, with chevron separators and mobile truncation.',
+    preview: BreadcrumbsPreview,
+    code: `import { Breadcrumbs } from '@doriansmith/kiln';
+
+<Breadcrumbs
+  items={[
+    { label: 'Home', href: '/' },
+    { label: 'Projects', href: '/projects' },
+    { label: 'Kiln' },
+  ]}
+/>`,
+    props: [
+      { name: 'items', type: 'BreadcrumbItem[]', default: '—', required: true, description: 'Array of breadcrumb items. Last item is the current page (no link rendered).' },
+      { name: 'separator', type: 'React.ReactNode', default: 'chevron SVG', required: false, description: 'Custom separator between items.' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles for CSS token overrides.' },
+    ],
+    testing: `import { render, screen } from '@testing-library/react';
+import { Breadcrumbs } from '@doriansmith/kiln';
+
+const items = [
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Dashboard' },
+];
+
+it('renders all labels', () => {
+  render(<Breadcrumbs items={items} />);
+  expect(screen.getByText('Home')).toBeInTheDocument();
+  expect(screen.getByText('Projects')).toBeInTheDocument();
+  expect(screen.getByText('Dashboard')).toBeInTheDocument();
+});
+
+it('marks last item as current page', () => {
+  render(<Breadcrumbs items={items} />);
+  expect(screen.getByText('Dashboard')).toHaveAttribute('aria-current', 'page');
+});
+
+it('does not render a link for the last item', () => {
+  render(<Breadcrumbs items={items} />);
+  expect(screen.queryByRole('link', { name: 'Dashboard' })).not.toBeInTheDocument();
+});
+
+it('renders links for non-last items', () => {
+  render(<Breadcrumbs items={items} />);
+  expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
+});`,
+    usage: `// Basic usage
+<Breadcrumbs items={[
+  { label: 'Home', href: '/' },
+  { label: 'Settings', href: '/settings' },
+  { label: 'Profile' },
+]} />
+
+// With custom separator
+<Breadcrumbs
+  items={crumbs}
+  separator={<span aria-hidden="true">›</span>}
+/>
+
+// With click handlers (for SPA navigation)
+<Breadcrumbs
+  items={[
+    { label: 'Home', onClick: () => navigate('/') },
+    { label: 'Projects', onClick: () => navigate('/projects') },
+    { label: 'Kiln' },
+  ]}
+/>
+
+// Custom font size via token
+<Breadcrumbs
+  items={crumbs}
+  style={{ '--kiln-breadcrumbs-font-size': 'var(--kiln-text-xs)' } as React.CSSProperties}
+/>`,
   },
 
   {
@@ -915,6 +1295,107 @@ it('renders copyright text', () => {
   },
 
   {
+    id: 'grid',
+    name: 'Grid',
+    description: 'Responsive CSS grid wrapper with fixed-column and container-aware auto-fit modes. Works inside any layout — no viewport breakpoint config needed.',
+    preview: GridPreview,
+    code: `import { Grid, GridItem } from '@doriansmith/kiln';
+
+// Fixed cols: 4 at desktop → 2 at tablet → 1 on mobile
+<Grid cols={4} gap="md">
+  <Card>One</Card>
+  <Card>Two</Card>
+  <Card>Three</Card>
+  <Card>Four</Card>
+</Grid>
+
+// Auto-fit: browser decides columns based on container width.
+// Works inside modals, sidebars, or any nested layout automatically.
+<Grid minColWidth={260} gap="md">
+  {items.map((item) => <Card key={item.id}>{item.name}</Card>)}
+</Grid>
+
+// GridItem: span multiple columns or rows
+<Grid cols={3} gap="md">
+  <GridItem colSpan={2}><Card>Wide card</Card></GridItem>
+  <Card>Narrow</Card>
+</Grid>
+
+// Dense packing for mixed-height items (masonry-style)
+<Grid cols={4} gap="sm" dense>
+  {photos.map((p) => <img key={p.id} src={p.src} alt={p.alt} />)}
+</Grid>`,
+    props: [
+      { name: 'Grid.cols', type: '1 | 2 | 3 | 4', default: '1', required: false, description: 'Fixed columns at desktop. Collapses automatically: 4→2 at tablet, →1 on mobile. Ignored when minColWidth is set.' },
+      { name: 'Grid.minColWidth', type: 'number', default: '', required: false, description: 'Auto-fit mode: items stay at least this many pixels wide; the browser calculates the column count from the container width. Mutually exclusive with cols.' },
+      { name: 'Grid.dense', type: 'boolean', default: 'false', required: false, description: 'Fill gaps densely when items vary in size (grid-auto-flow: dense). Useful for image galleries.' },
+      { name: 'Grid.gap', type: "'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'md'", required: false, description: 'Gap between cells. Override with --kiln-grid-gap on the element.' },
+      { name: 'Grid.className', type: 'string', default: "''", required: false, description: 'Additional CSS classes' },
+      { name: 'Grid.style', type: 'React.CSSProperties', default: '', required: false, description: 'Inline styles — use for --kiln-grid-gap token override' },
+      { name: 'Grid.children', type: 'React.ReactNode', default: '', required: true, description: 'Grid cells — any elements, or GridItem for spanning' },
+      { name: 'GridItem.colSpan', type: '1 | 2 | 3 | 4', default: '', required: false, description: 'Columns to span at desktop. Caps to 2 at tablet, resets to 1 on mobile.' },
+      { name: 'GridItem.rowSpan', type: '1 | 2 | 3 | 4', default: '', required: false, description: 'Rows to span at all breakpoints.' },
+      { name: 'GridItem.className', type: 'string', default: "''", required: false, description: 'Additional CSS classes' },
+      { name: 'GridItem.children', type: 'React.ReactNode', default: '', required: true, description: 'Cell content' },
+    ],
+    testing: `import { render } from '@testing-library/react';
+import { Grid, GridItem } from '@doriansmith/kiln';
+
+it('sets data-cols attribute', () => {
+  const { container } = render(<Grid cols={4}><div /></Grid>);
+  expect(container.firstChild).toHaveAttribute('data-cols', '4');
+});
+
+it('auto-fit mode omits data-cols and sets --kiln-grid-min-col-width', () => {
+  const { container } = render(<Grid minColWidth={260}><div /></Grid>);
+  const grid = container.firstChild as HTMLElement;
+  expect(grid).not.toHaveAttribute('data-cols');
+  expect(grid.style.getPropertyValue('--kiln-grid-min-col-width')).toBe('260px');
+});
+
+it('dense mode adds kiln-grid--dense class', () => {
+  const { container } = render(<Grid dense><div /></Grid>);
+  expect(container.firstChild).toHaveClass('kiln-grid--dense');
+});
+
+it('GridItem sets data-col-span', () => {
+  const { container } = render(<GridItem colSpan={2}><div /></GridItem>);
+  expect(container.firstChild).toHaveAttribute('data-col-span', '2');
+});`,
+    usage: `// Feature grid on a landing page (what you see in the Kiln hero)
+<Grid cols={4} gap="lg">
+  {PILLARS.map(({ icon, title, description }) => (
+    <Card key={title} variant="raised">
+      {icon}
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </Card>
+  ))}
+</Grid>
+
+// Dashboard metrics row
+<Grid cols={4} gap="md">
+  <GridItem colSpan={2}>
+    <Card variant="raised"><RevenueChart /></Card>
+  </GridItem>
+  <MetricCard label="MRR" value="$24k" />
+  <MetricCard label="Churn" value="1.2%" />
+</Grid>
+
+// Auto-fit image gallery with dense packing
+<Grid minColWidth={200} gap="sm" dense>
+  {photos.map((p) => (
+    <img key={p.id} src={p.src} alt={p.alt} style={{ width: '100%', borderRadius: 'var(--kiln-radius-md)' }} />
+  ))}
+</Grid>
+
+// Override gap with CSS token
+<Grid cols={3} style={{ '--kiln-grid-gap': '2rem' } as React.CSSProperties}>
+  {cards}
+</Grid>`,
+  },
+
+  {
     id: 'input',
     name: 'Input',
     description: 'Text input with floating label, helper text, error state, and loading indicator.',
@@ -1202,6 +1683,70 @@ function AppNav() {
   },
 
   {
+    id: 'notification-bar',
+    name: 'NotificationBar',
+    description: 'Stacked dismissible notification banners with info, success, warning, and error variants, type icons, and aria-live announcement.',
+    preview: NotificationBarPreview,
+    code: `import { NotificationBar } from '@doriansmith/kiln';
+
+const [items, setItems] = useState([
+  { id: '1', type: 'success', message: 'Deployed successfully.', dismissible: true },
+  { id: '2', type: 'warning', message: 'API rate limit at 85%.', dismissible: true },
+]);
+
+const dismiss = (id) => setItems((prev) => prev.filter((n) => n.id !== id));
+
+<NotificationBar items={items.map((n) => ({ ...n, onDismiss: dismiss }))} />`,
+    props: [
+      { name: 'items', type: 'NotificationBarItem[]', default: '—', required: true, description: 'Array of notification items to display.' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles for CSS token overrides.' },
+    ],
+    testing: `import { render, screen, fireEvent } from '@testing-library/react';
+import { NotificationBar } from '@doriansmith/kiln';
+
+it('renders all items', () => {
+  const items = [
+    { id: 'a', type: 'info' as const, message: 'Hello' },
+    { id: 'b', type: 'error' as const, message: 'Oh no' },
+  ];
+  render(<NotificationBar items={items} />);
+  expect(screen.getByText('Hello')).toBeInTheDocument();
+  expect(screen.getByText('Oh no')).toBeInTheDocument();
+});
+
+it('calls onDismiss with the item id', () => {
+  const onDismiss = vi.fn();
+  render(<NotificationBar items={[{ id: 'x', message: 'Msg', dismissible: true, onDismiss }]} />);
+  fireEvent.click(screen.getByRole('button', { name: /dismiss/i }));
+  expect(onDismiss).toHaveBeenCalledWith('x');
+});
+
+it('renders nothing when items is empty', () => {
+  const { container } = render(<NotificationBar items={[]} />);
+  expect(container.firstChild).toBeNull();
+});`,
+    usage: `// Controlled dismiss pattern
+const [notes, setNotes] = useState([
+  { id: '1', type: 'info', message: 'Build queued.', dismissible: true },
+]);
+const dismiss = (id) => setNotes((n) => n.filter((x) => x.id !== id));
+
+<NotificationBar items={notes.map((n) => ({ ...n, onDismiss: dismiss }))} />
+
+// Non-dismissible system notice
+<NotificationBar items={[
+  { id: 'maintenance', type: 'warning', message: 'Scheduled maintenance tonight 2–4 AM UTC.' }
+]} />
+
+// Custom padding via token
+<NotificationBar
+  items={items}
+  style={{ '--kiln-notification-bar-padding-x': 'var(--kiln-space-4)' } as React.CSSProperties}
+/>`,
+  },
+
+  {
     id: 'scroll-to-top',
     name: 'ScrollToTop',
     description: 'Invisible utility that fires window.scrollTo whenever a trigger value changes — ideal for route transitions.',
@@ -1248,6 +1793,85 @@ function App() {
 
 // Hash-based router — pass the hash value
 <ScrollToTop trigger={window.location.hash} />`,
+  },
+
+  {
+    id: 'sidebar-panel',
+    name: 'SidebarPanel',
+    description: 'Collapsible sidebar panel with a header, close button, desktop slide animation, and mobile overlay drawer with backdrop.',
+    preview: SidebarPanelPreview,
+    code: `import { SidebarPanel } from '@doriansmith/kiln';
+
+const [open, setOpen] = useState(true);
+
+<SidebarPanel
+  header="Navigation"
+  open={open}
+  onOpenChange={setOpen}
+  togglePlacement="both"
+>
+  <nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/projects">Projects</a>
+  </nav>
+</SidebarPanel>`,
+    props: [
+      { name: 'children', type: 'React.ReactNode', default: '—', required: true, description: 'Panel content.' },
+      { name: 'header', type: 'React.ReactNode', default: '—', required: false, description: 'Header content rendered in the panel header bar.' },
+      { name: 'open', type: 'boolean', default: '—', required: false, description: 'Controlled open state.' },
+      { name: 'onOpenChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when open state should change.' },
+      { name: 'defaultOpen', type: 'boolean', default: 'true on ≥768px', required: false, description: 'Initial open state (uncontrolled).' },
+      { name: 'togglePlacement', type: "'inside' | 'outside' | 'both'", default: "'both'", required: false, description: "'inside' = close button in header only. 'outside' = FAB only. 'both' = both." },
+      { name: 'label', type: 'string', default: "'Sidebar'", required: false, description: 'aria-label for the aside landmark.' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles — use for --kiln-sidebar-panel-width etc.' },
+    ],
+    testing: `import { render, screen, fireEvent } from '@testing-library/react';
+import { SidebarPanel } from '@doriansmith/kiln';
+
+it('renders children when open', () => {
+  render(<SidebarPanel open={true}><p>Side content</p></SidebarPanel>);
+  expect(screen.getByText('Side content')).toBeInTheDocument();
+});
+
+it('calls onOpenChange(false) when close button clicked', () => {
+  const fn = vi.fn();
+  render(<SidebarPanel open={true} onOpenChange={fn} togglePlacement="inside">content</SidebarPanel>);
+  fireEvent.click(screen.getByRole('button', { name: /close sidebar/i }));
+  expect(fn).toHaveBeenCalledWith(false);
+});
+
+it('calls onOpenChange(true) when FAB clicked while closed', () => {
+  const fn = vi.fn();
+  render(<SidebarPanel open={false} onOpenChange={fn} togglePlacement="outside">content</SidebarPanel>);
+  fireEvent.click(screen.getByRole('button', { name: /open sidebar/i }));
+  expect(fn).toHaveBeenCalledWith(true);
+});`,
+    usage: `// Inside AppLayout
+<AppLayout
+  sidebar={<SideNav groups={navGroups} activeId={activeId} onSelect={setActiveId} />}
+  sidebarHeader="Navigation"
+  sidebarOpen={open}
+  onSidebarChange={setOpen}
+>
+  <Content />
+</AppLayout>
+
+// Standalone — e.g. a filter drawer
+const [open, setOpen] = useState(false);
+<div style={{ display: 'flex' }}>
+  <SidebarPanel
+    header="Filters"
+    open={open}
+    onOpenChange={setOpen}
+    style={{ '--kiln-sidebar-panel-width': '220px' } as React.CSSProperties}
+  >
+    <FilterForm />
+  </SidebarPanel>
+  <main style={{ flex: 1 }}>
+    <ResultsGrid />
+  </main>
+</div>`,
   },
 
   {
@@ -1329,6 +1953,88 @@ function AppShell() {
     </div>
   );
 }`,
+  },
+
+  {
+    id: 'split-panel',
+    name: 'SplitPanel',
+    description: 'Expandable bottom panel with a drag handle for resizing, toggle bar, and keyboard-accessible resize via arrow keys.',
+    preview: SplitPanelPreview,
+    code: `import { SplitPanel } from '@doriansmith/kiln';
+
+const [open, setOpen] = useState(false);
+
+<SplitPanel
+  header="Logs"
+  open={open}
+  onOpenChange={setOpen}
+  defaultHeight={240}
+  resizable
+>
+  <LogViewer />
+</SplitPanel>`,
+    props: [
+      { name: 'children', type: 'React.ReactNode', default: '—', required: true, description: 'Panel content.' },
+      { name: 'header', type: 'React.ReactNode', default: '—', required: false, description: 'Toggle bar label.' },
+      { name: 'open', type: 'boolean', default: '—', required: false, description: 'Controlled open state.' },
+      { name: 'onOpenChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when open state should change.' },
+      { name: 'defaultOpen', type: 'boolean', default: 'false', required: false, description: 'Initial open state (uncontrolled).' },
+      { name: 'defaultHeight', type: 'number', default: '280', required: false, description: 'Panel height in px when open.' },
+      { name: 'minHeight', type: 'number', default: '80', required: false, description: 'Minimum height in px when dragging.' },
+      { name: 'maxHeight', type: 'number', default: '600', required: false, description: 'Maximum height in px when dragging.' },
+      { name: 'resizable', type: 'boolean', default: 'true', required: false, description: 'Whether the drag handle is shown.' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles for CSS token overrides.' },
+    ],
+    testing: `import { render, screen, fireEvent } from '@testing-library/react';
+import { SplitPanel } from '@doriansmith/kiln';
+
+it('renders toggle bar', () => {
+  render(<SplitPanel header="Logs">content</SplitPanel>);
+  expect(screen.getByRole('button', { name: /expand panel/i })).toBeInTheDocument();
+});
+
+it('shows content when open', () => {
+  render(<SplitPanel open={true} header="Logs">Log output</SplitPanel>);
+  expect(screen.getByText('Log output')).toBeInTheDocument();
+});
+
+it('calls onOpenChange when toggle clicked', () => {
+  const fn = vi.fn();
+  render(<SplitPanel open={false} onOpenChange={fn} header="Logs">content</SplitPanel>);
+  fireEvent.click(screen.getByRole('button'));
+  expect(fn).toHaveBeenCalledWith(true);
+});
+
+it('resize handle responds to arrow keys', () => {
+  render(<SplitPanel open={true} defaultHeight={200} resizable>content</SplitPanel>);
+  const handle = screen.getByRole('separator');
+  fireEvent.keyDown(handle, { key: 'ArrowUp' });
+  // height increases — implementation detail tested via style token
+  expect(handle).toBeInTheDocument();
+});`,
+    usage: `// Log output panel below a code editor
+<div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+  <CodeEditor />
+  <SplitPanel header="Terminal" defaultOpen defaultHeight={200} resizable>
+    <Terminal />
+  </SplitPanel>
+</div>
+
+// Non-resizable details panel
+<SplitPanel header="Details" defaultHeight={160} resizable={false}>
+  <DetailsView item={selected} />
+</SplitPanel>
+
+// Inside AppLayout
+<AppLayout
+  splitPanel={<LogOutput />}
+  splitPanelHeader="Logs"
+  splitPanelDefaultHeight={220}
+  splitPanelResizable
+>
+  <MainContent />
+</AppLayout>`,
   },
 
   {
@@ -1682,6 +2388,91 @@ it('hides tooltip when mouse leaves', async () => {
     <Input label="API key" disabled />
   </span>
 </Tooltip>`,
+  },
+
+  {
+    id: 'tools-panel',
+    name: 'ToolsPanel',
+    description: 'Collapsible right-side panel for help, context, or tools — with a header, close button, mobile drawer, and FAB toggle.',
+    preview: ToolsPanelPreview,
+    code: `import { ToolsPanel } from '@doriansmith/kiln';
+
+const [open, setOpen] = useState(false);
+
+<ToolsPanel
+  header="Help"
+  open={open}
+  onOpenChange={setOpen}
+>
+  <p>Contextual help content for this view.</p>
+</ToolsPanel>`,
+    props: [
+      { name: 'children', type: 'React.ReactNode', default: '—', required: true, description: 'Panel content.' },
+      { name: 'header', type: 'React.ReactNode', default: '—', required: false, description: 'Header title rendered next to the tools icon.' },
+      { name: 'open', type: 'boolean', default: '—', required: false, description: 'Controlled open state.' },
+      { name: 'onOpenChange', type: '(open: boolean) => void', default: '—', required: false, description: 'Fired when open state should change.' },
+      { name: 'defaultOpen', type: 'boolean', default: 'false', required: false, description: 'Initial open state (uncontrolled).' },
+      { name: 'label', type: 'string', default: "'Tools panel'", required: false, description: 'aria-label for the aside landmark.' },
+      { name: 'className', type: 'string', default: "''", required: false, description: 'Additional CSS classes.' },
+      { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles — use for --kiln-tools-panel-width etc.' },
+    ],
+    testing: `import { render, screen, fireEvent } from '@testing-library/react';
+import { ToolsPanel } from '@doriansmith/kiln';
+
+it('renders children when open', () => {
+  render(<ToolsPanel open={true}><p>Help text</p></ToolsPanel>);
+  expect(screen.getByText('Help text')).toBeInTheDocument();
+});
+
+it('calls onOpenChange(false) when close button clicked', () => {
+  const fn = vi.fn();
+  render(<ToolsPanel open={true} onOpenChange={fn}>content</ToolsPanel>);
+  fireEvent.click(screen.getByRole('button', { name: /close tools panel/i }));
+  expect(fn).toHaveBeenCalledWith(false);
+});
+
+it('calls onOpenChange(true) when FAB clicked while closed', () => {
+  const fn = vi.fn();
+  render(<ToolsPanel open={false} onOpenChange={fn}>content</ToolsPanel>);
+  fireEvent.click(screen.getByRole('button', { name: /open tools panel/i }));
+  expect(fn).toHaveBeenCalledWith(true);
+});
+
+it('closes on Escape key', async () => {
+  const fn = vi.fn();
+  render(<ToolsPanel open={true} onOpenChange={fn}>content</ToolsPanel>);
+  fireEvent.keyDown(document, { key: 'Escape' });
+  expect(fn).toHaveBeenCalledWith(false);
+});`,
+    usage: `// Standalone help panel
+<div style={{ display: 'flex' }}>
+  <main style={{ flex: 1 }}><Content /></main>
+  <ToolsPanel
+    header="Context"
+    defaultOpen
+    style={{ '--kiln-tools-panel-width': '300px' } as React.CSSProperties}
+  >
+    <HelpArticle />
+  </ToolsPanel>
+</div>
+
+// Inside AppLayout
+<AppLayout
+  toolsPanel={<HelpContent />}
+  toolsPanelHeader="Help"
+  toolsOpen={toolsOpen}
+  onToolsChange={setToolsOpen}
+>
+  <MainPage />
+</AppLayout>
+
+// Wider panel with custom token
+<ToolsPanel
+  header="Inspector"
+  style={{ '--kiln-tools-panel-width': '360px' } as React.CSSProperties}
+>
+  <PropertiesInspector />
+</ToolsPanel>`,
   },
 ];
 

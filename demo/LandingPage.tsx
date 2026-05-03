@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
-  Footer, ThemeToggle, CodeBlock,
+  Footer, ThemeToggle, CodeBlock, Grid,
 } from '@doriansmith/kiln';
 
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive } from './nav';
@@ -40,7 +40,7 @@ const PILLARS = [
     ),
     title: 'Accessibility-first',
     description:
-      'Every component meets WCAG AA out of the box. Keyboard navigation, focus management, and ARIA built in — not bolted on.',
+      'Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA are built in, not bolted on. Accessibility debt costs more to fix later than to build correctly now.',
   },
   {
     icon: (
@@ -57,7 +57,7 @@ const PILLARS = [
     ),
     title: 'Performance-first',
     description:
-      'Lighthouse-optimized. Zero layout shift. GPU-accelerated animations. Measured, budgeted bundle sizes.',
+      "Kiln components don't tank your Lighthouse score. Zero layout shift on every interaction. All animations use transform and opacity: GPU-accelerated, no layout thrashing. Bundle size is measured and budgeted.",
   },
   {
     icon: (
@@ -81,7 +81,20 @@ const PILLARS = [
     ),
     title: 'Solo-dev friendly',
     description:
-      'Install, import, ship. No config files, no setup wizards, no context providers. Working in under 2 minutes.',
+      'From npm install to a rendered Kiln page in under 2 minutes. No config files, no setup wizards, no theme providers, no context wrappers. Every example is copy-paste ready. TypeScript is fully inferred.',
+  },
+  {
+    icon: (
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
+        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
+        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
+        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+    title: 'Mobile-first',
+    description:
+      'Every component works on real devices at 375px. All interactive elements meet the 44x44px touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.',
   },
 ];
 
@@ -197,7 +210,7 @@ export default function LandingPage() {
               maxWidth: 680,
             }}
           >
-            Accessible React Component Library — Ship Fast Without Compromise
+            Accessible React Component Library: Ship Fast Without Compromise
           </h1>
 
           <p
@@ -257,7 +270,7 @@ export default function LandingPage() {
             <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
               <p style={sectionLabel}>Why Kiln</p>
               <h2 id="pillars-heading" style={sectionHeading}>
-                Built on three non-negotiables.
+                Built on four non-negotiables.
               </h2>
               <p style={{ color: 'var(--kiln-gray-500)', maxWidth: 540, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
                 Every decision in this codebase is evaluated against one question:
@@ -265,13 +278,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: 'var(--kiln-space-6)',
-              }}
-            >
+            <Grid cols={4} gap="md">
               {PILLARS.map(({ icon, title, description }) => (
                 <Card
                   key={title}
@@ -301,7 +308,7 @@ export default function LandingPage() {
                   </p>
                 </Card>
               ))}
-            </div>
+            </Grid>
           </div>
         </section>
 
@@ -512,7 +519,7 @@ export default function LandingPage() {
               <p style={{ color: 'var(--kiln-gray-500)', lineHeight: 'var(--kiln-leading-relaxed)', maxWidth: 540, margin: '0 auto var(--kiln-space-6)' }}>
                 Keyboard navigable end-to-end. Proper focus management and ARIA on every primitive.
                 Tested with axe DevTools and manual keyboard navigation. Accessibility isn't
-                an add-on — it's how Kiln ships.
+                an add-on. It's how Kiln ships.
               </p>
               <div style={{ display: 'flex', gap: 'var(--kiln-space-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Badge variant="success">Keyboard navigation</Badge>
@@ -530,7 +537,7 @@ export default function LandingPage() {
         logo={<img src="/logo.png" alt="Kiln" style={{ height: 36, width: 'auto' }} />}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
-        credit="Kiln v0.1.0 — MIT License"
+        credit="Kiln v0.1.0, MIT License"
       />
     </div>
   );

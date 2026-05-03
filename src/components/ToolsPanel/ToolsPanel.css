@@ -1,0 +1,233 @@
+/* ─── ToolsPanel component tokens ───────────────────────────────────────────
+   --kiln-tools-panel-width     panel width (default: 280px)
+   --kiln-tools-panel-bg        background (default: --kiln-surface-raised)
+   --kiln-tools-panel-border    border color (default: --kiln-gray-200)
+   --kiln-tools-panel-padding   body padding (default: --kiln-space-4)
+────────────────────────────────────────────────────────────────────────── */
+
+@layer kiln {
+
+  .kiln-tools-panel {
+    --kiln-tools-panel-width: 280px;
+    --kiln-tools-panel-bg: var(--kiln-surface-raised);
+    --kiln-tools-panel-border: var(--kiln-gray-200);
+    --kiln-tools-panel-padding: var(--kiln-space-4);
+
+    flex-shrink: 0;
+    width: var(--kiln-tools-panel-width);
+    background: var(--kiln-tools-panel-bg);
+    border-left: 1px solid var(--kiln-tools-panel-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      max-width var(--kiln-duration-normal) var(--kiln-ease-out),
+      opacity   var(--kiln-duration-fast)   var(--kiln-ease-out);
+    will-change: max-width;
+  }
+
+  .kiln-tools-panel--open {
+    max-width: var(--kiln-tools-panel-width);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Header ────────────────────────────────────────────────────────── */
+  .kiln-tools-panel__header {
+    display: flex;
+    align-items: center;
+    gap: var(--kiln-space-2);
+    padding: var(--kiln-space-4) var(--kiln-tools-panel-padding) var(--kiln-space-3);
+    border-bottom: 1px solid var(--kiln-tools-panel-border);
+    min-height: 56px;
+    flex-shrink: 0;
+    width: var(--kiln-tools-panel-width);
+    box-sizing: border-box;
+  }
+
+  .kiln-tools-panel__header-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--kiln-primary);
+  }
+
+  .kiln-tools-panel__header-title {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: var(--kiln-text-sm);
+    font-weight: 600;
+    color: var(--kiln-gray-900);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Close button ──────────────────────────────────────────────────── */
+  .kiln-tools-panel__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: var(--kiln-radius-md);
+    color: var(--kiln-gray-500);
+    cursor: pointer;
+    margin-left: auto;
+    transition:
+      background var(--kiln-duration-fast) var(--kiln-ease-out),
+      color     var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-tools-panel__close:hover {
+    background: var(--kiln-gray-100);
+    color: var(--kiln-gray-900);
+  }
+
+  .kiln-tools-panel__close:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+  }
+
+  /* ── Body ──────────────────────────────────────────────────────────── */
+  .kiln-tools-panel__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: var(--kiln-tools-panel-padding);
+    width: var(--kiln-tools-panel-width);
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--kiln-gray-300) transparent;
+  }
+
+  /* ── FAB toggle ─────────────────────────────────────────────────────── */
+  .kiln-tools-panel__fab {
+    position: fixed;
+    bottom: var(--kiln-space-6);
+    right: var(--kiln-space-6);
+    z-index: var(--kiln-z-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: var(--kiln-radius-full);
+    background: var(--kiln-surface-raised);
+    box-shadow: var(--kiln-shadow-lg);
+    color: var(--kiln-gray-600);
+    cursor: pointer;
+    transition:
+      background  var(--kiln-duration-fast) var(--kiln-ease-out),
+      color       var(--kiln-duration-fast) var(--kiln-ease-out),
+      transform   var(--kiln-duration-fast) var(--kiln-ease-out),
+      box-shadow  var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-tools-panel__fab:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--kiln-shadow-xl);
+    color: var(--kiln-gray-900);
+  }
+
+  .kiln-tools-panel__fab:active {
+    transform: translateY(0);
+    box-shadow: var(--kiln-shadow-md);
+  }
+
+  .kiln-tools-panel__fab--active {
+    background: var(--kiln-primary);
+    color: #fff;
+    box-shadow: var(--kiln-shadow-glow), var(--kiln-shadow-md);
+  }
+
+  .kiln-tools-panel__fab--active:hover {
+    background: var(--kiln-primary-dark);
+    color: #fff;
+  }
+
+  .kiln-tools-panel__fab:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+  }
+
+  /* ── Backdrop ─────────────────────────────────────────────────────── */
+  .kiln-tools-panel__backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: calc(var(--kiln-z-overlay) - 1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  /* ── Dark theme ─────────────────────────────────────────────────────── */
+  [data-theme="dark"] .kiln-tools-panel__fab {
+    background: var(--kiln-gray-100);
+    color: var(--kiln-gray-700);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  [data-theme="dark"] .kiln-tools-panel__fab--active {
+    background: var(--kiln-primary);
+    color: #fff;
+  }
+
+  /* ── Mobile (≤767px): drawer from right ─────────────────────────────── */
+  @media (max-width: 767px) {
+    .kiln-tools-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      z-index: var(--kiln-z-overlay);
+      max-width: 0;
+      overflow-y: auto;
+    }
+
+    .kiln-tools-panel--open {
+      max-width: min(var(--kiln-tools-panel-width), 88vw);
+    }
+
+    .kiln-tools-panel__backdrop {
+      display: block;
+    }
+
+    .kiln-tools-panel__backdrop--visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .kiln-tools-panel__fab {
+      bottom: var(--kiln-space-5);
+      right: var(--kiln-space-4);
+    }
+  }
+
+  /* ── Reduced motion ─────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-tools-panel,
+    .kiln-tools-panel__backdrop,
+    .kiln-tools-panel__fab,
+    .kiln-tools-panel__close {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+} /* end @layer kiln */

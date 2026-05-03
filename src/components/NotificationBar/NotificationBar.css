@@ -1,0 +1,137 @@
+/* ─── NotificationBar component tokens ──────────────────────────────────────
+   --kiln-notification-bar-gap        gap between stacked items (default: --kiln-space-2)
+   --kiln-notification-bar-padding-x  horizontal padding (default: --kiln-space-6)
+   --kiln-notification-bar-padding-y  vertical padding (default: --kiln-space-3)
+   --kiln-notification-bar-radius     item border radius (default: --kiln-radius-lg)
+────────────────────────────────────────────────────────────────────────── */
+
+@keyframes kiln-notification-bar-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kiln-notification-bar-out {
+  from { opacity: 1; transform: translateY(0); max-height: 100px; }
+  to   { opacity: 0; transform: translateY(-6px); max-height: 0; }
+}
+
+@layer kiln {
+
+  .kiln-notification-bar {
+    --kiln-notification-bar-gap: var(--kiln-space-2);
+    --kiln-notification-bar-padding-x: var(--kiln-space-6);
+    --kiln-notification-bar-padding-y: var(--kiln-space-3);
+    --kiln-notification-bar-radius: var(--kiln-radius-lg);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--kiln-notification-bar-gap);
+    padding: var(--kiln-notification-bar-padding-y) var(--kiln-notification-bar-padding-x);
+  }
+
+  /* ── Item ──────────────────────────────────────────────────────────── */
+  .kiln-notification-bar__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kiln-space-3);
+    padding: var(--kiln-space-3) var(--kiln-space-4);
+    border-radius: var(--kiln-notification-bar-radius);
+    font-size: var(--kiln-text-sm);
+    line-height: var(--kiln-leading-normal);
+    border-left: 3px solid transparent;
+    background: var(--kiln-gray-100);
+    animation: kiln-notification-bar-in var(--kiln-duration-fast) var(--kiln-ease-out) both;
+  }
+
+  /* Type variants */
+  .kiln-notification-bar__item--info {
+    border-left-color: var(--kiln-status-info);
+    background: var(--kiln-status-info-bg);
+    color: #1e40af;
+  }
+  .kiln-notification-bar__item--success {
+    border-left-color: var(--kiln-status-success);
+    background: var(--kiln-status-success-bg);
+    color: #065f46;
+  }
+  .kiln-notification-bar__item--warning {
+    border-left-color: var(--kiln-status-warning);
+    background: var(--kiln-status-warning-bg);
+    color: #92400e;
+  }
+  .kiln-notification-bar__item--error {
+    border-left-color: var(--kiln-status-error);
+    background: var(--kiln-status-error-bg);
+    color: #991b1b;
+  }
+
+  /* ── Icon ──────────────────────────────────────────────────────────── */
+  .kiln-notification-bar__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    margin-top: 1px;
+  }
+
+  /* ── Message ───────────────────────────────────────────────────────── */
+  .kiln-notification-bar__msg {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* ── Dismiss button ────────────────────────────────────────────────── */
+  .kiln-notification-bar__dismiss {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Visual size smaller, touch target full 44px via padding */
+    width: 24px;
+    height: 24px;
+    min-width: 44px;
+    min-height: 44px;
+    margin: -10px -10px -10px auto;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: var(--kiln-radius-sm);
+    color: currentColor;
+    opacity: 0.6;
+    cursor: pointer;
+    transition:
+      opacity    var(--kiln-duration-fast) var(--kiln-ease-out),
+      background var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-notification-bar__dismiss:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .kiln-notification-bar__dismiss:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    opacity: 1;
+  }
+
+  /* ── Dark theme ────────────────────────────────────────────────────── */
+  [data-theme="dark"] .kiln-notification-bar__item--info    { color: #93c5fd; }
+  [data-theme="dark"] .kiln-notification-bar__item--success { color: #6ee7b7; }
+  [data-theme="dark"] .kiln-notification-bar__item--warning { color: #fcd34d; }
+  [data-theme="dark"] .kiln-notification-bar__item--error   { color: #fca5a5; }
+
+  /* ── Mobile ────────────────────────────────────────────────────────── */
+  @media (max-width: 767px) {
+    .kiln-notification-bar {
+      --kiln-notification-bar-padding-x: var(--kiln-space-4);
+    }
+  }
+
+  /* ── Reduced motion ────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-notification-bar__item {
+      animation: none !important;
+    }
+  }
+
+} /* end @layer kiln */

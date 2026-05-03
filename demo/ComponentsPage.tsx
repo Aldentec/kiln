@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
-  Nav, SideNav, Tabs, CodeBlock, ThemeToggle,
+  AppLayout, Nav, SideNav, Tabs, CodeBlock, ThemeToggle,
 } from '@doriansmith/kiln';
 import { componentDocs, COMPONENT_GROUPS } from './componentDocs';
 import type { ComponentDoc, PropDef } from './componentDocs';
@@ -93,83 +93,68 @@ function UsageTab({ doc }: { doc: ComponentDoc }) {
 export default function ComponentsPage() {
   const [selectedId, setSelectedId] = useState<string>(componentDocs[0].id);
   const [docTab, setDocTab]         = useState<DocTab>('preview');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
 
   const selectedDoc = componentDocs.find((d) => d.id === selectedId) ?? componentDocs[0];
 
   const handleSelect = useCallback((id: string) => {
     setSelectedId(id);
     setDocTab('preview');
-    setSidebarOpen(false);
+    if (window.innerWidth < 768) setSidebarOpen(false);
   }, []);
 
+  const navigate = (href: string) => {
+    window.history.pushState(null, '', href);
+    window.dispatchEvent(new Event('popstate'));
+  };
+
   return (
-    <div className="docs-root">
-      <Nav
-        logo={NAV_LOGO}
-        items={NAV_ITEMS}
-        isActive={isNavActive}
-        actions={<ThemeToggle />}
-        sticky
-        onNavigate={(href) => { window.history.pushState(null, '', href); window.dispatchEvent(new Event('popstate')); }}
-      />
+    <AppLayout
+      topBar={
+        <Nav
+          logo={NAV_LOGO}
+          items={NAV_ITEMS}
+          isActive={isNavActive}
+          actions={<ThemeToggle />}
+          sticky
+          onNavigate={navigate}
+        />
+      }
+      sidebar={
+        <SideNav
+          groups={COMPONENT_GROUPS}
+          activeId={selectedId}
+          onSelect={handleSelect}
+        />
+      }
+      sidebarOpen={sidebarOpen}
+      onSidebarChange={setSidebarOpen}
+      contentLabel="Component documentation"
+      style={{ '--kiln-app-layout-sidebar-width': '15rem' } as React.CSSProperties}
+    >
+      <div className="docs-content">
+        <div className="docs-component-header">
+          <h1>{selectedDoc.name}</h1>
+          <p>{selectedDoc.description}</p>
+        </div>
 
-      {/* Mobile: toggle sits in flow between Nav and the two-column area */}
-      <button
-        className="docs-mobile-toggle"
-        onClick={() => setSidebarOpen(true)}
-        aria-label="Browse components"
-        aria-expanded={sidebarOpen}
-      >
-        <span aria-hidden="true">☰</span>
-        Components — {selectedDoc.name}
-      </button>
-
-      {/* Mobile: overlay behind sidebar */}
-      <div
-        className={`docs-sidebar-overlay${sidebarOpen ? ' docs-sidebar-overlay--visible' : ''}`}
-        onClick={() => setSidebarOpen(false)}
-        aria-hidden="true"
-      />
-
-      <div className="docs-body">
-        {/* Sidebar */}
-        <aside
-          className={`docs-sidebar-wrap${sidebarOpen ? ' docs-sidebar-wrap--open' : ''}`}
-          aria-label="Component list"
-        >
-          <SideNav
-            groups={COMPONENT_GROUPS}
-            activeId={selectedId}
-            onSelect={handleSelect}
+        <div className="docs-tabs-row">
+          <Tabs
+            variant="underline"
+            items={DOC_TABS}
+            value={docTab}
+            onChange={(v) => setDocTab(v as DocTab)}
+            ariaLabel={`${selectedDoc.name} documentation tabs`}
           />
-        </aside>
+        </div>
 
-        {/* Main content */}
-        <main className="docs-content">
-          <div className="docs-component-header">
-            <h1>{selectedDoc.name}</h1>
-            <p>{selectedDoc.description}</p>
-          </div>
-
-          <div className="docs-tabs-row">
-            <Tabs
-              variant="underline"
-              items={DOC_TABS}
-              value={docTab}
-              onChange={(v) => setDocTab(v as DocTab)}
-              ariaLabel={`${selectedDoc.name} documentation tabs`}
-            />
-          </div>
-
-          <div className="docs-tab-content" key={`${selectedId}-${docTab}`}>
-            {docTab === 'preview' && <PreviewTab doc={selectedDoc} />}
-            {docTab === 'api'     && <ApiTab     doc={selectedDoc} />}
-            {docTab === 'testing' && <TestingTab doc={selectedDoc} />}
-            {docTab === 'usage'   && <UsageTab   doc={selectedDoc} />}
-          </div>
-        </main>
+        <div className="docs-tab-content" key={`${selectedId}-${docTab}`}>
+          {docTab === 'preview' && <PreviewTab doc={selectedDoc} />}
+          {docTab === 'api'     && <ApiTab     doc={selectedDoc} />}
+          {docTab === 'testing' && <TestingTab doc={selectedDoc} />}
+          {docTab === 'usage'   && <UsageTab   doc={selectedDoc} />}
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

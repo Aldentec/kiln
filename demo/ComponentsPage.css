@@ -1,48 +1,8 @@
 /* ── Docs layout ───────────────────────────────────────────────────────────── */
 
-.docs-root {
-  min-height: 100vh;
-  background: var(--kiln-body-bg);
-  color: var(--kiln-gray-900);
-  font-family: var(--kiln-font-sans);
-  transition: background 0.3s, color 0.3s;
-}
-
-/* Two-column shell below the Nav */
-.docs-body {
-  display: flex;
-  min-height: calc(100vh - 60px);
-  position: relative;
-}
-
-/* ── Sidebar ─────────────────────────────────────────────── */
-
-.docs-sidebar-wrap {
-  width: 15rem;
-  flex-shrink: 0;
-  align-self: flex-start;
-  position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-  border-right: 1px solid var(--kiln-gray-200);
-  padding: var(--kiln-space-6) var(--kiln-space-2);
-  scrollbar-width: thin;
-  scrollbar-color: var(--kiln-gray-300) transparent;
-  background: var(--kiln-surface-raised);
-  transition: background 0.3s, border-color 0.3s;
-}
-
-[data-theme="dark"] .docs-sidebar-wrap {
-  border-right-color: var(--kiln-gray-200);
-}
-
-/* ── Main content ────────────────────────────────────────── */
-
+/* AppLayout provides the shell; docs-content is the inner content wrapper */
 .docs-content {
-  flex: 1;
   min-width: 0;
-  padding: var(--kiln-space-10) var(--kiln-space-12);
   max-width: 900px;
 }
 
@@ -109,7 +69,6 @@
   background: #1e293b;
   border-color: var(--kiln-gray-200);
 }
-
 
 /* ── Props table ─────────────────────────────────────────── */
 
@@ -211,104 +170,15 @@
   color: var(--kiln-gray-500);
 }
 
-/* ── Mobile sidebar toggle button ───────────────────────── */
-
-.docs-mobile-toggle {
-  display: none;
-  align-items: center;
-  gap: var(--kiln-space-2);
-  padding: var(--kiln-space-3) var(--kiln-space-4);
-  background: var(--kiln-surface-raised);
-  border: none;
-  border-bottom: 1px solid var(--kiln-gray-200);
-  font-family: var(--kiln-font-sans);
-  font-size: var(--kiln-text-sm);
-  font-weight: 600;
-  color: var(--kiln-gray-700);
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  min-height: 44px;
-}
-
-.docs-mobile-toggle:focus-visible {
-  outline: 2px solid var(--kiln-primary);
-  outline-offset: -2px;
-}
-
-.docs-sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: var(--kiln-z-overlay);
-  cursor: pointer;
-}
-
-/* ── Responsive ──────────────────────────────────────────── */
-
-@media (max-width: 1024px) {
-  .docs-content {
-    padding: var(--kiln-space-8) var(--kiln-space-8);
-  }
-}
+/* ── Mobile overrides ────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .docs-mobile-toggle {
-    display: flex;
-  }
-
-  .docs-sidebar-overlay {
-    display: block;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out);
-  }
-
-  .docs-sidebar-overlay--visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .docs-sidebar-wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: calc(var(--kiln-z-overlay) + 1);
-    width: 15rem;
-    max-width: calc(100vw - 3rem);
-    transform: translateX(-100%);
-    transition: transform var(--kiln-duration-fast) var(--kiln-ease-out);
-    border-right: 1px solid var(--kiln-gray-200);
-    box-shadow: var(--kiln-shadow-xl);
-    padding-top: var(--kiln-space-4);
-  }
-
-  .docs-sidebar-wrap--open {
-    transform: translateX(0);
-  }
-
-  .docs-content {
-    padding: var(--kiln-space-6) var(--kiln-space-4);
-    max-width: 100%;
-  }
-
   .docs-component-header h1 {
     font-size: var(--kiln-text-2xl);
   }
 
   .docs-preview-box {
     padding: var(--kiln-space-6) var(--kiln-space-4);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .docs-sidebar-wrap {
-    transition: none;
-  }
-  .docs-sidebar-overlay {
-    transition: none;
   }
 }
 

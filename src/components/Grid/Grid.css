@@ -1,0 +1,94 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-grid-gap           uniform gap, overrides data-gap prop
+   --kiln-grid-min-col-width min item width in auto-fit mode
+                             (set automatically from minColWidth prop,
+                             or override via inline style)
+────────────────────────────────────────────────────────────── */
+
+@layer kiln {
+
+  /* ── Base: mobile-first, single column ── */
+  .kiln-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kiln-grid-gap, var(--kiln-space-6));
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ── Auto-fit mode (minColWidth prop) ─────────────────────
+     When no data-cols is present, --kiln-grid-min-col-width
+     drives layout at every container width with no breakpoints.
+     min(..., 100%) prevents overflow on narrow containers.
+
+     Bootstrap cannot do this. Its grid is viewport-class-based.
+     Kiln's auto-fit responds to container width — works inside
+     sidebars, modals, and any nested layout automatically.
+  ─────────────────────────────────────────────────────────── */
+  .kiln-grid:not([data-cols]) {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(var(--kiln-grid-min-col-width, 200px), 100%), 1fr)
+    );
+  }
+
+  /* ── Dense auto-flow ── */
+  .kiln-grid--dense {
+    grid-auto-flow: dense;
+  }
+
+  /* ── Gap variants ── */
+  .kiln-grid[data-gap="none"] { gap: var(--kiln-grid-gap, 0); }
+  .kiln-grid[data-gap="xs"]   { gap: var(--kiln-grid-gap, var(--kiln-space-2)); }
+  .kiln-grid[data-gap="sm"]   { gap: var(--kiln-grid-gap, var(--kiln-space-4)); }
+  .kiln-grid[data-gap="md"]   { gap: var(--kiln-grid-gap, var(--kiln-space-6)); }
+  .kiln-grid[data-gap="lg"]   { gap: var(--kiln-grid-gap, var(--kiln-space-8)); }
+  .kiln-grid[data-gap="xl"]   { gap: var(--kiln-grid-gap, var(--kiln-space-12)); }
+
+  /* ── Fixed-cols responsive breakpoints ── */
+
+  /* Tablet (640px+): 2 cols for anything above 1 */
+  @media (min-width: 640px) {
+    .kiln-grid[data-cols="2"],
+    .kiln-grid[data-cols="3"],
+    .kiln-grid[data-cols="4"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Desktop (1024px+): full column count */
+  @media (min-width: 1024px) {
+    .kiln-grid[data-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+    .kiln-grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+    .kiln-grid[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ── GridItem: colSpan ─────────────────────────────────────
+     Mobile: always 1 col — prevents overflow into implicit columns.
+     Tablet: caps at 2 to match the 2-col tablet layout.
+     Desktop: full declared span.
+  ─────────────────────────────────────────────────────────── */
+  .kiln-grid-item[data-col-span] {
+    grid-column: span 1;
+  }
+
+  @media (min-width: 640px) {
+    .kiln-grid-item[data-col-span="2"],
+    .kiln-grid-item[data-col-span="3"],
+    .kiln-grid-item[data-col-span="4"] {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .kiln-grid-item[data-col-span="2"] { grid-column: span 2; }
+    .kiln-grid-item[data-col-span="3"] { grid-column: span 3; }
+    .kiln-grid-item[data-col-span="4"] { grid-column: span 4; }
+  }
+
+  /* ── GridItem: rowSpan ── */
+  .kiln-grid-item[data-row-span="2"] { grid-row: span 2; }
+  .kiln-grid-item[data-row-span="3"] { grid-row: span 3; }
+  .kiln-grid-item[data-row-span="4"] { grid-row: span 4; }
+
+} /* end @layer kiln */

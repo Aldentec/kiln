@@ -15,8 +15,11 @@
     "isolatedModules": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "paths": {
+      "@doriansmith/kiln": ["./src/index.ts"]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "demo"],
   "exclude": ["node_modules", "dist", "demo", "clickstorm-frontend"]
 }
