@@ -30,12 +30,28 @@ Requirements per component:
 - Form labels: linked via `htmlFor` / `id`. `errorText` and `helperText` linked via `aria-describedby`
 
 ### 2. Performance-first (Lighthouse-optimized)
-Kiln components do not tank Lighthouse scores.
+Kiln components do not tank Lighthouse scores. The production site currently scores:
+
+| Metric | Score |
+|---|---|
+| Performance | **99** |
+| Accessibility | **100** |
+| Best Practices | **96** |
+| SEO | **100** |
+| FCP / LCP | **0.6s / 0.6s** |
+| TBT | **0 ms** |
+| CLS | **0.005** |
+
+**These are floors, not targets.** No PR or new component may regress any of them. Verify with `npm run build:site && npm run preview` then run Lighthouse against `localhost:4173` — never against the dev server (`:5173`), which gives misleading numbers due to unminified output and the HMR WebSocket blocking bfcache.
+
+Per-component requirements:
 - **CLS = 0** on all interactions (mount, hover, focus, state change, loading, error)
 - All animations use **only `transform` and `opacity`** — GPU-accelerated, no layout thrashing
 - No JavaScript animation libraries in the base library (GSAP is v0.2.0)
 - `will-change` used sparingly — only where genuinely needed
 - Bundle size is measured, published, and budgeted (target: < 50 KB gzipped total)
+- No forced reflows — never read layout geometry (`offsetWidth`, `clientWidth`, `innerWidth`, etc.) after a DOM write. Use CSS (`scrollbar-gutter`, `aspect-ratio`) to eliminate JS measurement
+- Heavy dependencies (e.g. syntax highlighters) must be behind dynamic `import()` and lazy-loaded via `React.lazy` at the call site so they never land on the critical request chain
 
 ### 3. Solo-dev / small-team friendly
 - Install: `npm install @doriansmith/kiln`
@@ -104,6 +120,9 @@ Do not add new components in v0.1.0 sessions. If a component is genuinely needed
 | `Card` accepts `style` prop | Needed for CSS custom property overrides (e.g. `--kiln-card-padding`); backward-compatible |
 | `CodeBlock` is a v0.1.0 primitive | Needed by the landing page and any consumer building docs; genuinely reusable |
 | Components listed alphabetically in demo and ToC | Predictable, consistent — new components must be inserted at their alphabetical position in both `TOC_ITEMS` and the JSX section order in `ComponentsPage.tsx` |
+| Lighthouse scores are a floor (Perf 99 / A11y 100 / SEO 100) | Achieved 2026-05-03. No component or demo change may regress these. Verify against production preview (`localhost:4173`), never the dev server |
+| `scrollbar-gutter: stable` on `html` instead of JS scrollbar measurement | Eliminates forced reflow from `window.innerWidth - clientWidth` reads. Nav scroll-lock uses only `overflow: hidden` |
+| Heavy deps (highlight.js) behind `React.lazy` + dynamic `import()` | Keeps them off the critical request chain. CodeBlock is lazy-loaded at call sites in the demo |
 
 ---
 
@@ -316,6 +335,13 @@ Only add components that are on the approved list for the target release. Flag a
    - [ ] Modals use bottom-sheet layout at ≤480px
    - [ ] Tested at 375px, 768px, 1280px
    - [ ] Add `// mobile: verified 375px/768px YYYY-MM-DD` at top of component file
+
+8. Lighthouse score verification (mandatory before merging):
+   - [ ] Run `npm run build:site && npm run preview`
+   - [ ] Open Lighthouse against `localhost:4173` (production preview — NOT the dev server)
+   - [ ] Performance ≥ 99, Accessibility = 100, SEO = 100
+   - [ ] No new forced reflow warnings in the Insights panel
+   - [ ] No new entries in the Network dependency tree critical chain
 
 **Component template:**
 ```tsx

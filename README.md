@@ -16,7 +16,7 @@
 Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA are built in — not bolted on. Accessibility debt costs more to fix later than to build correctly now.
 
 ### 2. Performance-first
-Kiln components don't tank your Lighthouse score. Zero layout shift on every interaction. All animations use `transform` and `opacity` — GPU-accelerated, no layout thrashing. Bundle size is measured and budgeted.
+Kiln components don't tank your Lighthouse score. The production site scores **99 Performance / 100 Accessibility / 100 SEO** on Lighthouse (FCP 0.6s, LCP 0.6s, TBT 0ms, CLS 0.005). Zero layout shift on every interaction. All animations use `transform` and `opacity` — GPU-accelerated, no layout thrashing. Bundle size is measured and budgeted. These scores are a floor, not a one-time achievement — every new component must maintain them.
 
 ### 3. Genuinely mobile-ready
 Every component works on real devices at 375px. All interactive elements meet the 44×44px WCAG touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.
