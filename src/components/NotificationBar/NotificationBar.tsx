@@ -50,13 +50,6 @@ const ICONS: Record<NotificationBarType, React.ReactNode> = {
   ),
 };
 
-const TYPE_LABELS: Record<NotificationBarType, string> = {
-  info: 'Info',
-  success: 'Success',
-  warning: 'Warning',
-  error: 'Error',
-};
-
 // ── Component ───────────────────────────────────────────────────────────────
 
 const NotificationBar = React.forwardRef<HTMLDivElement, NotificationBarProps>((

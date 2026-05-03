@@ -9,24 +9,24 @@
 <p align="center">An accessible, performant React component library for indie developers and small teams.<br>Stop rebuilding the same buttons, inputs, cards, and modals every project — drop in Kiln and ship.</p>
 
 <p align="center">
-  <a href="https://github.com/Aldentec/kiln"><strong>→ Live Demo</strong></a> · <a href="https://www.npmjs.com/package/@doriansmith/kiln"><strong>npm</strong></a>
+  <a href="https://kiln-ui.com"><strong>→ Live Demo</strong></a> · <a href="https://www.npmjs.com/package/@doriansmith/kiln"><strong>npm</strong></a>
 </p>
 
 ---
 
 ## Why Kiln
 
-### 1. Accessibility-first
-Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA attributes are built in — not bolted on. Accessibility isn't a nice-to-have: if it isn't there from day one, it becomes technical debt that slows you down later.
+### 1. Accessible by default
+Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA are built in — not bolted on. Accessibility debt costs more to fix later than to build correctly now.
 
 ### 2. Performance-first
-Kiln components don't tank your Lighthouse score. Zero layout shift on every interaction. All animations use `transform` and `opacity` — GPU-accelerated, no layout thrashing. No JavaScript animation overhead. Bundle size is measured and budgeted.
+Kiln components don't tank your Lighthouse score. Zero layout shift on every interaction. All animations use `transform` and `opacity` — GPU-accelerated, no layout thrashing. Bundle size is measured and budgeted.
 
-### 3. Solo-dev friendly
+### 3. Genuinely mobile-ready
+Every component works on real devices at 375px. All interactive elements meet the 44×44px WCAG touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.
+
+### 4. Built for solo devs
 From `npm install` to rendering a Kiln page in under 2 minutes. No config files, no setup wizards, no theme provider components, no required context wrappers. Every code example is copy-paste ready. TypeScript is fully inferred — no required generic annotations.
-
-### 4. Mobile-first (mandatory)
-Every component works on real devices at 375px. All interactive elements meet the 44×44px WCAG touch target requirement. `<input>` and `<textarea>` use `font-size ≥ 16px` on mobile to prevent iOS Safari zoom. No text below 14px on small screens. Positioned overlays (tooltips, dropdowns, modals) are viewport-constrained. Modals become bottom-sheets on mobile. This is not optional — mobile is a first-class requirement on par with accessibility and performance.
 
 ---
 
@@ -156,13 +156,10 @@ A full-page application shell — drop it in once and get sidebar, tools panel, 
 ```tsx
 import { AppLayout, Nav, SideNav, ThemeToggle } from '@doriansmith/kiln';
 
-const [sidebarOpen, setSidebarOpen] = useState(true);
-
+// SideNav manages its own open/collapse state internally
 <AppLayout
   topBar={<Nav logo={logo} items={navItems} actions={<ThemeToggle />} />}
-  sidebar={<SideNav groups={navGroups} activeId={activeId} onSelect={setActiveId} />}
-  sidebarOpen={sidebarOpen}
-  onSidebarChange={setSidebarOpen}
+  sideBar={<SideNav groups={navGroups} activeId={activeId} onSelect={setActiveId} />}
   breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Dashboard' }]}
   header={<h1>Dashboard</h1>}
 >
@@ -175,7 +172,7 @@ const [sidebarOpen, setSidebarOpen] = useState(true);
 | Prop | Description |
 |---|---|
 | `topBar` | Sticky header (renders inside `<header role="banner">`) |
-| `sidebar` | Collapsible left panel — toggle via `sidebarOpen` / `onSidebarChange` |
+| `sideBar` | Collapsible left panel — pass a `<SideNav>` that manages its own open/collapse state |
 | `toolsPanel` | Collapsible right panel — toggle via `toolsOpen` / `onToolsChange` |
 | `header` | Page header rendered above `children` inside the content column |
 | `children` | Main page content (rendered inside `<main>`) |
@@ -198,12 +195,12 @@ const [notes, setNotes] = useState([
 
 ### CSS token overrides
 
-Override panel widths via inline `style` or `sidebarWidth` / `toolsWidth` props:
+Override panel widths via inline `style`:
 
 ```tsx
 <AppLayout
-  sidebarWidth="200px"
   style={{
+    '--kiln-app-layout-sidebar-width': '200px',
     '--kiln-tools-panel-width': '320px',
   } as React.CSSProperties}
 >
@@ -213,8 +210,8 @@ Override panel widths via inline `style` or `sidebarWidth` / `toolsWidth` props:
 
 ### Responsive behaviour
 
-- **Desktop (≥ 768px):** sidebar and tools panel slide in/out without overlapping content.
-- **Mobile (< 768px):** both panels become fixed overlay drawers with a backdrop. Sidebar closes on Escape or backdrop click.
+- **Desktop (≥ 768px):** sideBar and toolsPanel slide in/out without overlapping content.
+- **Mobile (< 768px):** both panels become fixed overlay drawers with a backdrop. SideBar closes on Escape or backdrop click.
 
 ---
 
@@ -483,19 +480,19 @@ No generic annotations required anywhere.
 | `kiln.css` | ~74 KB | ~10 KB |
 | `index.js` (ESM) | ~36 KB | ~13 KB |
 
-Total gzipped: **< 25 KB**. Budget: 50 KB gzipped.
+Total gzipped: **< 26 KB**. Budget: 50 KB gzipped.
 
 ---
 
 ## Status
 
-**v0.2.x — Stable.** APIs are stable. The visual style is opinionated and will not change without a major version bump.
+**v0.3.0 — Stable.** APIs are stable. The visual style is opinionated and will not change without a major version bump.
 
 ---
 
 ## Roadmap
 
-**v0.3.0 (coming soon)**
+**Future releases**
 - Storybook component explorer
 - GSAP-enhanced animation variants (optional peer dependency — base components remain CSS-only)
 - Additional primitives: Select, Combobox, DatePicker

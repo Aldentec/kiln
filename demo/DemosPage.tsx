@@ -78,7 +78,7 @@ export default function DemosPage() {
         logo={NAV_LOGO}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
-        credit="Kiln v0.1.0 — MIT License"
+        credit="Kiln v0.3.0 - MIT License"
       />
     </div>
   );

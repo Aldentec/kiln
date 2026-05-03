@@ -18,13 +18,19 @@ const PILLARS = [
     icon: (
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <circle cx="18" cy="18" r="15" stroke="var(--kiln-primary)" strokeWidth="2" fill="none" />
-        <path d="M11 18l3 3 8-8" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M18 6L7 11v9c0 7.2 5 12.9 11 14.5C24 32.9 29 27.2 29 20V11L18 6z"
+          stroke="var(--kiln-primary)"
+          strokeWidth="2"
+          fill="none"
+          strokeLinejoin="round"
+        />
+        <path d="M13 18l3.5 3.5L23 14" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: 'Accessibility-first',
+    title: 'Accessible by default',
     problem: 'Most component libraries treat accessibility as an afterthought. ARIA attributes get bolted on later, keyboard navigation is spotty, and focus management breaks in production. The result? Technical debt that locks out users and invites legal risk.',
-    solution: 'Every Kiln component ships WCAG AA-compliant from day one. Keyboard navigation, focus rings, focus traps, and correct ARIA roles are built in — not bolted on. Tested with axe DevTools and manual screen-reader verification.',
+    solution: 'Every Kiln component ships WCAG AA-compliant from day one. Keyboard navigation, focus rings, focus traps, and correct ARIA roles are built in, not bolted on. Tested with axe DevTools and manual screen-reader verification.',
     benefit: 'Ship inclusive products without retrofitting. Your users get equal access, your codebase stays clean, and you avoid the cost of accessibility remediation after launch.',
   },
   {
@@ -36,12 +42,27 @@ const PILLARS = [
       </svg>
     ),
     title: 'Performance-first',
-    problem: 'Heavy component libraries silently tank your Lighthouse scores. JavaScript animation overhead, layout thrashing, and Cumulative Layout Shift creep in as you add features — and your users pay for it with slow load times.',
-    solution: 'Zero layout shift on every interaction. All animations use `transform` and `opacity` — GPU-accelerated, no layout thrashing, no JavaScript animation overhead. The entire CSS bundle is ~10 KB gzipped. Total gzipped footprint is under 25 KB.',
+    problem: 'Heavy component libraries silently tank your Lighthouse scores. JavaScript animation overhead, layout thrashing, and Cumulative Layout Shift creep in as you add features, and your users pay for it with slow load times.',
+    solution: 'Zero layout shift on every interaction. All animations use `transform` and `opacity`, GPU-accelerated, no layout thrashing, no JavaScript animation overhead. The entire CSS bundle is ~10 KB gzipped. Total gzipped footprint is under 26 KB.',
     benefit: 'Your Lighthouse scores stay green as you scale. Pages load fast, interactions feel instant, and you never have to choose between polish and performance.',
   },
   {
     number: '03',
+    icon: (
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
+        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
+        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
+        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+    title: 'Genuinely mobile-ready',
+    problem: 'Many libraries claim mobile support but treat it as a responsive resize. Touch targets shrink below 44px, text becomes unreadable, modals overflow viewports, and iOS Safari zooms unpredictably on input focus.',
+    solution: 'Every component is designed and tested at 375px first. All interactive elements meet the 44x44px WCAG touch target. Inputs use font-size 16px on mobile to prevent iOS zoom. Overlays are viewport-constrained. Modals become bottom-sheets on mobile. No text below 14px on small screens. This is not optional.',
+    benefit: 'Your app works beautifully on real devices, not just in a resized browser. Half your users are on mobile; Kiln ensures they get the same quality experience as desktop users.',
+  },
+  {
+    number: '04',
     icon: (
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
@@ -50,35 +71,20 @@ const PILLARS = [
         <path d="M20 22h4" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
-    title: 'Solo-dev friendly',
+    title: 'Built for solo devs',
     problem: 'Most UI libraries demand hours of setup: config files, theme providers, context wrappers, and peer dependency wrangling. For a solo developer or small team, that is time stolen from building the product that matters.',
     solution: 'From `npm install` to rendering a Kiln component in under 2 minutes. No config files. No setup wizards. No theme provider components. No required context wrappers. One CSS import, then import and use. Every code example is copy-paste ready with full TypeScript inference.',
-    benefit: 'Stop rebuilding the same buttons, inputs, and modals every project. Install, import, and ship — so you can focus on your product, not your component library.',
-  },
-  {
-    number: '04',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <rect x="10" y="10" width="16" height="20" rx="2" stroke="var(--kiln-primary)" strokeWidth="2" fill="none" />
-        <circle cx="18" cy="25" r="1.5" fill="var(--kiln-primary)" />
-        <path d="M14 15h8M14 18h8M14 21h4" stroke="var(--kiln-primary)" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: 'Mobile-first — mandatory',
-    problem: 'Many libraries claim mobile support but treat it as a responsive resize. Touch targets shrink below 44px, text becomes unreadable, modals overflow viewports, and iOS Safari zooms unpredictably on input focus.',
-    solution: 'Every component is designed and tested at 375px first. All interactive elements meet the 44x44px WCAG touch target. Inputs use font-size 16px on mobile to prevent iOS zoom. Overlays are viewport-constrained. Modals become bottom-sheets on mobile. No text below 14px on small screens. This is not optional.',
-    benefit: 'Your app works beautifully on real devices — not just in a resized browser. Half your users are on mobile; Kiln ensures they get the same quality experience as desktop users.',
+    benefit: 'Stop rebuilding the same buttons, inputs, and modals every project. Install, import, and ship so you can focus on your product, not your component library.',
   },
 ];
 
 // ─── Tech specs ──────────────────────────────────────────
 const TECH_SPECS = [
-  { label: 'Total gzipped', value: '< 25 KB' },
+  { label: 'Total gzipped', value: '< 26 KB' },
   { label: 'CSS bundle', value: '~10 KB' },
   { label: 'JS bundle (ESM)', value: '~13 KB' },
   { label: 'Dependencies', value: 'Zero' },
-  { label: 'Components', value: '14 primitives' },
+  { label: 'Components', value: '25+' },
   { label: 'WCAG level', value: 'AA' },
 ];
 
@@ -111,20 +117,20 @@ export default function AboutPage() {
             id="about-hero-heading"
             variant="h1"
             tagline="Why Kiln"
-            description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 25 KB gzipped, zero dependencies."
+            description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 26 KB gzipped, zero dependencies."
             actions={
               <div
                 style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
                 aria-label="Key differentiators"
               >
                 <Badge variant="success">WCAG AA</Badge>
-                <Badge variant="info">&lt; 25 KB gzipped</Badge>
+                <Badge variant="info">&lt; 26 KB gzipped</Badge>
                 <Badge variant="running">Zero dependencies</Badge>
                 <Badge variant="pending">v0.1.0</Badge>
               </div>
             }
           >
-            Why Kiln — Accessible React Components for Indie Developers
+            Why Kiln: Accessible React Components for Indie Developers
           </Header>
         </section>
 
@@ -148,7 +154,7 @@ export default function AboutPage() {
               <p style={{ margin: 0 }}>
                 Every new project starts the same way: you need a button that looks good, an input
                 with proper labels, a modal that traps focus, tabs that work with arrow keys. So you
-                build them — again. And again. And again.
+                build them again. And again. And again.
               </p>
               <p style={{ margin: 0 }}>
                 Then you reach for a component library and discover it needs a theme provider,
@@ -337,7 +343,7 @@ export default function AboutPage() {
               </p>
               <p style={{ margin: 0 }}>
                 Kiln bakes all of that into every component so you don&apos;t have to think about it.
-                You focus on your product logic — the part that makes your app unique. We handle
+                You focus on your product logic, the part that makes your app unique. We handle
                 the primitives that every app needs.
               </p>
             </div>
@@ -353,7 +359,7 @@ export default function AboutPage() {
               <Header
                 id="cta-heading"
                 variant="h2"
-                description="Install Kiln, import the CSS once, and start building your product — not your infrastructure."
+                description="Install Kiln, import the CSS once, and start building your product, not your infrastructure."
                 actions={
                   <div style={{ display: 'flex', gap: 'var(--kiln-space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <Button variant="primary" asChild>
@@ -413,7 +419,7 @@ export default function AboutPage() {
         logo={NAV_LOGO}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
-        credit="Kiln v0.1.0 — MIT License"
+        credit="Kiln v0.3.0 - MIT License"
       />
     </div>
   );

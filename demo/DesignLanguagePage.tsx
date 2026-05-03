@@ -117,7 +117,7 @@ export default function DesignLanguagePage() {
             id="dl-hero-heading"
             variant="h1"
             tagline="Design Language"
-            description="Color, typography, spacing, tokens, iconography, and motion — documented so you can extend the system consistently."
+            description="Color, typography, spacing, tokens, iconography, and motion, documented so you can extend the system consistently."
           >
             The visual and systemic building blocks behind every Kiln component
           </Header>
@@ -164,7 +164,7 @@ export default function DesignLanguagePage() {
                     } as React.CSSProperties}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-3)' }}>
-                      {/* Dim only the decorative icon — not the text, which would break contrast */}
+                      {/* Dim only the decorative icon, not the text, which would break contrast */}
                       <div style={{ opacity: 0.72 }}>{icon}</div>
                       <div>
                         <p
@@ -232,7 +232,7 @@ export default function DesignLanguagePage() {
         logo={NAV_LOGO}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
-        credit="Kiln v0.1.0 — MIT License"
+        credit="Kiln v0.3.0 - MIT License"
       />
     </div>
   );

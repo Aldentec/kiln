@@ -223,7 +223,7 @@ export default function LandingPage() {
             }}
           >
             Kiln is a lightweight React component library with 20+ WCAG AA-compliant
-            components. Zero config, zero dependencies, under 25 KB gzipped.
+            components. Zero config, zero dependencies, under 26 KB gzipped.
             Install and ship accessible UIs in under 2 minutes.
           </p>
 
