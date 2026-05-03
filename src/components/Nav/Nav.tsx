@@ -41,30 +41,32 @@ const Nav: React.FC<NavProps> = ({
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  // Tracks whether the panel has ever been opened; focus restore skips the initial mount.
+  const wasOpenRef = useRef(false);
 
   const checkActive = isActive ??
     ((href) => typeof window !== 'undefined' && window.location.pathname === href);
 
   const close = useCallback(() => setOpen(false), []);
 
-  // Escape + scroll lock
+  // Escape + scroll lock. No padding-right compensation needed because Nav.css
+  // sets scrollbar-gutter: stable on html, which reserves the scrollbar lane permanently.
   useEffect(() => {
     if (!open) return;
+    wasOpenRef.current = true;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
     document.addEventListener('keydown', onKey);
-    const sw = window.innerWidth - document.documentElement.clientWidth;
     document.body.classList.add('kiln-nav-body-locked');
-    document.body.style.paddingRight = `${sw}px`;
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.classList.remove('kiln-nav-body-locked');
-      document.body.style.paddingRight = '';
     };
   }, [open, close]);
 
-  // Restore focus on close
+  // Restore focus on close — only after the panel has actually been opened,
+  // not on initial mount (calling .focus() on mount forces a layout computation).
   useEffect(() => {
-    if (!open) triggerRef.current?.focus();
+    if (!open && wasOpenRef.current) triggerRef.current?.focus();
   }, [open]);
 
   // Focus trap inside mobile panel

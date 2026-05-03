@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
-  Footer, CodeBlock, Grid,
+  Footer, Grid,
 } from '@doriansmith/kiln';
+
+// Lazy-load CodeBlock so highlight.js never lands on the critical path.
+// The install snippets are below the fold; a brief unstyled flash is acceptable.
+const CodeBlock = lazy(() =>
+  import('@doriansmith/kiln').then((m) => ({ default: m.CodeBlock }))
+);
 
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, NavActions } from './nav';
 
@@ -387,10 +393,12 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              {/* Right: code blocks */}
+              {/* Right: code blocks — Suspense keeps CodeBlock/hljs off the critical path */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)' }}>
-                <CodeBlock code={INSTALL_CODE} language="bash" />
-                <CodeBlock code={USAGE_CODE} language="tsx" />
+                <Suspense fallback={null}>
+                  <CodeBlock code={INSTALL_CODE} language="bash" />
+                  <CodeBlock code={USAGE_CODE} language="tsx" />
+                </Suspense>
               </div>
             </div>
           </div>
@@ -534,7 +542,7 @@ export default function LandingPage() {
 
       {/* ── Footer ──────────────────────────────────── */}
       <Footer
-        logo={<img src="/logo.png" alt="Kiln" style={{ height: 36, width: 'auto' }} />}
+        logo={<img src="/logo.png" alt="Kiln" width={36} height={36} style={{ height: 36, width: 36 }} />}
         links={FOOTER_LINKS}
         copyright={`© ${new Date().getFullYear()} Dorian Smith`}
         credit="Kiln v0.1.0, MIT License"

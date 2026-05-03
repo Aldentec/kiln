@@ -15,17 +15,17 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, 'demo/dist'),
     emptyOutDir: true,
-    // Split vendor and kiln into separate chunks to avoid critical request chaining
     rollupOptions: {
       output: {
         manualChunks: {
           react: ['react', 'react-dom'],
+          // highlight.js is lazy-loaded by CodeBlock — keep it in its own chunk
+          // so it never lands on the initial critical path.
+          hljs: ['highlight.js/lib/core'],
         },
       },
     },
   },
-  // Pre-bundle kiln source in dev so the browser gets one request instead of
-  // a deep chain of individual module files (fixes Lighthouse critical request chain)
   optimizeDeps: {
     include: ['react', 'react-dom', 'highlight.js'],
   },

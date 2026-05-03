@@ -21,11 +21,16 @@
 @layer kiln {
 
 /* ─── Body scroll lock ──────────────────────────────────── */
+/* scrollbar-gutter: stable on html reserves the scrollbar lane at all times,
+   so locking with overflow:hidden causes zero layout shift and needs no JS
+   measurement of scrollbar width. */
+
+html {
+  scrollbar-gutter: stable;
+}
 
 .kiln-nav-body-locked {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
 }
 
 /* ─── Bar ───────────────────────────────────────────────── */

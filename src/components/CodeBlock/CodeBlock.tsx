@@ -1,29 +1,42 @@
 // a11y: WCAG AA verified 2026-04-29
 // perf: CLS=0, GPU-friendly 2026-04-29
-import React, { useState, useRef, useMemo } from 'react';
-import hljs from 'highlight.js/lib/core';
-import javascript from 'highlight.js/lib/languages/javascript';
-import typescript from 'highlight.js/lib/languages/typescript';
-import xml from 'highlight.js/lib/languages/xml';
-import bash from 'highlight.js/lib/languages/bash';
-import json from 'highlight.js/lib/languages/json';
-import css from 'highlight.js/lib/languages/css';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../utils';
 import './CodeBlock.css';
 
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('js', javascript);
-hljs.registerLanguage('jsx', javascript);
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('ts', typescript);
-hljs.registerLanguage('tsx', typescript);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('html', xml);
-hljs.registerLanguage('bash', bash);
-hljs.registerLanguage('sh', bash);
-hljs.registerLanguage('shell', bash);
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('css', css);
+// highlight.js is loaded once on first mount — keeps it off the critical path.
+let hljsReady: Promise<typeof import('highlight.js/lib/core').default> | null = null;
+function getHljs() {
+  if (!hljsReady) {
+    hljsReady = (async () => {
+      const [core, js, ts, xml, bash, json, css] = await Promise.all([
+        import('highlight.js/lib/core'),
+        import('highlight.js/lib/languages/javascript'),
+        import('highlight.js/lib/languages/typescript'),
+        import('highlight.js/lib/languages/xml'),
+        import('highlight.js/lib/languages/bash'),
+        import('highlight.js/lib/languages/json'),
+        import('highlight.js/lib/languages/css'),
+      ]);
+      const hljs = core.default;
+      hljs.registerLanguage('javascript', js.default);
+      hljs.registerLanguage('js', js.default);
+      hljs.registerLanguage('jsx', js.default);
+      hljs.registerLanguage('typescript', ts.default);
+      hljs.registerLanguage('ts', ts.default);
+      hljs.registerLanguage('tsx', ts.default);
+      hljs.registerLanguage('xml', xml.default);
+      hljs.registerLanguage('html', xml.default);
+      hljs.registerLanguage('bash', bash.default);
+      hljs.registerLanguage('sh', bash.default);
+      hljs.registerLanguage('shell', bash.default);
+      hljs.registerLanguage('json', json.default);
+      hljs.registerLanguage('css', css.default);
+      return hljs;
+    })();
+  }
+  return hljsReady;
+}
 
 export interface CodeBlockProps {
   /** The code string to display. */
@@ -44,15 +57,21 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   style,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const highlighted = useMemo(() => {
-    if (!language) return null;
-    try {
-      return hljs.highlight(code, { language, ignoreIllegals: true }).value;
-    } catch {
-      return null;
-    }
+  useEffect(() => {
+    if (!language) { setHighlighted(null); return; }
+    let cancelled = false;
+    getHljs().then((hljs) => {
+      if (cancelled) return;
+      try {
+        setHighlighted(hljs.highlight(code, { language, ignoreIllegals: true }).value);
+      } catch {
+        setHighlighted(null);
+      }
+    });
+    return () => { cancelled = true; };
   }, [code, language]);
 
   const handleCopy = async () => {
