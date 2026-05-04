@@ -1,0 +1,133 @@
+/* ─── Component tokens ───────────────────────────────────────────────────────
+   --kiln-box-code-bg       background for code / pre     (default: --kiln-gray-100)
+   --kiln-box-code-border   border color for code / pre   (default: --kiln-gray-200)
+   --kiln-box-code-color    text color for code / pre     (default: --kiln-gray-800)
+────────────────────────────────────────────────────────────────────────────── */
+
+@layer kiln {
+
+  /* ── Base ──────────────────────────────────────────────────────────────── */
+
+  .kiln-box {
+    font-family: var(--kiln-font-sans);
+    box-sizing: border-box;
+  }
+
+  /* ── Headings ──────────────────────────────────────────────────────────── */
+
+  .kiln-box--h1 {
+    font-size: clamp(1.875rem, 5vw, var(--kiln-text-4xl));
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0 0 var(--kiln-space-4);
+  }
+
+  .kiln-box--h2 {
+    font-size: clamp(1.5rem, 3vw, var(--kiln-text-3xl));
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0 0 var(--kiln-space-3);
+  }
+
+  .kiln-box--h3 {
+    font-size: clamp(1.25rem, 2.5vw, var(--kiln-text-2xl));
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0 0 var(--kiln-space-3);
+  }
+
+  .kiln-box--h4 {
+    font-size: var(--kiln-text-xl);
+    font-weight: 600;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0 0 var(--kiln-space-2);
+  }
+
+  .kiln-box--h5 {
+    font-size: var(--kiln-text-lg);
+    font-weight: 600;
+    letter-spacing: var(--kiln-tracking-normal);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0 0 var(--kiln-space-2);
+  }
+
+  /* ── Paragraph ─────────────────────────────────────────────────────────── */
+
+  .kiln-box--p {
+    font-size: var(--kiln-text-base);
+    font-weight: 400;
+    line-height: var(--kiln-leading-relaxed);
+    color: var(--kiln-gray-700);
+    margin: 0 0 var(--kiln-space-4);
+  }
+
+  /* ── Inline text ────────────────────────────────────────────────────────── */
+
+  .kiln-box--strong {
+    font-weight: 700;
+  }
+
+  .kiln-box--small {
+    /* 0.875rem = 14px — the mobile text floor */
+    font-size: var(--kiln-text-sm);
+    font-weight: 400;
+    line-height: var(--kiln-leading-normal);
+    color: var(--kiln-gray-600); /* light: #475569 = 7.0:1 on white ✓; dark: #cbd5e1 = 12:1 ✓ */
+  }
+
+  /* ── Monospace ──────────────────────────────────────────────────────────── */
+
+  .kiln-box--code {
+    font-family: var(--kiln-font-mono);
+    /* em-relative so inline code scales with the surrounding text size */
+    font-size: 0.875em;
+    background: var(--kiln-box-code-bg, var(--kiln-gray-100));
+    color: var(--kiln-box-code-color, var(--kiln-gray-800));
+    padding: 0.1em 0.4em;
+    border-radius: var(--kiln-radius-sm);
+    border: 1px solid var(--kiln-box-code-border, var(--kiln-gray-200));
+  }
+
+  .kiln-box--pre {
+    font-family: var(--kiln-font-mono);
+    /* Fixed 14px floor: smallest readable mono size on mobile */
+    font-size: var(--kiln-text-sm);
+    background: var(--kiln-box-code-bg, var(--kiln-gray-100));
+    color: var(--kiln-box-code-color, var(--kiln-gray-800));
+    padding: var(--kiln-space-4);
+    border-radius: var(--kiln-radius-md);
+    border: 1px solid var(--kiln-box-code-border, var(--kiln-gray-200));
+    /* Prevents horizontal overflow at 375px instead of breaking layout */
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 0 0 var(--kiln-space-4);
+    line-height: var(--kiln-leading-relaxed);
+    white-space: pre;
+  }
+
+  .kiln-box--samp {
+    font-family: var(--kiln-font-mono);
+    font-size: 0.875em;
+    color: var(--kiln-gray-700);
+  }
+
+  /* ── Dark mode ──────────────────────────────────────────────────────────────
+     Heading/paragraph/small colors remap automatically because the token table
+     in design-tokens.css already inverts the gray scale for [data-theme="dark"].
+     Code/pre backgrounds and borders also remap automatically:
+       --kiln-gray-100 → #1e293b (dark surface)
+       --kiln-gray-200 → #334155 (dark border)
+       --kiln-gray-800 → #f1f5f9 (near-white text) — contrast ≈ 15:1 ✓
+     No explicit dark overrides needed unless component tokens are supplied.
+  ─────────────────────────────────────────────────────────────────────────── */
+
+} /* end @layer kiln */

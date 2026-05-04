@@ -52,6 +52,15 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['variant', 'size', 'children'],
   },
+  box: {
+    tips: [
+      { label: 'Variant = element', text: 'The variant prop sets both the rendered HTML tag and the default typography — no separate "as" prop needed.' },
+      { label: 'Override selectively', text: 'Pass fontSize, color, fontWeight, or textAlign to deviate from the variant default without losing the semantic element.' },
+      { label: 'Margin reset', text: 'Headings and paragraphs have a default bottom margin. Pass margin="0" to reset it when composing tightly.' },
+      { label: 'Inline → block', text: 'Use display="block" to make inline variants (small, strong, code) take up their own line.' },
+    ],
+    quickProps: ['variant', 'fontSize', 'textAlign', 'color', 'fontWeight', 'display', 'margin', 'padding'],
+  },
   card: {
     tips: [
       { label: 'Coming soon', text: 'The coming-soon variant renders a WIP placeholder — no children needed.' },

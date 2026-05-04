@@ -26,6 +26,7 @@
 
 /* New primitives */
 @import '../components/Accordion/Accordion.css';
+@import '../components/Box/Box.css';
 @import '../components/Button/Button.css';
 @import '../components/Input/Input.css';
 @import '../components/Textarea/Textarea.css';

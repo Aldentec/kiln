@@ -4,6 +4,7 @@ export const COMPONENT_GROUPS = [
       { id: 'accordion', label: 'Accordion' },
       { id: 'app-layout', label: 'AppLayout' },
       { id: 'badge', label: 'Badge' },
+      { id: 'box', label: 'Box' },
       { id: 'breadcrumbs', label: 'Breadcrumbs' },
       { id: 'button', label: 'Button' },
       { id: 'card', label: 'Card' },

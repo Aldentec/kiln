@@ -84,6 +84,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `Header` | Page and section heading block with optional tagline, description, and actions slot. Provides consistent spacing after the Nav. |
 | `Hero` | Full-width page hero section with eyebrow, title, description, actions, and optional media slots. Semantic `<section>` landmark. Three variants (default / gradient / glass), three sizes, left or centre alignment. |
 | `Badge` | Severity (critical → low) and status (success / warning / error / info / pending / running). |
+| `Box` | Style a single semantic HTML element (h1–h5, p, strong, small, code, pre, samp) with design-system typography. Override font size, color, weight, alignment, display, margin, and padding per-instance. |
 | `Chip` | Selectable filter chip. Controlled and uncontrolled. |
 | `Toggle` | Binary switch for boolean settings. Three sizes, controlled and uncontrolled. |
 | `Tabs` | Arrow-key navigation, ARIA tablist / tab / tabpanel. |
@@ -455,6 +456,7 @@ All props are fully typed. Named type exports:
 
 ```ts
 import type {
+  BoxVariant, BoxFontSize, BoxTextAlign, BoxFontWeight, BoxDisplay, BoxFloat,
   ButtonVariant, ButtonSize,
   CardVariant,
   BadgeVariant, BadgeSeverity, BadgeStatus, BadgeSize,

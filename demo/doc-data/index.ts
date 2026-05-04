@@ -3,6 +3,7 @@ import type { ComponentDoc, PropDef } from './types';
 import * as _accordion from './accordion';
 import * as _appLayout from './app-layout';
 import * as _badge from './badge';
+import * as _box from './box';
 import * as _breadcrumbs from './breadcrumbs';
 import * as _button from './button';
 import * as _card from './card';
@@ -36,6 +37,7 @@ import * as _groups from './groups';
 export const accordion = _accordion.accordion;
 export const appLayout = _appLayout.appLayout;
 export const badge = _badge.badge;
+export const box = _box.box;
 export const breadcrumbs = _breadcrumbs.breadcrumbs;
 export const button = _button.button;
 export const card = _card.card;
@@ -73,6 +75,7 @@ export const componentDocs: ComponentDoc[] = [
   _accordion.accordion,
   _appLayout.appLayout,
   _badge.badge,
+  _box.box,
   _breadcrumbs.breadcrumbs,
   _button.button,
   _card.card,

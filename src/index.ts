@@ -8,6 +8,18 @@ export type { SlotProps, PolymorphicProps, PolymorphicPropsWithRef } from './uti
 export { default as Accordion } from './components/Accordion';
 export type { AccordionProps, AccordionItem } from './components/Accordion';
 
+// Box
+export { default as Box } from './components/Box';
+export type {
+  BoxProps,
+  BoxVariant,
+  BoxFontSize,
+  BoxTextAlign,
+  BoxFontWeight,
+  BoxDisplay,
+  BoxFloat,
+} from './components/Box';
+
 // Lifted primitives
 export { default as Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
