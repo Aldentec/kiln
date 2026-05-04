@@ -101,6 +101,15 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['variant', 'tagline', 'description', 'actions', 'divider'],
   },
+  hero: {
+    tips: [
+      { label: 'Landmark label', text: 'Pass an id and the section gets aria-labelledby automatically — no extra wiring.' },
+      { label: 'Eyebrow flexibility', text: 'Plain strings render as uppercase tracking labels. Pass a Badge, gradient wordmark, or any ReactNode for richer treatments.' },
+      { label: 'Actions layout', text: 'The actions slot is flex-column — wrap buttons in your own flex row for side-by-side CTAs, then add badge rows below.' },
+      { label: 'Media column', text: 'Provide the media prop to switch to a two-column layout. Stacks vertically on mobile automatically.' },
+    ],
+    quickProps: ['title', 'eyebrow', 'description', 'actions', 'media', 'align', 'variant', 'size', 'id'],
+  },
   input: {
     tips: [
       { label: 'Validation', text: 'Pass errorText to show inline validation — it auto-sets aria-invalid.' },

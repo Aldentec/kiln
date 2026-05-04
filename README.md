@@ -82,6 +82,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `Textarea` | Like Input, plus character counter. |
 | `Card` | Default / raised / glass / gradient-border / coming-soon. Hover lift. |
 | `Header` | Page and section heading block with optional tagline, description, and actions slot. Provides consistent spacing after the Nav. |
+| `Hero` | Full-width page hero section with eyebrow, title, description, actions, and optional media slots. Semantic `<section>` landmark. Three variants (default / gradient / glass), three sizes, left or centre alignment. |
 | `Badge` | Severity (critical → low) and status (success / warning / error / info / pending / running). |
 | `Chip` | Selectable filter chip. Controlled and uncontrolled. |
 | `Toggle` | Binary switch for boolean settings. Three sizes, controlled and uncontrolled. |

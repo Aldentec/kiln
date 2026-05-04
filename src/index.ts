@@ -110,3 +110,6 @@ export type { SplitPanelProps } from './components/SplitPanel';
 
 export { default as Header } from './components/Header';
 export type { HeaderProps, HeaderVariant } from './components/Header';
+
+export { Hero } from './components/Hero';
+export type { HeroProps, HeroVariant, HeroSize, HeroAlign } from './components/Hero';

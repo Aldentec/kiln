@@ -13,6 +13,7 @@ import * as _errorMessage from './error-message';
 import * as _footer from './footer';
 import * as _grid from './grid';
 import * as _header from './header';
+import * as _hero from './hero';
 import * as _input from './input';
 import * as _loadingIndicator from './loading-indicator';
 import * as _modal from './modal';
@@ -45,6 +46,7 @@ export const errorMessage = _errorMessage.errorMessage;
 export const footer = _footer.footer;
 export const grid = _grid.grid;
 export const header = _header.header;
+export const hero = _hero.hero;
 export const input = _input.input;
 export const loadingIndicator = _loadingIndicator.loadingIndicator;
 export const modal = _modal.modal;
@@ -81,6 +83,7 @@ export const componentDocs: ComponentDoc[] = [
   _footer.footer,
   _grid.grid,
   _header.header,
+  _hero.hero,
   _input.input,
   _loadingIndicator.loadingIndicator,
   _modal.modal,

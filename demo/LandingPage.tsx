@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react';
 import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
-  Footer, Grid,
+  Footer, Grid, Hero,
 } from '@doriansmith/kiln';
 
 // Lazy-load CodeBlock so highlight.js never lands on the critical path.
@@ -173,100 +173,46 @@ export default function LandingPage() {
         {/* ══════════════════════════════════════════════
             HERO
         ══════════════════════════════════════════════ */}
-        <section
-          aria-label="Kiln introduction"
-          style={{
-            minHeight: '80vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: 'var(--kiln-space-16) clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8))',
-            flexDirection: 'column',
-            gap: 'var(--kiln-space-6)',
-          }}
-        >
-          {/* Wordmark */}
-          <div
-            aria-hidden="true"
-            style={{
-              fontSize: 'clamp(3.5rem, 10vw, 6rem)',
-              fontWeight: 700,
-              letterSpacing: 'var(--kiln-tracking-tight)',
-              lineHeight: 1,
-              background: 'var(--kiln-gradient-brand)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'var(--kiln-gradient-text-shadow, none)',
-            }}
-          >
-            Kiln
-          </div>
-
-          {/* Visually-hidden accessible heading */}
-          <h1
-            style={{
-              fontSize: 'clamp(1.75rem, 4vw, var(--kiln-text-4xl))',
-              fontWeight: 700,
-              letterSpacing: 'var(--kiln-tracking-tight)',
-              lineHeight: 'var(--kiln-leading-tight)',
-              margin: 0,
-              color: 'var(--kiln-gray-900)',
-              maxWidth: 680,
-            }}
-          >
-            Accessible React Component Library: Ship Fast Without Compromise
-          </h1>
-
-          <p
-            style={{
-              fontSize: 'clamp(var(--kiln-text-base), 2vw, var(--kiln-text-lg))',
-              color: 'var(--kiln-gray-600)',
-              maxWidth: 560,
-              margin: 0,
-              lineHeight: 'var(--kiln-leading-relaxed)',
-            }}
-          >
-            Kiln is a lightweight React component library with 25+ WCAG AA-compliant
-            components. Zero config, zero dependencies, under 26 KB gzipped.
-            Install and ship accessible UIs in under 2 minutes.
-          </p>
-
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--kiln-space-4)',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              marginTop: 'var(--kiln-space-2)',
-            }}
-          >
-            <Button variant="primary" href="/components" size="lg">
-              View Components
-            </Button>
-            <Button variant="secondary" href="#install" size="lg">
-              Get Started
-            </Button>
-          </div>
-
-          {/* Trust badges */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--kiln-space-3)',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              marginTop: 'var(--kiln-space-4)',
-            }}
-            aria-label="Key features"
-          >
-            <Badge variant="success">WCAG AA</Badge>
-            <Badge variant="info">TypeScript</Badge>
-            <Badge variant="running">20+ Primitives</Badge>
-            <Badge variant="pending">v0.1.0</Badge>
-          </div>
-        </section>
+        <Hero
+          id="landing-hero-heading"
+          eyebrow={
+            <div
+              aria-hidden="true"
+              style={{
+                fontSize: 'clamp(3.5rem, 10vw, 6rem)',
+                fontWeight: 700,
+                letterSpacing: 'var(--kiln-tracking-tight)',
+                lineHeight: 1,
+                background: 'var(--kiln-gradient-brand)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'var(--kiln-gradient-text-shadow, none)',
+              }}
+            >
+              Kiln
+            </div>
+          }
+          title="Accessible React Component Library: Ship Fast Without Compromise"
+          description="Kiln is a lightweight React component library with 25+ WCAG AA-compliant components. Zero config, zero dependencies, under 26 KB gzipped. Install and ship accessible UIs in under 2 minutes."
+          actions={
+            <>
+              <div style={{ display: 'flex', gap: 'var(--kiln-space-4)', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Button variant="primary" href="/components" size="lg">View Components</Button>
+                <Button variant="secondary" href="#install" size="lg">Get Started</Button>
+              </div>
+              <div
+                style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
+                aria-label="Key features"
+              >
+                <Badge variant="success">WCAG AA</Badge>
+                <Badge variant="info">TypeScript</Badge>
+                <Badge variant="running">25+ Primitives</Badge>
+                <Badge variant="pending">v0.3.0</Badge>
+              </div>
+            </>
+          }
+        />
 
         {/* ══════════════════════════════════════════════
             THREE PILLARS

@@ -1,0 +1,222 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-hero-min-height       min-height override (lg=80vh, md=60vh, sm=auto)
+   --kiln-hero-max-width        content column max-width (default 800px; 1100px with media)
+   --kiln-hero-padding-x        horizontal padding
+   --kiln-hero-padding-y        vertical padding
+   --kiln-hero-title-size       h1 font-size (default clamp(2rem, 5vw, 3.5rem))
+   --kiln-hero-desc-size        description font-size
+   --kiln-hero-gap              vertical gap between content blocks
+   --kiln-hero-gradient-title    title color on gradient variant (light/dark toggled)
+   --kiln-hero-gradient-desc     description color on gradient variant
+   --kiln-hero-gradient-eyebrow  eyebrow color on gradient variant
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  /* ── Base ───────────────────────────────────────────────── */
+  .kiln-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--kiln-body-bg);
+    padding:
+      var(--kiln-hero-padding-y, var(--kiln-space-16))
+      var(--kiln-hero-padding-x, clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8)));
+  }
+
+  /* ── Size variants ──────────────────────────────────────── */
+  .kiln-hero--lg { min-height: var(--kiln-hero-min-height, 80vh); }
+  .kiln-hero--md { min-height: var(--kiln-hero-min-height, 60vh); }
+  .kiln-hero--sm { min-height: 0; }
+
+  /* ── Visual variants ────────────────────────────────────── */
+  .kiln-hero--gradient {
+    /* Light mode: surface base + brand radial from below — clearly distinct from body bg */
+    background: var(--kiln-gradient-surface);
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% 110%, var(--kiln-primary-100) 0%, transparent 60%),
+      var(--kiln-gradient-surface);
+    /* Light mode uses dark text on light surface */
+    --kiln-hero-gradient-title:   var(--kiln-gray-900);  /* #0f172a ✓ */
+    --kiln-hero-gradient-desc:    var(--kiln-gray-600);  /* #475569 ✓ */
+    --kiln-hero-gradient-eyebrow: var(--kiln-primary);   /* #89216b ✓ */
+  }
+
+  [data-theme="dark"] .kiln-hero--gradient {
+    /* Dark page bg is #0b1120 — nearly identical to --kiln-gradient-dark (#0f2027→#1a0d18).
+       Use gray-100→gray-50 (dark: #1e293b→#131c2e) so the section is clearly distinct.
+       A larger glow adds brand depth. */
+    background-image:
+      radial-gradient(ellipse 100% 70% at 50% 110%, var(--kiln-primary-bg) 0%, transparent 60%),
+      linear-gradient(135deg, var(--kiln-gray-100) 0%, var(--kiln-gray-50) 100%);
+    /* Inverted scale: gray-900=#f8fafc, gray-700=#e2e8f0 in dark mode ✓ */
+    --kiln-hero-gradient-title:   var(--kiln-gray-900);
+    --kiln-hero-gradient-desc:    var(--kiln-gray-700);
+    --kiln-hero-gradient-eyebrow: var(--kiln-accent-light); /* #fac85a on dark ✓ */
+  }
+
+  .kiln-hero--glass {
+    background: var(--kiln-gradient-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="dark"] .kiln-hero--glass {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── Inner container ────────────────────────────────────── */
+  .kiln-hero__inner {
+    width: 100%;
+    max-width: var(--kiln-hero-max-width, 800px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: var(--kiln-space-12);
+  }
+
+  .kiln-hero--has-media .kiln-hero__inner {
+    max-width: 1100px;
+  }
+
+  /* ── Content block ──────────────────────────────────────── */
+  .kiln-hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kiln-hero-gap, var(--kiln-space-6));
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Alignment ──────────────────────────────────────────── */
+  .kiln-hero--center .kiln-hero__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .kiln-hero--left .kiln-hero__content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .kiln-hero--right .kiln-hero__content {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  /* ── Eyebrow ────────────────────────────────────────────── */
+  .kiln-hero__eyebrow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--kiln-space-2);
+    /* Default style for plain-string eyebrow labels */
+    font-size: var(--kiln-text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--kiln-primary);
+  }
+
+  .kiln-hero--center .kiln-hero__eyebrow {
+    justify-content: center;
+  }
+
+  .kiln-hero--gradient .kiln-hero__eyebrow {
+    color: var(--kiln-hero-gradient-eyebrow);
+  }
+
+  .kiln-hero--gradient .kiln-hero__title {
+    color: var(--kiln-hero-gradient-title);
+  }
+
+  .kiln-hero--gradient .kiln-hero__description {
+    color: var(--kiln-hero-gradient-desc);
+  }
+
+  /* ── Title ──────────────────────────────────────────────── */
+  .kiln-hero__title {
+    font-size: var(--kiln-hero-title-size, clamp(2rem, 5vw, 3.5rem));
+    font-weight: 700;
+    letter-spacing: var(--kiln-tracking-tight);
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-900);
+    margin: 0;
+    max-width: 680px;
+  }
+
+  .kiln-hero--center .kiln-hero__title {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Description ────────────────────────────────────────── */
+  .kiln-hero__description {
+    font-size: var(--kiln-hero-desc-size, var(--kiln-text-lg));
+    color: var(--kiln-gray-600);
+    max-width: 560px;
+    margin: 0;
+    line-height: var(--kiln-leading-relaxed);
+  }
+
+  .kiln-hero--center .kiln-hero__description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Actions ────────────────────────────────────────────── */
+  .kiln-hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kiln-space-4);
+  }
+
+  .kiln-hero--center .kiln-hero__actions {
+    align-items: center;
+  }
+
+  /* ── Media slot ─────────────────────────────────────────── */
+  .kiln-hero__media {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .kiln-hero--has-media .kiln-hero__inner {
+      flex-direction: column;
+    }
+
+    .kiln-hero__media {
+      width: 100%;
+    }
+
+    .kiln-hero__title {
+      max-width: 100%;
+    }
+
+    .kiln-hero__description {
+      max-width: 100%;
+    }
+
+    /* Collapse left/right-aligned to center on mobile for better readability */
+    .kiln-hero--left .kiln-hero__content,
+    .kiln-hero--right .kiln-hero__content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .kiln-hero--left .kiln-hero__eyebrow,
+    .kiln-hero--left .kiln-hero__actions,
+    .kiln-hero--right .kiln-hero__eyebrow,
+    .kiln-hero--right .kiln-hero__actions {
+      justify-content: center;
+    }
+  }
+} /* end @layer kiln */

@@ -24,3 +24,5 @@ cdk/cdk.out/
 # Misc
 .DS_Store
 *.log
+
+.claude/

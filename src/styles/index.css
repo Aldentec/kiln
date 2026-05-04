@@ -45,6 +45,7 @@
 @import '../components/NotificationBar/NotificationBar.css';
 @import '../components/ToolsPanel/ToolsPanel.css';
 @import '../components/SplitPanel/SplitPanel.css';
+@import '../components/Hero/Hero.css';
 
 /* ── Base reset — must come AFTER all @imports ── */
 html {

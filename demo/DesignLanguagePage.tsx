@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Footer, Header, Button, Card, Grid } from '@doriansmith/kiln';
+import { Nav, Footer, Hero, Header, Button, Card, Grid } from '@doriansmith/kiln';
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
 
 // ─── Topic preview data ───────────────────────────────────
@@ -112,16 +112,13 @@ export default function DesignLanguagePage() {
         {/* ══════════════════════════════════════════════
             HERO
         ══════════════════════════════════════════════ */}
-        <section aria-labelledby="dl-hero-heading">
-          <Header
-            id="dl-hero-heading"
-            variant="h1"
-            tagline="Design Language"
-            description="Color, typography, spacing, tokens, iconography, and motion, documented so you can extend the system consistently."
-          >
-            The visual and systemic building blocks behind every Kiln component
-          </Header>
-        </section>
+        <Hero
+          id="dl-hero-heading"
+          size="md"
+          eyebrow="Design Language"
+          title="The visual and systemic building blocks behind every Kiln component"
+          description="Color, typography, spacing, tokens, iconography, and motion, documented so you can extend the system consistently."
+        />
 
         {/* ══════════════════════════════════════════════
             COMING SOON + TOPIC GRID

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Footer, Header, Card, Badge, Button } from '@doriansmith/kiln';
+import { Nav, Footer, Header, Card, Badge, Button, Hero } from '@doriansmith/kiln';
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
 
 // ─── Shared layout styles ────────────────────────────────
@@ -112,62 +112,24 @@ export default function AboutPage() {
         {/* ══════════════════════════════════════════════
             HERO
         ══════════════════════════════════════════════ */}
-        <section aria-labelledby="about-hero-heading">
-          <Header
-            id="about-hero-heading"
-            variant="h1"
-            tagline="Why Kiln"
-            description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 26 KB gzipped, zero dependencies."
-            actions={
-              <div
-                style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
-                aria-label="Key differentiators"
-              >
-                <Badge variant="success">WCAG AA</Badge>
-                <Badge variant="info">&lt; 26 KB gzipped</Badge>
-                <Badge variant="running">Zero dependencies</Badge>
-                <Badge variant="pending">v0.1.0</Badge>
-              </div>
-            }
-          >
-            Why Kiln: Accessible React Components for Indie Developers
-          </Header>
-        </section>
-
-        {/* ══════════════════════════════════════════════
-            THE PROBLEM
-        ══════════════════════════════════════════════ */}
-        <section
-          aria-labelledby="problem-heading"
-          style={{ background: 'var(--kiln-surface)', paddingBottom: 'var(--kiln-space-16)' }}
-        >
-          <div style={{ ...sectionBase, maxWidth: 800 }}>
-            <Header
-              id="problem-heading"
-              variant="h2"
-              description="The problem"
-              divider
+        <Hero
+          id="about-hero-heading"
+          size="md"
+          eyebrow="Why Kiln"
+          title="Why Kiln: Accessible React Components for Indie Developers"
+          description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 26 KB gzipped, zero dependencies."
+          actions={
+            <div
+              style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
+              aria-label="Key differentiators"
             >
-              You shouldn&apos;t have to rebuild UI primitives every project.
-            </Header>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)', color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)' }}>
-              <p style={{ margin: 0 }}>
-                Every new project starts the same way: you need a button that looks good, an input
-                with proper labels, a modal that traps focus, tabs that work with arrow keys. So you
-                build them again. And again. And again.
-              </p>
-              <p style={{ margin: 0 }}>
-                Then you reach for a component library and discover it needs a theme provider,
-                three context wrappers, a config file, and still doesn&apos;t handle keyboard
-                navigation properly. Now you&apos;re spending hours wiring up infrastructure
-                instead of building your product.
-              </p>
-              <p style={{ margin: 0 }}>
-                <strong style={{ color: 'var(--kiln-gray-700)' }}>Kiln exists because this cycle is broken.</strong>
-              </p>
+              <Badge variant="success">WCAG AA</Badge>
+              <Badge variant="info">&lt; 26 KB gzipped</Badge>
+              <Badge variant="running">Zero dependencies</Badge>
+              <Badge variant="pending">v0.3.0</Badge>
             </div>
-          </div>
-        </section>
+          }
+        />
 
         {/* ══════════════════════════════════════════════
             THE 4 PILLARS
