@@ -43,6 +43,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .kiln-theme-toggle svg {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .kiln-theme-toggle {
     transition: none;
   }

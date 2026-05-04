@@ -1,6 +1,7 @@
 import React from 'react';
 import { Hero, Button, Badge } from '@doriansmith/kiln';
 import type { ComponentDoc } from './types';
+import { KILN_STATS } from '../constants';
 
 const HeroPreview: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-6)', width: '100%' }}>
@@ -9,7 +10,7 @@ const HeroPreview: React.FC = () => (
       size="sm"
       eyebrow="Why Kiln"
       title="Ship fast without compromise"
-      description="A lightweight React component library with 25+ WCAG AA-compliant primitives."
+      description={`A lightweight React component library with ${KILN_STATS.componentCount} WCAG AA-compliant primitives.`}
       actions={
         <div style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Button variant="primary" size="sm">Get started</Button>

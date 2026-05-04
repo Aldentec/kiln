@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion } from '@doriansmith/kiln';
+import { Accordion, Badge } from '@doriansmith/kiln';
 import type { AccordionItem } from '@doriansmith/kiln';
 import type { ComponentDoc } from './types';
 
@@ -8,6 +8,25 @@ const AccordionPreview: React.FC = () => {
     { id: 'q1', title: 'What is Kiln?', content: 'A CSS-first React component library built for indie developers and small teams.' },
     { id: 'q2', title: 'Does it support dark mode?', content: 'Yes — add data-theme="dark" to <html> and every component adapts automatically.' },
     { id: 'q3', title: 'Is TypeScript required?', content: 'No, but all props are fully typed with inferred generics for a smooth DX.' },
+    {
+      id: 'q4',
+      title: (
+        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)' }}>
+          What&apos;s new in v0.3.0?
+          <Badge variant="info">New</Badge>
+        </span>
+      ),
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-2)' }}>
+          <p style={{ margin: 0 }}>Hero component, right alignment, rich accordion titles, and more.</p>
+          <div style={{ display: 'flex', gap: 'var(--kiln-space-2)', flexWrap: 'wrap' }}>
+            <Badge variant="success">Hero</Badge>
+            <Badge variant="running">Accordion</Badge>
+            <Badge variant="info">Alignment</Badge>
+          </div>
+        </div>
+      ),
+    },
   ];
   return <Accordion items={items} defaultOpenIds={['q1']} />;
 };
@@ -17,17 +36,36 @@ export const accordion: ComponentDoc = {
   name: 'Accordion',
   description: 'Collapsible content panels for revealing hierarchical information progressively.',
   preview: AccordionPreview,
-  code: `import { Accordion } from '@doriansmith/kiln';
+  code: `import { Accordion, Badge } from '@doriansmith/kiln';
 
 const items = [
   { id: 'q1', title: 'What is Kiln?', content: 'A CSS-first React component library built for indie developers and small teams.' },
   { id: 'q2', title: 'Does it support dark mode?', content: 'Yes — add data-theme="dark" to <html> and every component adapts automatically.' },
   { id: 'q3', title: 'Is TypeScript required?', content: 'No, but all props are fully typed with inferred generics for a smooth DX.' },
+  {
+    id: 'q4',
+    title: (
+      <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)' }}>
+        What's new in v0.3.0?
+        <Badge variant="info">New</Badge>
+      </span>
+    ),
+    content: (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-2)' }}>
+        <p style={{ margin: 0 }}>Hero component, right alignment, rich accordion titles, and more.</p>
+        <div style={{ display: 'flex', gap: 'var(--kiln-space-2)', flexWrap: 'wrap' }}>
+          <Badge variant="success">Hero</Badge>
+          <Badge variant="running">Accordion</Badge>
+          <Badge variant="info">Alignment</Badge>
+        </div>
+      </div>
+    ),
+  },
 ];
 
 <Accordion items={items} defaultOpenIds={['q1']} />`,
   props: [
-    { name: 'items', type: 'AccordionItem[]', default: '—', required: true, description: 'Array of accordion items (id, title, content, disabled?)' },
+    { name: 'items', type: 'AccordionItem[]', default: '—', required: true, description: 'Array of accordion items. id: string, title: React.ReactNode, content: React.ReactNode, disabled?: boolean.' },
     { name: 'allowMultiple', type: 'boolean', default: 'false', required: false, description: 'Allow multiple items open simultaneously' },
     { name: 'defaultOpenIds', type: 'string[]', default: '[]', required: false, description: 'IDs open on first render (uncontrolled)' },
     { name: 'openIds', type: 'string[]', default: '—', required: false, description: 'Controlled open IDs array' },

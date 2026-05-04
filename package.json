@@ -1,6 +1,6 @@
 {
   "name": "@doriansmith/kiln",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Accessible React component library for indie developers. WCAG AA, < 25 KB gzipped, zero dependencies, zero config. Install and ship in under 2 minutes.",
   "keywords": [
     "react",
@@ -39,13 +39,24 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./kiln.css": "./dist/kiln.css"
+    "./kiln.css": "./dist/kiln.css",
+    "./icons": {
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js",
+      "require": "./dist/icons/index.cjs"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "import": "./dist/icons/*.js",
+      "require": "./dist/icons/*.cjs"
+    }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup && node -e \"const fs=require('fs');fs.renameSync('dist/index.css','dist/kiln.css');fs.renameSync('dist/index.css.map','dist/kiln.css.map');\"",
+    "build:icons": "node scripts/build-icons.mjs",
+    "build": "npm run build:icons && tsup && node -e \"const fs=require('fs');fs.renameSync('dist/index.css','dist/kiln.css');fs.renameSync('dist/index.css.map','dist/kiln.css.map');\"",
     "dev": "vite",
     "test": "vitest run",
     "test:watch": "vitest",

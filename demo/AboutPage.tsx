@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Footer, Header, Card, Badge, Button, Hero } from '@doriansmith/kiln';
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
+import { KILN_STATS } from './constants';
 
 // ─── Shared layout styles ────────────────────────────────
 const sectionBase: React.CSSProperties = {
@@ -43,7 +44,7 @@ const PILLARS = [
     ),
     title: 'Performance-first',
     problem: 'Heavy component libraries silently tank your Lighthouse scores. JavaScript animation overhead, layout thrashing, and Cumulative Layout Shift creep in as you add features, and your users pay for it with slow load times.',
-    solution: 'Zero layout shift on every interaction. All animations use `transform` and `opacity`, GPU-accelerated, no layout thrashing, no JavaScript animation overhead. The entire CSS bundle is ~10 KB gzipped. Total gzipped footprint is under 26 KB.',
+    solution: `Zero layout shift on every interaction. All animations use \`transform\` and \`opacity\`, GPU-accelerated, no layout thrashing, no JavaScript animation overhead. The entire CSS bundle is ~${KILN_STATS.bundleCssGzipped} gzipped. Total gzipped footprint is ${KILN_STATS.bundleSizeGzippedFull}.`,
     benefit: 'Your Lighthouse scores stay green as you scale. Pages load fast, interactions feel instant, and you never have to choose between polish and performance.',
   },
   {
@@ -73,18 +74,18 @@ const PILLARS = [
     ),
     title: 'Built for solo devs',
     problem: 'Most UI libraries demand hours of setup: config files, theme providers, context wrappers, and peer dependency wrangling. For a solo developer or small team, that is time stolen from building the product that matters.',
-    solution: 'From `npm install` to rendering a Kiln component in under 2 minutes. No config files. No setup wizards. No theme provider components. No required context wrappers. One CSS import, then import and use. Every code example is copy-paste ready with full TypeScript inference.',
+    solution: `From \`npm install\` to rendering a Kiln component in under ${KILN_STATS.installTimeMinutes} minutes. No config files. No setup wizards. No theme provider components. No required context wrappers. One CSS import, then import and use. Every code example is copy-paste ready with full TypeScript inference.`,
     benefit: 'Stop rebuilding the same buttons, inputs, and modals every project. Install, import, and ship so you can focus on your product, not your component library.',
   },
 ];
 
 // ─── Tech specs ──────────────────────────────────────────
 const TECH_SPECS = [
-  { label: 'Total gzipped', value: '< 26 KB' },
-  { label: 'CSS bundle', value: '~10 KB' },
-  { label: 'JS bundle (ESM)', value: '~13 KB' },
+  { label: 'Total gzipped', value: KILN_STATS.bundleSizeGzipped },
+  { label: 'CSS bundle', value: `~${KILN_STATS.bundleCssGzipped}` },
+  { label: 'JS bundle (ESM)', value: `~${KILN_STATS.bundleJsGzipped}` },
   { label: 'Dependencies', value: 'Zero' },
-  { label: 'Components', value: '25+' },
+  { label: 'Components', value: KILN_STATS.componentCount },
   { label: 'WCAG level', value: 'AA' },
 ];
 
@@ -116,15 +117,15 @@ export default function AboutPage() {
           id="about-hero-heading"
           size="md"
           eyebrow="Why Kiln"
-          title="Why Kiln: Accessible React Components for Indie Developers"
-          description="Kiln is an accessible, performant React component library built for indie developers and small teams who refuse to choose between shipping fast and doing it right. WCAG AA compliant, under 26 KB gzipped, zero dependencies."
+          title="Built for the people who ship"
+          description="Accessible, performant React primitives for indie developers and small teams who refuse to choose between speed and quality."
           actions={
             <div
               style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
               aria-label="Key differentiators"
             >
               <Badge variant="success">WCAG AA</Badge>
-              <Badge variant="info">&lt; 26 KB gzipped</Badge>
+              <Badge variant="info">{KILN_STATS.bundleSizeGzipped} gzipped</Badge>
               <Badge variant="running">Zero dependencies</Badge>
               <Badge variant="pending">v0.3.0</Badge>
             </div>
@@ -344,43 +345,13 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════
-            CREDIT
-        ══════════════════════════════════════════════ */}
-        <section aria-labelledby="credit-heading" style={{ padding: 'var(--kiln-space-12) 0' }}>
-          <div style={{ ...sectionBase, textAlign: 'center', maxWidth: 600 }}>
-            <p
-              id="credit-heading"
-              style={{
-                fontSize: 'var(--kiln-text-sm)',
-                color: 'var(--kiln-gray-600)',
-                margin: 0,
-                lineHeight: 'var(--kiln-leading-relaxed)',
-              }}
-            >
-              Built by{' '}
-              <a
-                href="https://doriansmith.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: 'var(--kiln-primary)',
-                  textDecoration: 'none',
-                  fontWeight: 600,
-                }}
-              >
-                Dorian Smith
-              </a>
-            </p>
-          </div>
-        </section>
       </main>
 
       {/* ── Footer ──────────────────────────────────── */}
       <Footer
         logo={NAV_LOGO}
         links={FOOTER_LINKS}
-        copyright={`© ${new Date().getFullYear()} Dorian Smith`}
+        copyright={<>© {new Date().getFullYear()} <a href="https://doriansmith.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Dorian Smith</a></>}
         credit="Kiln v0.3.0 - MIT License"
       />
     </div>

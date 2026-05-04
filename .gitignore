@@ -26,3 +26,6 @@ cdk/cdk.out/
 *.log
 
 .claude/
+.playwright-mcp/
+
+.svgweaver/

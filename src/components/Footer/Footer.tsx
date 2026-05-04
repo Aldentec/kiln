@@ -14,7 +14,7 @@ export interface FooterProps {
   /** Logo / wordmark slot. */
   logo?: React.ReactNode;
   links?: FooterLink[];
-  copyright?: string;
+  copyright?: React.ReactNode;
   /** Optional credit line, e.g. "Created by Dorian Smith". Accepts ReactNode for links. */
   credit?: React.ReactNode;
   className?: string;

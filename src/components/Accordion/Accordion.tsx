@@ -7,8 +7,8 @@ import './Accordion.css';
 
 export interface AccordionItem {
   id: string;
-  /** Trigger text shown in the collapsed header row */
-  title: string;
+  /** Trigger content shown in the collapsed header row — string or any ReactNode */
+  title: React.ReactNode;
   /** Body content revealed when the item is open */
   content: React.ReactNode;
   disabled?: boolean;

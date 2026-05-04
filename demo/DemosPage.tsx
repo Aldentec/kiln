@@ -74,7 +74,7 @@ export default function DemosPage() {
       <Footer
         logo={NAV_LOGO}
         links={FOOTER_LINKS}
-        copyright={`© ${new Date().getFullYear()} Dorian Smith`}
+        copyright={<>© {new Date().getFullYear()} <a href="https://doriansmith.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Dorian Smith</a></>}
         credit="Kiln v0.3.0 - MIT License"
       />
     </div>

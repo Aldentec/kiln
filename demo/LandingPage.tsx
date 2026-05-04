@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react';
 import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
-  Footer, Grid, Hero,
+  Footer, Grid, Hero, Accordion,
 } from '@doriansmith/kiln';
 
 // Lazy-load CodeBlock so highlight.js never lands on the critical path.
@@ -11,6 +11,7 @@ const CodeBlock = lazy(() =>
 );
 
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, NavActions } from './nav';
+import { KILN_STATS } from './constants';
 
 // ─── Code snippets ────────────────────────────────────────
 const INSTALL_CODE = `npm install @doriansmith/kiln`;
@@ -104,11 +105,25 @@ const PILLARS = [
   },
 ];
 
-// ─── Preview tab items ────────────────────────────────────
-const PREVIEW_TABS = [
-  { value: 'overview', label: 'Overview' },
-  { value: 'api', label: 'API' },
-  { value: 'examples', label: 'Examples' },
+// ─── Live demo ────────────────────────────────────────────
+type IssueSeverity = 'critical' | 'high' | 'medium' | 'low';
+interface DemoIssue { id: string; title: string; severity: IssueSeverity; status: 'open' | 'resolved'; time: string; }
+
+const INITIAL_ISSUES: DemoIssue[] = [
+  { id: 'i1', title: 'Auth service timeout in EU-West', severity: 'critical', status: 'open', time: '2m ago' },
+  { id: 'i2', title: 'Rate limiter threshold exceeded', severity: 'high', status: 'open', time: '14m ago' },
+  { id: 'i3', title: 'Cache miss rate elevated to 72%', severity: 'medium', status: 'open', time: '1h ago' },
+  { id: 'i4', title: 'CDN edge latency +40ms spike', severity: 'low', status: 'open', time: '3h ago' },
+];
+
+const SEVERITY_BADGE: Record<IssueSeverity, 'critical' | 'warning' | 'running' | 'info'> = {
+  critical: 'critical', high: 'warning', medium: 'running', low: 'info',
+};
+
+const DEMO_NAV_TABS = [
+  { value: 'dashboard', label: 'Dashboard' },
+  { value: 'issues', label: 'Issues' },
+  { value: 'settings', label: 'Settings' },
 ];
 
 // ─── Shared layout helpers ────────────────────────────────
@@ -138,14 +153,168 @@ const sectionHeading: React.CSSProperties = {
   margin: '0 0 var(--kiln-space-4)',
 };
 
-const previewLabel: React.CSSProperties = {
-  fontSize: 'var(--kiln-text-xs)',
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.1em',
-  color: 'var(--kiln-gray-500)', /* was opacity:0.4 which blends to ~2:1 in both modes ❌ */
-  marginBottom: 'var(--kiln-space-4)',
-};
+// ─── LiveDemo ─────────────────────────────────────────────
+function LiveDemo() {
+  const [tab, setTab] = useState('dashboard');
+  const [issues, setIssues] = useState<DemoIssue[]>(INITIAL_ISSUES);
+  const [filters, setFilters] = useState<Set<string>>(new Set());
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [saved, setSaved] = useState(false);
+  const [notifyVia, setNotifyVia] = useState<Set<string>>(new Set(['Email']));
+
+  const resolve = (id: string) =>
+    setIssues(prev => prev.map(i => i.id === id ? { ...i, status: 'resolved' } : i));
+
+  const filteredIssues = filters.size === 0 ? issues : issues.filter(i => filters.has(i.severity));
+  const openCount = issues.filter(i => i.status === 'open').length;
+  const criticalCount = issues.filter(i => i.severity === 'critical' && i.status === 'open').length;
+
+  return (
+    <Card variant="default" style={{ '--kiln-card-padding': '0', overflow: 'hidden' } as React.CSSProperties}>
+      {/* Mock browser chrome */}
+      <div style={{
+        padding: 'var(--kiln-space-3) var(--kiln-space-5)',
+        background: 'var(--kiln-gray-100)',
+        borderBottom: '1px solid var(--kiln-gray-200)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--kiln-space-2)',
+      }}>
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57', display: 'inline-block' }} aria-hidden="true" />
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e', display: 'inline-block' }} aria-hidden="true" />
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840', display: 'inline-block' }} aria-hidden="true" />
+        <span style={{
+          flex: 1, maxWidth: 260, margin: '0 auto',
+          background: 'var(--kiln-surface-raised)',
+          borderRadius: 'var(--kiln-radius-sm)',
+          padding: '3px var(--kiln-space-3)',
+          fontSize: 'var(--kiln-text-xs)',
+          color: 'var(--kiln-gray-500)',
+          fontFamily: 'var(--kiln-font-mono)',
+          textAlign: 'center',
+        }}>
+          kiln-demo.app/dashboard
+        </span>
+      </div>
+
+      <div style={{ padding: 'var(--kiln-space-6)' }}>
+        <Tabs items={DEMO_NAV_TABS} value={tab} onChange={setTab} ariaLabel="Demo app navigation" />
+
+        {/* ── Dashboard ── */}
+        {tab === 'dashboard' && (
+          <div style={{ marginTop: 'var(--kiln-space-6)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--kiln-space-4)', marginBottom: 'var(--kiln-space-6)' }}>
+              {([
+                { value: openCount, label: 'Open issues', badge: <Badge variant={openCount > 0 ? 'warning' : 'success'}>{openCount > 0 ? 'Needs attention' : 'All clear'}</Badge> },
+                { value: criticalCount, label: 'Critical', badge: criticalCount > 0 ? <Badge variant="critical">P0</Badge> : <Badge variant="success">None</Badge> },
+                { value: '98', label: 'Lighthouse', badge: <Badge variant="success">Healthy</Badge> },
+              ] as const).map(({ value, label, badge }) => (
+                <Card key={label} variant="default" style={{ '--kiln-card-padding': 'var(--kiln-space-5)' } as React.CSSProperties}>
+                  <div style={{ fontSize: 'var(--kiln-text-3xl)', fontWeight: 700, lineHeight: 1, color: 'var(--kiln-gray-900)' }}>{value}</div>
+                  <div style={{ fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', margin: 'var(--kiln-space-1) 0 var(--kiln-space-2)' }}>{label}</div>
+                  {badge}
+                </Card>
+              ))}
+            </div>
+
+            <p style={{ ...sectionLabel, marginBottom: 'var(--kiln-space-3)' }}>Recent alerts</p>
+            <Accordion
+              items={issues.map(issue => ({
+                id: issue.id,
+                title: (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)' }}>
+                    <Badge variant={SEVERITY_BADGE[issue.severity]}>{issue.severity}</Badge>
+                    <span style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 500 }}>{issue.title}</span>
+                  </span>
+                ),
+                content: (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--kiln-space-3)', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-500)' }}>Detected {issue.time}</span>
+                    {issue.status === 'open'
+                      ? <Button variant="primary" size="sm" onClick={() => resolve(issue.id)}>Resolve</Button>
+                      : <Badge variant="success">Resolved</Badge>}
+                  </div>
+                ),
+              }))}
+            />
+          </div>
+        )}
+
+        {/* ── Issues ── */}
+        {tab === 'issues' && (
+          <div style={{ marginTop: 'var(--kiln-space-6)' }}>
+            <div style={{ display: 'flex', gap: 'var(--kiln-space-2)', flexWrap: 'wrap', marginBottom: 'var(--kiln-space-4)' }}>
+              {(['critical', 'high', 'medium', 'low'] as IssueSeverity[]).map(sev => (
+                <Chip key={sev} selected={filters.has(sev)} onToggle={sel => {
+                  const next = new Set(filters);
+                  sel ? next.add(sev) : next.delete(sev);
+                  setFilters(next);
+                }}>{sev}</Chip>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-3)' }}>
+              {filteredIssues.length === 0 && (
+                <p style={{ textAlign: 'center', padding: 'var(--kiln-space-8)', color: 'var(--kiln-gray-500)', fontSize: 'var(--kiln-text-sm)' }}>
+                  No issues match your filter.
+                </p>
+              )}
+              {filteredIssues.map(issue => (
+                <Card key={issue.id} variant="default" style={{ '--kiln-card-padding': 'var(--kiln-space-4)' } as React.CSSProperties}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--kiln-space-3)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', minWidth: 0 }}>
+                      <Badge variant={SEVERITY_BADGE[issue.severity]}>{issue.severity}</Badge>
+                      <span style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 500, color: 'var(--kiln-gray-900)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{issue.title}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', flexShrink: 0 }}>
+                      <span style={{ fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-500)' }}>{issue.time}</span>
+                      {issue.status === 'open'
+                        ? <Button variant="secondary" size="sm" onClick={() => resolve(issue.id)}>Resolve</Button>
+                        : <Badge variant="success">Resolved</Badge>}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Settings ── */}
+        {tab === 'settings' && (
+          <div style={{ marginTop: 'var(--kiln-space-6)', maxWidth: 420 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-5)' }}>
+              <Input label="Display name" placeholder="Dorian Smith" value={name}
+                onChange={e => { setName(e.target.value); setSaved(false); }} />
+              <Input label="Email" type="email" placeholder="you@example.com" value={email}
+                onChange={e => { setEmail(e.target.value); setSaved(false); }}
+                helperText="Used for alert notifications." />
+              <div>
+                <p style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 600, color: 'var(--kiln-gray-700)', marginBottom: 'var(--kiln-space-2)', marginTop: 0 }}>
+                  Notify via
+                </p>
+                <div style={{ display: 'flex', gap: 'var(--kiln-space-2)', flexWrap: 'wrap' }}>
+                  {['Email', 'Slack', 'SMS'].map(ch => (
+                    <Chip key={ch} selected={notifyVia.has(ch)} onToggle={sel => {
+                      const next = new Set(notifyVia);
+                      sel ? next.add(ch) : next.delete(ch);
+                      setNotifyVia(next);
+                    }}>{ch}</Chip>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)' }}>
+                <Button variant="primary" size="sm" disabled={!name.trim() || !email.trim()} onClick={() => setSaved(true)}>
+                  Save changes
+                </Button>
+                {saved && <Badge variant="success">Saved</Badge>}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
 
 // ─── Component ────────────────────────────────────────────
 export default function LandingPage() {
@@ -175,6 +344,7 @@ export default function LandingPage() {
         ══════════════════════════════════════════════ */}
         <Hero
           id="landing-hero-heading"
+          style={{ '--kiln-hero-title-size': 'clamp(1.75rem, 4vw, var(--kiln-text-4xl))' } as React.CSSProperties}
           eyebrow={
             <div
               aria-hidden="true"
@@ -183,6 +353,7 @@ export default function LandingPage() {
                 fontWeight: 700,
                 letterSpacing: 'var(--kiln-tracking-tight)',
                 lineHeight: 1,
+                textTransform: 'none',
                 background: 'var(--kiln-gradient-brand)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -194,25 +365,61 @@ export default function LandingPage() {
             </div>
           }
           title="Accessible React Component Library: Ship Fast Without Compromise"
-          description="Kiln is a lightweight React component library with 25+ WCAG AA-compliant components. Zero config, zero dependencies, under 26 KB gzipped. Install and ship accessible UIs in under 2 minutes."
+          description={`Kiln is a lightweight React component library with ${KILN_STATS.componentCount} WCAG AA-compliant components. Zero config, zero dependencies, ${KILN_STATS.bundleSizeGzippedFull} gzipped. Install and ship accessible UIs in under ${KILN_STATS.installTimeMinutes} minutes.`}
           actions={
             <>
               <div style={{ display: 'flex', gap: 'var(--kiln-space-4)', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Button variant="primary" href="/components" size="lg">View Components</Button>
-                <Button variant="secondary" href="#install" size="lg">Get Started</Button>
+                <Button variant="primary" href="/components">View Components</Button>
+                <Button variant="secondary" href="#install">Get Started</Button>
               </div>
               <div
-                style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}
+                style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center', marginTop: 'var(--kiln-space-4)' }}
                 aria-label="Key features"
               >
                 <Badge variant="success">WCAG AA</Badge>
                 <Badge variant="info">TypeScript</Badge>
-                <Badge variant="running">25+ Primitives</Badge>
+                <Badge variant="running">{KILN_STATS.componentCount} Primitives</Badge>
                 <Badge variant="pending">v0.3.0</Badge>
               </div>
             </>
           }
         />
+
+        {/* ══════════════════════════════════════════════
+            STATS STRIP
+        ══════════════════════════════════════════════ */}
+        <section
+          aria-label="Key metrics"
+          style={{
+            borderTop: '1px solid var(--kiln-gray-200)',
+            borderBottom: '1px solid var(--kiln-gray-200)',
+            background: 'var(--kiln-surface)',
+          }}
+        >
+          <div
+            style={{
+              ...sectionBase,
+              padding: 'var(--kiln-space-8) clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8))',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'var(--kiln-space-8)',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {([
+              { value: KILN_STATS.npmDownloads, label: 'npm downloads' },
+              { value: KILN_STATS.componentCount, label: 'components' },
+              { value: KILN_STATS.axeIssues, label: 'axe issues' },
+              { value: KILN_STATS.bundleSizeGzipped, label: 'gzipped total' },
+            ] as const).map(({ value, label }) => (
+              <div key={label} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 700, color: 'var(--kiln-primary)', lineHeight: 1 }}>{value}</div>
+                <div style={{ fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', marginTop: 'var(--kiln-space-1)' }}>{label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ══════════════════════════════════════════════
             THREE PILLARS
@@ -285,7 +492,7 @@ export default function LandingPage() {
               <div>
                 <p style={sectionLabel}>Get started</p>
                 <h2 id="install-heading" style={sectionHeading}>
-                  From install to render in under 2 minutes.
+                  From install to render in under {KILN_STATS.installTimeMinutes} minutes.
                 </h2>
                 <p
                   style={{
@@ -339,7 +546,7 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              {/* Right: code blocks — Suspense keeps CodeBlock/hljs off the critical path */}
+              {/* Right: code blocks. Suspense keeps CodeBlock/hljs off the critical path */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-4)' }}>
                 <Suspense fallback={null}>
                   <CodeBlock code={INSTALL_CODE} language="bash" />
@@ -351,105 +558,111 @@ export default function LandingPage() {
         </section>
 
         {/* ══════════════════════════════════════════════
-            COMPONENT PREVIEW
+            LIVE DEMO
         ══════════════════════════════════════════════ */}
         <section
-          aria-labelledby="preview-heading"
+          aria-labelledby="demo-heading"
           style={{ background: 'var(--kiln-surface)', padding: 'var(--kiln-space-16) 0' }}
         >
           <div style={sectionBase}>
-            <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
-              <p style={sectionLabel}>Components</p>
-              <h2 id="preview-heading" style={sectionHeading}>
-                20+ primitives, ready to ship.
+            <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-10)' }}>
+              <p style={sectionLabel}>Interactive demo</p>
+              <h2 id="demo-heading" style={sectionHeading}>
+                See it working. Click around.
               </h2>
               <p style={{ color: 'var(--kiln-gray-600)', maxWidth: 480, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
-                Everything you need for a polished app. Nothing you don't.
+                Not screenshots. Actual rendered Kiln components: Tabs, Accordion, Badge, Button, Chip, Input, Card, all live below.
+              </p>
+            </div>
+
+            <LiveDemo />
+
+            <div style={{ textAlign: 'center', marginTop: 'var(--kiln-space-10)' }}>
+              <Button variant="ghost" href="/components" size="lg">
+                View all {KILN_STATS.componentCount} components →
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════════════
+            PROOF: screenshots + bundle size
+        ══════════════════════════════════════════════ */}
+        <section aria-labelledby="proof-heading" style={{ padding: 'var(--kiln-space-16) 0' }}>
+          <div style={sectionBase}>
+            <div style={{ textAlign: 'center', marginBottom: 'var(--kiln-space-12)' }}>
+              <p style={sectionLabel}>Evidence</p>
+              <h2 id="proof-heading" style={sectionHeading}>Measured. Not claimed.</h2>
+              <p style={{ color: 'var(--kiln-gray-600)', maxWidth: 560, margin: '0 auto', lineHeight: 'var(--kiln-leading-relaxed)' }}>
+                Real screenshots from real tools. Not badges. Not self-reported numbers.
               </p>
             </div>
 
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: 'var(--kiln-space-5)',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(420px, 100%), 1fr))',
+                gap: 'var(--kiln-space-6)',
+                marginBottom: 'var(--kiln-space-8)',
               }}
             >
-              {/* Buttons */}
-              <PreviewCard label="Button">
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--kiln-space-2)' }}>
-                  <Button size="sm" variant="primary">Primary</Button>
-                  <Button size="sm" variant="secondary">Secondary</Button>
-                  <Button size="sm" variant="ghost">Ghost</Button>
-                  <Button size="sm" variant="danger">Danger</Button>
+              <Card variant="default" style={{ '--kiln-card-padding': '0', overflow: 'hidden' } as React.CSSProperties}>
+                <img
+                  src="/lighthouse-screenshot-1.png"
+                  alt={`Google Lighthouse report: ${KILN_STATS.lighthousePerf} Performance, ${KILN_STATS.lighthouseA11y} Accessibility, 96 Best Practices, ${KILN_STATS.lighthouseSeo} SEO`}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div style={{ padding: 'var(--kiln-space-4) var(--kiln-space-5)' }}>
+                  <p style={{ margin: 0, fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)' }}>
+                    Google Lighthouse, production build (<code style={{ fontFamily: 'var(--kiln-font-mono)', fontSize: 'var(--kiln-text-xs)' }}>localhost:4173</code>)
+                  </p>
                 </div>
-              </PreviewCard>
+              </Card>
 
-              {/* Badges */}
-              <PreviewCard label="Badge">
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--kiln-space-2)' }}>
-                  <Badge variant="success">Success</Badge>
-                  <Badge variant="warning">Warning</Badge>
-                  <Badge variant="critical">Critical</Badge>
-                  <Badge variant="info">Info</Badge>
-                  <Badge variant="pending">Pending</Badge>
-                  <Badge variant="running">Running</Badge>
+              <Card variant="default" style={{ '--kiln-card-padding': '0', overflow: 'hidden' } as React.CSSProperties}>
+                <img
+                  src="/axe-screenshot-1.png"
+                  alt="axe DevTools report: 0 automatic issues, 0 guided issues, 0 manual issues. WCAG 2.1 AA"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div style={{ padding: 'var(--kiln-space-4) var(--kiln-space-5)' }}>
+                  <p style={{ margin: 0, fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)' }}>
+                    axe DevTools · WCAG 2.1 AA · {KILN_STATS.axeIssues} issues across all categories
+                  </p>
                 </div>
-              </PreviewCard>
-
-              {/* Input */}
-              <PreviewCard label="Input">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-3)' }}>
-                  <Input placeholder="Default input" />
-                  <Input errorText="Something went wrong" placeholder="Error state" />
-                </div>
-              </PreviewCard>
-
-              {/* Chips */}
-              <PreviewCard label="Chip">
-                <ChipPreview />
-              </PreviewCard>
-
-              {/* Tabs */}
-              <PreviewCard label="Tabs">
-                <Tabs items={PREVIEW_TABS} defaultValue="overview" />
-              </PreviewCard>
-
-              {/* Cards */}
-              <PreviewCard label="Card">
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 'var(--kiln-space-2)',
-                  }}
-                >
-                  {(['default', 'raised', 'glass', 'gradient-border'] as const).map((v) => (
-                    <Card
-                      key={v}
-                      variant={v}
-                      style={{ '--kiln-card-padding': 'var(--kiln-space-3)' } as React.CSSProperties}
-                    >
-                      <span
-                        style={{
-                          fontSize: 'var(--kiln-text-xs)',
-                          color: 'var(--kiln-gray-600)',
-                          textTransform: 'capitalize',
-                        }}
-                      >
-                        {v}
-                      </span>
-                    </Card>
-                  ))}
-                </div>
-              </PreviewCard>
+              </Card>
             </div>
 
-            <div style={{ textAlign: 'center', marginTop: 'var(--kiln-space-10)' }}>
-              <Button variant="ghost" href="/components" size="lg">
-                View all 20+ components →
-              </Button>
-            </div>
+            {/* Bundle size table */}
+            <Card variant="default" style={{ '--kiln-card-padding': 'var(--kiln-space-8)', maxWidth: 520, margin: '0 auto' } as React.CSSProperties}>
+              <p style={{ ...sectionLabel, marginBottom: 'var(--kiln-space-4)' }}>Bundle size, gzipped</p>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--kiln-text-sm)' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid var(--kiln-gray-200)' }}>
+                    <th style={{ textAlign: 'left', padding: 'var(--kiln-space-2) var(--kiln-space-3)', color: 'var(--kiln-gray-500)', fontWeight: 600, fontSize: 'var(--kiln-text-xs)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Asset</th>
+                    <th style={{ textAlign: 'right', padding: 'var(--kiln-space-2) var(--kiln-space-3)', color: 'var(--kiln-gray-500)', fontWeight: 600, fontSize: 'var(--kiln-text-xs)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Gzipped</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: '1px solid var(--kiln-gray-200)' }}>
+                    <td style={{ padding: 'var(--kiln-space-3)', fontFamily: 'var(--kiln-font-mono)', fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-700)' }}>kiln.css</td>
+                    <td style={{ padding: 'var(--kiln-space-3)', textAlign: 'right', color: 'var(--kiln-gray-900)', fontWeight: 600 }}>{KILN_STATS.bundleCssGzipped}</td>
+                  </tr>
+                  <tr style={{ borderBottom: '2px solid var(--kiln-gray-200)' }}>
+                    <td style={{ padding: 'var(--kiln-space-3)', fontFamily: 'var(--kiln-font-mono)', fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-700)' }}>index.js (ESM)</td>
+                    <td style={{ padding: 'var(--kiln-space-3)', textAlign: 'right', color: 'var(--kiln-gray-900)', fontWeight: 600 }}>{KILN_STATS.bundleJsGzipped}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: 'var(--kiln-space-3)', fontWeight: 700, color: 'var(--kiln-gray-900)' }}>Total</td>
+                    <td style={{ padding: 'var(--kiln-space-3)', textAlign: 'right', fontWeight: 700, color: 'var(--kiln-primary)', fontSize: 'var(--kiln-text-base)' }}>{KILN_STATS.bundleSizeGzipped}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </Card>
           </div>
         </section>
 
@@ -484,49 +697,35 @@ export default function LandingPage() {
             </Card>
           </div>
         </section>
+        {/* ══════════════════════════════════════════════
+            BUILT WITH KILN
+        ══════════════════════════════════════════════ */}
+        <section
+          aria-labelledby="dogfood-heading"
+          style={{ background: 'var(--kiln-surface)', borderTop: '1px solid var(--kiln-gray-200)', padding: 'var(--kiln-space-12) 0' }}
+        >
+          <div style={{ ...sectionBase, maxWidth: 680, textAlign: 'center' }}>
+            <p style={sectionLabel}>Eating our own dog food</p>
+            <h2 id="dogfood-heading" style={{ ...sectionHeading, fontSize: 'var(--kiln-text-2xl)', margin: '0 0 var(--kiln-space-4)' }}>
+              This site is built entirely with Kiln.
+            </h2>
+            <p style={{ color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)', marginBottom: 'var(--kiln-space-6)' }}>
+              Every element you see (Nav, Hero, Button, Badge, Card, Chip, Tabs, Input, Grid, Footer) is a Kiln primitive.
+              No custom UI code. No wrappers. Just the library.
+            </p>
+            <Button variant="ghost" href="/components" size="sm">Browse all components →</Button>
+          </div>
+        </section>
       </main>
 
       {/* ── Footer ──────────────────────────────────── */}
       <Footer
         logo={<img src="/logo.png" alt="Kiln" width={36} height={36} style={{ height: 36, width: 36 }} />}
         links={FOOTER_LINKS}
-        copyright={`© ${new Date().getFullYear()} Dorian Smith`}
+        copyright={<>© {new Date().getFullYear()} <a href="https://doriansmith.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Dorian Smith</a></>}
         credit="Kiln v0.1.0, MIT License"
       />
     </div>
   );
 }
 
-// ─── Sub-components ───────────────────────────────────────
-
-function PreviewCard({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <Card variant="default">
-      <p style={previewLabel}>{label}</p>
-      {children}
-    </Card>
-  );
-}
-
-function ChipPreview() {
-  const chips = ['React', 'TypeScript', 'CSS', 'Node.js'];
-  const [selected, setSelected] = useState<Set<string>>(new Set(['React', 'TypeScript']));
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--kiln-space-2)' }}>
-      {chips.map((chip) => (
-        <Chip
-          key={chip}
-          selected={selected.has(chip)}
-          onToggle={(sel) => {
-            const next = new Set(selected);
-            sel ? next.add(chip) : next.delete(chip);
-            setSelected(next);
-          }}
-        >
-          {chip}
-        </Chip>
-      ))}
-    </div>
-  );
-}
