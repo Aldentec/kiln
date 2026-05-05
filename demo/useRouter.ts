@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export type Route = 'landing' | 'components' | 'about' | 'demos' | 'design-language';
+export type Route = 'landing' | 'components' | 'about' | 'demos' | 'design-language' | 'get-started';
 
 interface RouterState {
   route: Route;
@@ -12,6 +12,7 @@ function getState(pathname: string): RouterState {
   if (path === '/about')            return { route: 'about',           slug: '' };
   if (path === '/demos')            return { route: 'demos',           slug: '' };
   if (path === '/design-language')  return { route: 'design-language', slug: '' };
+  if (path === '/get-started')      return { route: 'get-started',     slug: '' };
   if (path === '/components') return { route: 'components', slug: '' };
   // /components/badge, /components/app-layout, etc.
   const match = path.match(/^\/components\/([^/]+)$/);

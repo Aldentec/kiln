@@ -7,16 +7,28 @@
   ─────────────────────────────────────────────────────────── */
 
   .kiln-tabs {
-    display: inline-flex;
+    display: flex;
     gap: var(--kiln-space-1);
     padding: var(--kiln-space-1);
     background: var(--kiln-tabs-bg, var(--kiln-gray-100));
     border: 1px solid var(--kiln-gray-200);
     border-radius: var(--kiln-tabs-radius, var(--kiln-radius-full));
-    width: fit-content;
+    /* width: max-content  → naturally sizes to tab content (not full container)
+       max-width: 100%     → caps at container width when tabs overflow
+       overflow-x: auto    → scrolls at that point instead of wrapping
+       inline-flex cannot scroll (it expands to content, never overflows);
+       flex + max-content gives both natural sizing AND real scroll behaviour. */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;      /* Firefox */
+    width: max-content;
     max-width: 100%;
-    flex-wrap: wrap;
+    box-sizing: border-box;
     box-shadow: var(--kiln-shadow-inner);
+  }
+
+  .kiln-tabs::-webkit-scrollbar {
+    display: none;              /* Chrome / Safari / Edge */
   }
 
   .kiln-tabs__tab {
@@ -34,6 +46,7 @@
     border-radius: var(--kiln-tabs-radius, var(--kiln-radius-full));
     font-family: var(--kiln-font-sans);
     white-space: nowrap;
+    flex-shrink: 0; /* prevent tabs compressing when container overflows */
     /* box-shadow excluded — GPU-unfriendly when animated */
     transition:
       color      var(--kiln-duration-fast) var(--kiln-ease-out),

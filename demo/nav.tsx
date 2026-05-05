@@ -6,6 +6,7 @@ import { navigate } from './useRouter';
 export { navigate };
 
 export const NAV_ITEMS = [
+  { href: '/get-started',     label: 'Get Started' },
   { href: '/components',      label: 'Components' },
   { href: '/design-language', label: 'Design Language' },
   { href: '/demos',           label: 'Demos' },
@@ -31,6 +32,7 @@ export const NavActions: React.FC = () => (
 export const FOOTER_LINKS = [
   { href: 'https://github.com/Aldentec/kiln', label: 'GitHub', external: true as const },
   { href: 'https://www.npmjs.com/package/@doriansmith/kiln', label: 'npm', external: true as const },
+  { href: '/get-started',     label: 'Get Started' },
   { href: '/components',      label: 'Components' },
   { href: '/design-language', label: 'Design Language' },
   { href: '/demos',           label: 'Demos' },

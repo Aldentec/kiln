@@ -16,18 +16,24 @@
     box-sizing: border-box;
   }
 
-  /* ── Auto-fit mode (minColWidth prop) ─────────────────────
+  /* ── Auto-fill mode (minColWidth prop) ────────────────────
      When no data-cols is present, --kiln-grid-min-col-width
      drives layout at every container width with no breakpoints.
      min(..., 100%) prevents overflow on narrow containers.
 
+     auto-fill (not auto-fit) is intentional: auto-fill preserves
+     ghost columns so items never stretch beyond one column-track
+     width when there are fewer items than the grid can fit.
+     auto-fit would collapse empty tracks, causing a single
+     remaining card to expand to the full container width.
+
      Bootstrap cannot do this. Its grid is viewport-class-based.
-     Kiln's auto-fit responds to container width — works inside
+     Kiln's grid responds to container width — works inside
      sidebars, modals, and any nested layout automatically.
   ─────────────────────────────────────────────────────────── */
   .kiln-grid:not([data-cols]) {
     grid-template-columns: repeat(
-      auto-fit,
+      auto-fill,
       minmax(min(var(--kiln-grid-min-col-width, 200px), 100%), 1fr)
     );
   }
