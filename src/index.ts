@@ -8,17 +8,6 @@ export type { SlotProps, PolymorphicProps, PolymorphicPropsWithRef } from './uti
 export { default as Accordion } from './components/Accordion';
 export type { AccordionProps, AccordionItem } from './components/Accordion';
 
-// Box
-export { default as Box } from './components/Box';
-export type {
-  BoxProps,
-  BoxVariant,
-  BoxFontSize,
-  BoxTextAlign,
-  BoxFontWeight,
-  BoxDisplay,
-  BoxFloat,
-} from './components/Box';
 
 // Lifted primitives
 export { default as Modal } from './components/Modal';
@@ -113,6 +102,9 @@ export type { BreadcrumbsProps, BreadcrumbItem } from './components/Breadcrumbs'
 
 export { NotificationBar } from './components/NotificationBar';
 export type { NotificationBarProps, NotificationBarItem, NotificationBarType } from './components/NotificationBar';
+
+export { default as RadioButton } from './components/RadioButton';
+export type { RadioButtonProps } from './components/RadioButton';
 
 export { ToolsPanel } from './components/ToolsPanel';
 export type { ToolsPanelProps } from './components/ToolsPanel';

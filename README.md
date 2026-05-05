@@ -84,9 +84,9 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `Header` | Page and section heading block with optional tagline, description, and actions slot. Provides consistent spacing after the Nav. |
 | `Hero` | Full-width page hero section with eyebrow, title, description, actions, and optional media slots. Semantic `<section>` landmark. Three variants (default / gradient / glass), three sizes, left or centre alignment. |
 | `Badge` | Severity (critical → low) and status (success / warning / error / info / pending / running). |
-| `Box` | Style a single semantic HTML element (h1–h5, p, strong, small, code, pre, samp) with design-system typography. Override font size, color, weight, alignment, display, margin, and padding per-instance. |
 | `Chip` | Selectable filter chip. Controlled and uncontrolled. |
 | `Toggle` | Binary switch for boolean settings. Three sizes, controlled and uncontrolled. |
+| `RadioButton` | Single-selection control for mutually exclusive options. Controlled and uncontrolled, with optional description text, disabled, and read-only states. |
 | `Tabs` | Arrow-key navigation, ARIA tablist / tab / tabpanel. |
 | `Modal` | Portal, focus trap, Escape to close, returns focus on dismiss. |
 | `Nav` | Complete drop-in nav bar — logo slot, desktop links, actions slot, and built-in mobile hamburger + slide-out drawer. |
@@ -351,6 +351,54 @@ const dismiss = (id) => setItems((n) => n.filter((x) => x.id !== id));
 
 ---
 
+## RadioButton
+
+Single-selection control for mutually exclusive options. Custom-styled indicator with micro-interactions, optional description text, and full support for controlled and uncontrolled modes.
+
+```tsx
+import { RadioButton } from '@doriansmith/kiln';
+import { useState } from 'react';
+
+// Uncontrolled
+<RadioButton name="size">Small</RadioButton>
+<RadioButton name="size" defaultChecked>Medium</RadioButton>
+
+// With helper description
+<RadioButton name="plan" description="Unlimited projects, $12/mo" defaultChecked>
+  Pro
+</RadioButton>
+
+// Controlled group
+const [plan, setPlan] = useState('pro');
+
+<RadioButton name="plan" value="starter" checked={plan === 'starter'} onChange={() => setPlan('starter')} description="Up to 3 projects, free forever">Starter</RadioButton>
+<RadioButton name="plan" value="pro"     checked={plan === 'pro'}     onChange={() => setPlan('pro')}     description="Unlimited projects, $12/mo">Pro</RadioButton>
+<RadioButton name="plan" value="team"    checked={plan === 'team'}    onChange={() => setPlan('team')}    description="Custom limits, contact sales">Team</RadioButton>
+
+// Disabled / read-only
+<RadioButton name="locked" disabled>Disabled</RadioButton>
+<RadioButton name="locked" readOnly defaultChecked>Read-only</RadioButton>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `React.ReactNode` | — | Label text rendered beside the indicator |
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Initial checked state (uncontrolled) |
+| `onChange` | `(event: ChangeEvent<HTMLInputElement>) => void` | — | Fired when the radio is selected |
+| `disabled` | `boolean` | `false` | Prevents interaction and dims the control |
+| `readOnly` | `boolean` | `false` | Visually normal but blocks user interaction |
+| `description` | `string` | — | Helper text below the label; auto-linked via `aria-describedby` |
+| `name` | `string` | — | Radio group name — required for mutual exclusion |
+| `value` | `string` | — | Value submitted with the form |
+| `id` | `string` | auto | Explicit id; auto-generated when omitted |
+| `className` | `string` | `''` | Additional CSS classes on the root element |
+| `style` | `React.CSSProperties` | — | Inline styles; use for CSS custom property overrides |
+
+---
+
 ## SplitPanel
 
 Expandable bottom panel with drag-to-resize handle and keyboard resize (↑/↓ arrow keys in 20px steps).
@@ -456,10 +504,10 @@ All props are fully typed. Named type exports:
 
 ```ts
 import type {
-  BoxVariant, BoxFontSize, BoxTextAlign, BoxFontWeight, BoxDisplay, BoxFloat,
   ButtonVariant, ButtonSize,
   CardVariant,
   BadgeVariant, BadgeSeverity, BadgeStatus, BadgeSize,
+  RadioButtonProps,
   TabItem, NavItem, CodeBlockProps,
   BreadcrumbItem,
   NotificationBarItem, NotificationBarType,

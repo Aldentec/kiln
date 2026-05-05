@@ -1,0 +1,322 @@
+/* ─── Component tokens ──────────────────────────────────────────────────────
+   --kiln-radio-size        outer indicator diameter  (default: 1.125rem)
+   --kiln-radio-dot-size    inner dot diameter        (default: 0.5rem)
+   --kiln-radio-glow        checked glow shadow       (overridable)
+─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes kiln-radio-pop {
+  0%   { transform: scale(0);    opacity: 0; }
+  55%  { transform: scale(1.3);  opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes kiln-radio-burst {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(2.4); opacity: 0;   }
+}
+
+@layer kiln {
+
+  /* ── Root label ── */
+  .kiln-radio {
+    --kiln-radio-size:     1.125rem;
+    --kiln-radio-dot-size: 0.5rem;
+    --kiln-radio-glow:     0 0 0 3px rgba(137, 33, 107, 0.14),
+                           0 0 16px rgba(137, 33, 107, 0.2);
+
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--kiln-space-3);
+    cursor: pointer;
+    min-height: 44px;
+    padding: var(--kiln-space-2) var(--kiln-space-1);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-radio--disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+    pointer-events: none;
+  }
+
+  .kiln-radio--readonly {
+    cursor: default;
+  }
+
+  /* ── Track: the 44×44 hit-zone wrapper ── */
+  .kiln-radio__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--kiln-radio-size);
+    height: var(--kiln-radio-size);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  /* ── Native input — occupies full hit zone, invisible ── */
+  .kiln-radio__input {
+    position: absolute;
+    inset: -12px;
+    width: calc(var(--kiln-radio-size) + 24px);
+    height: calc(var(--kiln-radio-size) + 24px);
+    opacity: 0;
+    margin: 0;
+    cursor: inherit;
+    z-index: 1;
+  }
+
+  /* ── Custom indicator ring ── */
+  .kiln-radio__indicator {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--kiln-radio-size);
+    height: var(--kiln-radio-size);
+    border-radius: var(--kiln-radius-full);
+    border: 2px solid var(--kiln-gray-300);
+    background: var(--kiln-surface-raised);
+    overflow: visible;
+    flex-shrink: 0;
+    transition:
+      border-color  var(--kiln-duration-fast) var(--kiln-ease-out),
+      background    var(--kiln-duration-fast) var(--kiln-ease-out),
+      box-shadow    var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  /* Burst ring — appears on check, then fades out */
+  .kiln-radio__indicator::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--kiln-radius-full);
+    border: 2px solid var(--kiln-primary);
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1);
+  }
+
+  /* ── Inner dot — grid-centered by the indicator, scale() is purely visual ── */
+  .kiln-radio__dot {
+    width: var(--kiln-radio-dot-size);
+    height: var(--kiln-radio-dot-size);
+    border-radius: var(--kiln-radius-full);
+    background: linear-gradient(
+      135deg,
+      var(--kiln-primary)       0%,
+      var(--kiln-primary-light) 100%
+    );
+    transform: scale(0);
+    opacity: 0;
+    transition: opacity 120ms linear;
+    box-shadow: 0 0 5px rgba(137, 33, 107, 0.4);
+  }
+
+  /* ── Hover (not disabled) ── */
+  .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__indicator {
+    border-color: var(--kiln-primary-light);
+    background: var(--kiln-primary-50);
+    box-shadow: 0 0 0 3px rgba(137, 33, 107, 0.08);
+  }
+
+  /* ── Focus-visible ── */
+  .kiln-radio__input:focus-visible ~ .kiln-radio__indicator {
+    outline: none;
+    border-color: var(--kiln-primary);
+    box-shadow:
+      0 0 0 2px var(--kiln-surface-raised),
+      0 0 0 4px var(--kiln-primary),
+      0 0 14px rgba(137, 33, 107, 0.28);
+  }
+
+  /* ── Checked ── */
+  .kiln-radio__input:checked ~ .kiln-radio__indicator {
+    border-color: var(--kiln-primary);
+    background: var(--kiln-primary-50);
+    box-shadow: var(--kiln-radio-glow);
+  }
+
+  .kiln-radio__input:checked ~ .kiln-radio__indicator .kiln-radio__dot {
+    transform: scale(1);
+    opacity: 1;
+    animation: kiln-radio-pop 300ms var(--kiln-ease-spring) both;
+  }
+
+  /* Burst ring plays once on check */
+  .kiln-radio__input:checked ~ .kiln-radio__indicator::after {
+    animation: kiln-radio-burst 420ms var(--kiln-ease-out) forwards;
+  }
+
+  /* ── Checked + hover ── */
+  .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly)
+    .kiln-radio__input:checked ~ .kiln-radio__indicator {
+    box-shadow:
+      0 0 0 4px rgba(137, 33, 107, 0.18),
+      0 0 20px rgba(137, 33, 107, 0.25);
+  }
+
+  /* ── Checked + focus ── */
+  .kiln-radio__input:checked:focus-visible ~ .kiln-radio__indicator {
+    box-shadow:
+      0 0 0 2px var(--kiln-surface-raised),
+      0 0 0 4px var(--kiln-primary),
+      0 0 18px rgba(137, 33, 107, 0.32);
+  }
+
+  /* ── Content ── */
+  .kiln-radio__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    padding-top: 0.0625rem;
+  }
+
+  .kiln-radio__label {
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-sm);
+    font-weight: 500;
+    line-height: var(--kiln-leading-tight);
+    color: var(--kiln-gray-800);
+    transition: color var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__label {
+    color: var(--kiln-primary-dark);
+  }
+
+  .kiln-radio:has(.kiln-radio__input:checked) .kiln-radio__label {
+    color: var(--kiln-primary-dark);
+    font-weight: 600;
+  }
+
+  .kiln-radio__description {
+    font-family: var(--kiln-font-sans);
+    font-size: var(--kiln-text-xs);
+    line-height: var(--kiln-leading-normal);
+    color: var(--kiln-gray-500);
+  }
+
+  .kiln-radio:has(.kiln-radio__input:checked) .kiln-radio__description {
+    color: var(--kiln-gray-600);
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] .kiln-radio__indicator {
+    border-color: var(--kiln-gray-600);
+    background: rgba(10, 16, 30, 0.55);
+  }
+
+  [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__indicator {
+    border-color: var(--kiln-primary-light);
+    background: rgba(137, 33, 107, 0.14);
+    box-shadow: 0 0 0 3px rgba(196, 91, 160, 0.12);
+  }
+
+  [data-theme="dark"] .kiln-radio__input:checked ~ .kiln-radio__indicator {
+    border-color: var(--kiln-primary-light);
+    background: rgba(137, 33, 107, 0.16);
+    box-shadow:
+      0 0 0 3px rgba(196, 91, 160, 0.18),
+      0 0 18px rgba(196, 91, 160, 0.28);
+  }
+
+  [data-theme="dark"] .kiln-radio__input:checked ~ .kiln-radio__indicator .kiln-radio__dot {
+    background: linear-gradient(135deg, var(--kiln-primary-light) 0%, #e879a8 100%);
+    box-shadow: 0 1px 6px rgba(196, 91, 160, 0.5);
+  }
+
+  [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly)
+    .kiln-radio__input:checked ~ .kiln-radio__indicator {
+    box-shadow:
+      0 0 0 4px rgba(196, 91, 160, 0.22),
+      0 0 24px rgba(196, 91, 160, 0.3);
+  }
+
+  [data-theme="dark"] .kiln-radio__input:checked:focus-visible ~ .kiln-radio__indicator {
+    box-shadow:
+      0 0 0 2px var(--kiln-gray-900),
+      0 0 0 4px var(--kiln-primary-light),
+      0 0 20px rgba(196, 91, 160, 0.35);
+  }
+
+  [data-theme="dark"] .kiln-radio__input:focus-visible ~ .kiln-radio__indicator {
+    border-color: var(--kiln-primary-light);
+    box-shadow:
+      0 0 0 2px var(--kiln-gray-900),
+      0 0 0 4px var(--kiln-primary-light),
+      0 0 14px rgba(196, 91, 160, 0.3);
+  }
+
+  [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__label {
+    color: var(--kiln-primary-light);
+  }
+
+  [data-theme="dark"] .kiln-radio:has(.kiln-radio__input:checked) .kiln-radio__label {
+    color: var(--kiln-primary-light);
+  }
+
+  [data-theme="dark"] .kiln-radio__description {
+    color: var(--kiln-gray-400);
+  }
+
+  [data-theme="dark"] .kiln-radio:has(.kiln-radio__input:checked) .kiln-radio__description {
+    color: var(--kiln-gray-400);
+  }
+
+  /* ── Mobile: ensure 14px text floor on small viewports ── */
+  @media (max-width: 768px) {
+    .kiln-radio__label {
+      font-size: max(0.875rem, var(--kiln-text-sm));
+    }
+    .kiln-radio__description {
+      font-size: max(0.875rem, var(--kiln-text-xs));
+    }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-radio__dot {
+      animation: none !important;
+      transition: opacity 0ms;
+    }
+    .kiln-radio__input:checked ~ .kiln-radio__indicator .kiln-radio__dot {
+      transform: scale(1);
+    }
+    .kiln-radio__indicator {
+      animation: none !important;
+      transition: border-color 0ms, box-shadow 0ms, background 0ms;
+    }
+    .kiln-radio__indicator::after {
+      animation: none !important;
+    }
+    .kiln-radio__label {
+      transition: none;
+    }
+  }
+
+  /* ── High contrast ── */
+  @media (forced-colors: active) {
+    .kiln-radio__indicator {
+      border: 2px solid ButtonText;
+      background: Field;
+      forced-color-adjust: none;
+    }
+    .kiln-radio__input:checked ~ .kiln-radio__indicator {
+      border-color: Highlight;
+      background: Field;
+    }
+    .kiln-radio__dot {
+      background: Highlight;
+      box-shadow: none;
+    }
+    .kiln-radio__input:focus-visible ~ .kiln-radio__indicator {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+
+} /* end @layer kiln */

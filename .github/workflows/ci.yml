@@ -49,6 +49,13 @@ jobs:
       - run: npm ci
       - run: npm run build:site
       - name: Run Lighthouse CI
-        run: npx @lhci/cli@0.14.x autorun
+        run: |
+          npx @lhci/cli@0.14.x collect \
+            --staticDistDir=./demo/dist \
+            --url=http://localhost/ \
+            --url='http://localhost/#/components' \
+            --numberOfRuns=3
+          npx @lhci/cli@0.14.x assert
+          npx @lhci/cli@0.14.x upload --target=temporary-public-storage
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
