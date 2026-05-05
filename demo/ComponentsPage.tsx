@@ -52,15 +52,6 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['variant', 'size', 'children'],
   },
-  box: {
-    tips: [
-      { label: 'Variant = element', text: 'The variant prop sets both the rendered HTML tag and the default typography — no separate "as" prop needed.' },
-      { label: 'Override selectively', text: 'Pass fontSize, color, fontWeight, or textAlign to deviate from the variant default without losing the semantic element.' },
-      { label: 'Margin reset', text: 'Headings and paragraphs have a default bottom margin. Pass margin="0" to reset it when composing tightly.' },
-      { label: 'Inline → block', text: 'Use display="block" to make inline variants (small, strong, code) take up their own line.' },
-    ],
-    quickProps: ['variant', 'fontSize', 'textAlign', 'color', 'fontWeight', 'display', 'margin', 'padding'],
-  },
   card: {
     tips: [
       { label: 'Coming soon', text: 'The coming-soon variant renders a WIP placeholder — no children needed.' },
@@ -160,6 +151,14 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
       { label: 'Controlled dismiss', text: 'Pass onDismiss on each item to remove it from state.' },
     ],
     quickProps: ['items'],
+  },
+  'radio-button': {
+    tips: [
+      { label: 'Group with name', text: 'Give every radio in a group the same name prop — the browser enforces single-selection automatically.' },
+      { label: 'Controlled group', text: 'Compare value to your state variable in checked and call setState in onChange for a fully controlled group.' },
+      { label: 'Description', text: 'Pass description for helper text below the label; it is linked via aria-describedby automatically.' },
+    ],
+    quickProps: ['checked', 'defaultChecked', 'onChange', 'name', 'value', 'description', 'disabled', 'readOnly'],
   },
   'side-nav': {
     tips: [
