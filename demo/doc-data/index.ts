@@ -15,6 +15,7 @@ import * as _grid from './grid';
 import * as _header from './header';
 import * as _hero from './hero';
 import * as _input from './input';
+import * as _list from './list';
 import * as _loadingIndicator from './loading-indicator';
 import * as _modal from './modal';
 import * as _nav from './nav';
@@ -49,6 +50,7 @@ export const grid = _grid.grid;
 export const header = _header.header;
 export const hero = _hero.hero;
 export const input = _input.input;
+export const list = _list.list;
 export const loadingIndicator = _loadingIndicator.loadingIndicator;
 export const modal = _modal.modal;
 export const nav = _nav.nav;
@@ -87,6 +89,7 @@ export const componentDocs: ComponentDoc[] = [
   _header.header,
   _hero.hero,
   _input.input,
+  _list.list,
   _loadingIndicator.loadingIndicator,
   _modal.modal,
   _nav.nav,

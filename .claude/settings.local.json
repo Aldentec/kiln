@@ -13,7 +13,9 @@
       "Bash(Select-Object -First 20)",
       "PowerShell(head -20)",
       "PowerShell(ls -R \"e:\\\\Dev\\\\kiln\\\\src\")",
-      "PowerShell(head -100)"
+      "PowerShell(head -100)",
+      "Bash(Get-ChildItem -Path \"e:\\\\Dev\\\\kiln\" -Directory)",
+      "Bash(Select-Object Name)"
     ]
   }
 }

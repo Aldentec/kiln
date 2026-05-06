@@ -79,6 +79,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `Breadcrumbs` | Hierarchical nav trail with chevron separators and mobile truncation. |
 | `Button` | Primary / secondary / ghost / danger. Loading state, icons, link mode. |
 | `Input` | Label, helper text, error state, left/right icons. ARIA-linked. |
+| `List` | Consecutive items with secondary content, icons, actions, link mode, and drag-to-reorder. Keyboard reorder with live announcements. |
 | `Textarea` | Like Input, plus character counter. |
 | `Card` | Default / raised / glass / gradient-border / coming-soon. Hover lift. |
 | `Header` | Page and section heading block with optional tagline, description, and actions slot. Provides consistent spacing after the Nav. |

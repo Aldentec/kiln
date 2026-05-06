@@ -117,6 +117,14 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['label', 'placeholder', 'errorText', 'helperText', 'type'],
   },
+  list: {
+    tips: [
+      { label: 'Keyboard reorder', text: 'With sortable enabled, focus a drag handle and press Space to lift, Arrow Up/Down to move, Space to drop, Escape to cancel.' },
+      { label: 'List builder', text: 'Compose List with Input and Button to build a sortable list builder — see the Usage tab for a complete example.' },
+      { label: 'Announcement label', text: 'Set announcementLabel on each item so screen readers announce a clean string (e.g. "Apples") rather than falling back to "item 1".' },
+    ],
+    quickProps: ['items', 'sortable', 'onReorder', 'sortDisabled', 'disablePaddings'],
+  },
   'loading-indicator': {
     tips: [
       { label: 'Full-screen', text: 'Set fullScreen to centre the spinner over the entire viewport.' },

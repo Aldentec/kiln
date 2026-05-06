@@ -117,3 +117,6 @@ export type { HeaderProps, HeaderVariant } from './components/Header';
 
 export { Hero } from './components/Hero';
 export type { HeroProps, HeroVariant, HeroSize, HeroAlign } from './components/Hero';
+
+export { default as List } from './components/List';
+export type { ListProps, KilnListItem } from './components/List';

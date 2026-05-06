@@ -1,0 +1,286 @@
+/* ─── Component tokens ─────────────────────────────────────────────────────────
+   --kiln-list-bg          background of the list card (default: --kiln-surface-raised)
+   --kiln-list-radius      border-radius of the list card (default: --kiln-radius-lg)
+   --kiln-list-border      border color (default: --kiln-gray-200)
+   --kiln-list-item-min-h  min-height per item for touch targets (default: 44px)
+────────────────────────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  /* ── List container ─────────────────────────────────────────────────────── */
+
+  .kiln-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--kiln-list-border, var(--kiln-gray-200));
+    border-radius: var(--kiln-list-radius, var(--kiln-radius-lg));
+    background: var(--kiln-list-bg, var(--kiln-surface-raised));
+    overflow: hidden; /* clips child border-radius corners */
+  }
+
+  .kiln-list--no-paddings {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  /* ── List item ──────────────────────────────────────────────────────────── */
+
+  .kiln-list__item {
+    display: flex;
+    align-items: center;
+    min-height: var(--kiln-list-item-min-h, 44px); /* WCAG 2.5.5 touch target */
+    border-bottom: 1px solid var(--kiln-gray-100);
+    position: relative;
+    transition: background 150ms var(--kiln-ease-out);
+  }
+
+  .kiln-list__item:last-child {
+    border-bottom: none;
+  }
+
+  /* Drop-target indicator (shown above the targeted item) */
+  .kiln-list__item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--kiln-primary);
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 120ms var(--kiln-ease-out);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .kiln-list__item--drag-over::before {
+    opacity: 1;
+  }
+
+  /* Item being dragged */
+  .kiln-list__item--dragging {
+    opacity: 0.4;
+  }
+
+  /* Keyboard active (lifted) item */
+  .kiln-list__item--kb-active {
+    background: color-mix(in srgb, var(--kiln-primary) 8%, transparent);
+    outline: 2px dashed var(--kiln-primary);
+    outline-offset: -2px;
+    z-index: 1;
+  }
+
+  /* Keyboard target position indicator */
+  .kiln-list__item--kb-target::before {
+    opacity: 1;
+  }
+
+  /* Disabled item */
+  .kiln-list__item--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .kiln-list__item--no-paddings .kiln-list__body {
+    padding: 0;
+  }
+
+  /* ── Item body ──────────────────────────────────────────────────────────── */
+
+  .kiln-list__body {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: var(--kiln-space-3);
+    padding: var(--kiln-space-3) var(--kiln-space-4);
+    min-width: 0; /* allows text truncation inside flex children */
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .kiln-list__body--link {
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 150ms var(--kiln-ease-out);
+  }
+
+  .kiln-list__body--link:hover {
+    background: var(--kiln-gray-50);
+  }
+
+  .kiln-list__body--link:focus-visible {
+    outline: 3px solid rgba(137, 33, 107, 0.45);
+    outline-offset: -3px;
+  }
+
+  /* ── Icon slot ──────────────────────────────────────────────────────────── */
+
+  .kiln-list__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--kiln-gray-500);
+    font-size: 1.125rem; /* size icon to line-height */
+  }
+
+  /* ── Content ────────────────────────────────────────────────────────────── */
+
+  .kiln-list__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .kiln-list__primary {
+    font-size: var(--kiln-text-sm);
+    color: var(--kiln-gray-900);
+    line-height: var(--kiln-leading-normal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .kiln-list__secondary {
+    font-size: var(--kiln-text-xs);
+    color: var(--kiln-gray-500);
+    line-height: var(--kiln-leading-normal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Actions slot ───────────────────────────────────────────────────────── */
+
+  .kiln-list__actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--kiln-space-1);
+    padding-right: var(--kiln-space-3);
+  }
+
+  /* ── Drag handle ────────────────────────────────────────────────────────── */
+
+  .kiln-list__handle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;       /* WCAG 2.5.5 touch target */
+    height: 44px;
+    min-width: 44px;
+    border: none;
+    background: transparent;
+    cursor: grab;
+    color: var(--kiln-gray-400);
+    border-radius: var(--kiln-radius-sm);
+    padding: 0;
+    transition:
+      color 150ms var(--kiln-ease-out),
+      background 150ms var(--kiln-ease-out);
+  }
+
+  .kiln-list__handle:hover {
+    color: var(--kiln-gray-600);
+    background: var(--kiln-gray-50);
+  }
+
+  .kiln-list__handle:active {
+    cursor: grabbing;
+  }
+
+  .kiln-list__handle:focus-visible {
+    outline: 3px solid rgba(137, 33, 107, 0.45);
+    outline-offset: 2px;
+  }
+
+  .kiln-list__handle[aria-pressed="true"] {
+    color: var(--kiln-primary);
+    background: color-mix(in srgb, var(--kiln-primary) 10%, transparent);
+    cursor: grabbing;
+  }
+
+  /* During KB drag, prevent hover effects on non-active handles */
+  .kiln-list--kb-dragging .kiln-list__handle:not([aria-pressed="true"]) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Sortable list — prevent text selection during drag */
+  .kiln-list--sortable {
+    user-select: none;
+  }
+
+  /* ── Dark mode ──────────────────────────────────────────────────────────── */
+
+  [data-theme="dark"] .kiln-list {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--kiln-surface-raised);
+  }
+
+  [data-theme="dark"] .kiln-list__item {
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+  }
+
+  [data-theme="dark"] .kiln-list__primary {
+    color: var(--kiln-gray-100);
+  }
+
+  [data-theme="dark"] .kiln-list__secondary {
+    color: var(--kiln-gray-400);
+  }
+
+  [data-theme="dark"] .kiln-list__icon {
+    color: var(--kiln-gray-400);
+  }
+
+  [data-theme="dark"] .kiln-list__handle {
+    color: var(--kiln-gray-500);
+  }
+
+  [data-theme="dark"] .kiln-list__handle:hover {
+    color: var(--kiln-gray-300);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  [data-theme="dark"] .kiln-list__handle[aria-pressed="true"] {
+    color: var(--kiln-primary);
+    background: color-mix(in srgb, var(--kiln-primary) 18%, transparent);
+  }
+
+  [data-theme="dark"] .kiln-list__item--kb-active {
+    background: color-mix(in srgb, var(--kiln-primary) 14%, transparent);
+  }
+
+  [data-theme="dark"] .kiln-list__body--link:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* ── Mobile — prevent overflow at 375px ─────────────────────────────────── */
+
+  @media (max-width: 480px) {
+    .kiln-list__primary,
+    .kiln-list__secondary {
+      font-size: max(0.875rem, 14px); /* never below 14px */
+    }
+
+    .kiln-list__body {
+      padding: var(--kiln-space-2) var(--kiln-space-3);
+    }
+  }
+
+  /* ── Reduced motion ─────────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-list__item,
+    .kiln-list__item::before,
+    .kiln-list__body--link,
+    .kiln-list__handle {
+      transition: none !important;
+    }
+  }
+} /* end @layer kiln */

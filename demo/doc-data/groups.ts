@@ -16,6 +16,7 @@ export const COMPONENT_GROUPS = [
       { id: 'header', label: 'Header' },
       { id: 'hero', label: 'Hero' },
       { id: 'input', label: 'Input' },
+      { id: 'list', label: 'List' },
       { id: 'loading-indicator', label: 'LoadingIndicator' },
       { id: 'modal', label: 'Modal' },
       { id: 'nav', label: 'Nav' },
