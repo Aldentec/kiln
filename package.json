@@ -1,6 +1,6 @@
 {
   "name": "@doriansmith/kiln",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Accessible React component library for indie developers. WCAG AA, < 25 KB gzipped, zero dependencies, zero config. Install and ship in under 2 minutes.",
   "keywords": [
     "react",
