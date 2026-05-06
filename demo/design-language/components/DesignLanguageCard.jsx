@@ -23,7 +23,7 @@ export function DesignLanguageCard({ title, description, href, icon }) {
       }}
     >
       {icon && (
-        <div style={{ fontSize: '1.75rem', marginBottom: 'var(--kiln-space-3)', lineHeight: 1 }}>
+        <div style={{ color: 'var(--kiln-primary)', marginBottom: 'var(--kiln-space-3)', lineHeight: 1 }}>
           {icon}
         </div>
       )}

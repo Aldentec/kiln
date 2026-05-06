@@ -1,6 +1,6 @@
 import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
 import { DesignLanguageCard } from '../components/DesignLanguageCard';
-import { Hero } from '@doriansmith/kiln';
+import { Hero, PaletteIcon, TypeIcon, RulerIcon, LayersIcon, PlayIcon, CornerRadiusIcon, PaintBucketIcon, GridIcon } from '@doriansmith/kiln';
 
 export default function DesignLanguageIndex({ children }) {
   return <DesignLanguageLayout>{children}</DesignLanguageLayout>;
@@ -25,49 +25,49 @@ Kiln's design language covers the foundation layer that every component is built
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--kiln-space-5)', marginTop: 'var(--kiln-space-8)' }}>
   <DesignLanguageCard
-    icon="🎨"
+    icon={<PaletteIcon size={28} />}
     title="Color"
     description="The palette, semantic system, and accessibility principles behind every color decision."
     href="/design-language/color"
   />
   <DesignLanguageCard
-    icon="Aa"
+    icon={<TypeIcon size={28} />}
     title="Typography"
     description="Font choices, the type scale, and the rules that keep text readable at every size."
     href="/design-language/typography"
   />
   <DesignLanguageCard
-    icon="↔"
+    icon={<RulerIcon size={28} />}
     title="Spacing"
     description="The 4px base unit and the scale that creates rhythm across every component."
     href="/design-language/spacing"
   />
   <DesignLanguageCard
-    icon="☁"
+    icon={<LayersIcon size={28} />}
     title="Elevation"
     description="Shadows, layering, and the z-index system that creates depth without noise."
     href="/design-language/elevation"
   />
   <DesignLanguageCard
-    icon="◑"
+    icon={<PlayIcon size={28} />}
     title="Motion"
     description="Easing curves, duration tokens, and the principle that motion should communicate."
     href="/design-language/motion"
   />
   <DesignLanguageCard
-    icon="⬜"
+    icon={<CornerRadiusIcon size={28} />}
     title="Border Radius"
     description="The radius scale and how consistent rounding defines Kiln's personality."
     href="/design-language/border-radius"
   />
   <DesignLanguageCard
-    icon="🎨"
+    icon={<PaintBucketIcon size={28} />}
     title="Theming"
     description="How to apply your own brand colors while keeping everything accessible."
     href="/design-language/theming"
   />
   <DesignLanguageCard
-    icon="◆"
+    icon={<GridIcon size={28} />}
     title="Iconography"
     description="Icon usage guidelines, sizing, and accessibility requirements."
     href="/design-language/iconography"
