@@ -1,5 +1,6 @@
 import React from 'react';
 import { Nav, Footer, Header, Card, Badge, Button, Hero } from '@doriansmith/kiln';
+import { ShieldIcon, ZapIcon, SmartphoneIcon, HeartIcon } from '@doriansmith/kiln';
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
 import { KILN_STATS } from './constants';
 
@@ -12,23 +13,33 @@ const sectionBase: React.CSSProperties = {
   margin: '0 auto',
 };
 
+// ─── Pillar icon wrapper ─────────────────────────────────
+function PillarIcon({ children, color }: { children: React.ReactNode; color: string }) {
+  return (
+    <div
+      style={{
+        width: 48,
+        height: 48,
+        borderRadius: '50%',
+        background: `${color}1f`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color,
+        flexShrink: 0,
+      }}
+      aria-hidden="true"
+    >
+      {children}
+    </div>
+  );
+}
+
 // ─── The 4 Pillars ───────────────────────────────────────
 const PILLARS = [
   {
     number: '01',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <path
-          d="M18 6L7 11v9c0 7.2 5 12.9 11 14.5C24 32.9 29 27.2 29 20V11L18 6z"
-          stroke="var(--kiln-primary)"
-          strokeWidth="2"
-          fill="none"
-          strokeLinejoin="round"
-        />
-        <path d="M13 18l3.5 3.5L23 14" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    icon: <PillarIcon color="var(--kiln-primary)"><ShieldIcon size={24} /></PillarIcon>,
     title: 'Accessible by default',
     problem: 'Most component libraries treat accessibility as an afterthought. ARIA attributes get bolted on later, keyboard navigation is spotty, and focus management breaks in production. The result? Technical debt that locks out users and invites legal risk.',
     solution: 'Every Kiln component ships WCAG AA-compliant from day one. Keyboard navigation, focus rings, focus traps, and correct ARIA roles are built in, not bolted on. Tested with axe DevTools and manual screen-reader verification.',
@@ -36,12 +47,7 @@ const PILLARS = [
   },
   {
     number: '02',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
-        <path d="M20 5L9 20h9l-2 11L28 16h-9l2-11z" fill="var(--kiln-accent)" stroke="var(--kiln-accent-dark)" strokeWidth="1.5" strokeLinejoin="round" />
-      </svg>
-    ),
+    icon: <PillarIcon color="var(--kiln-accent)"><ZapIcon size={24} /></PillarIcon>,
     title: 'Performance-first',
     problem: 'Heavy component libraries silently tank your Lighthouse scores. JavaScript animation overhead, layout thrashing, and Cumulative Layout Shift creep in as you add features, and your users pay for it with slow load times.',
     solution: `Zero layout shift on every interaction. All animations use \`transform\` and \`opacity\`, GPU-accelerated, no layout thrashing, no JavaScript animation overhead. The entire CSS bundle is ~${KILN_STATS.bundleCssGzipped} gzipped. Total gzipped footprint is ${KILN_STATS.bundleSizeGzippedFull}.`,
@@ -49,14 +55,7 @@ const PILLARS = [
   },
   {
     number: '03',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
-        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
-        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
-        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: <PillarIcon color="var(--kiln-accent)"><SmartphoneIcon size={24} /></PillarIcon>,
     title: 'Genuinely mobile-ready',
     problem: 'Many libraries claim mobile support but treat it as a responsive resize. Touch targets shrink below 44px, text becomes unreadable, modals overflow viewports, and iOS Safari zooms unpredictably on input focus.',
     solution: 'Every component is designed and tested at 375px first. All interactive elements meet the 44x44px WCAG touch target. Inputs use font-size 16px on mobile to prevent iOS zoom. Overlays are viewport-constrained. Modals become bottom-sheets on mobile. No text below 14px on small screens. This is not optional.',
@@ -64,14 +63,7 @@ const PILLARS = [
   },
   {
     number: '04',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <rect x="6" y="8" width="24" height="20" rx="3" stroke="var(--kiln-primary)" strokeWidth="2" fill="none" />
-        <path d="M12 15l5 3.5L12 22" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M20 22h4" stroke="var(--kiln-primary)" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: <PillarIcon color="var(--kiln-primary)"><HeartIcon size={24} /></PillarIcon>,
     title: 'Built for solo devs',
     problem: 'Most UI libraries demand hours of setup: config files, theme providers, context wrappers, and peer dependency wrangling. For a solo developer or small team, that is time stolen from building the product that matters.',
     solution: `From \`npm install\` to rendering a Kiln component in under ${KILN_STATS.installTimeMinutes} minutes. No config files. No setup wizards. No theme provider components. No required context wrappers. One CSS import, then import and use. Every code example is copy-paste ready with full TypeScript inference.`,

@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-02
 import React, { useId, useEffect, useRef, useCallback } from 'react';
 import { cn } from '../../utils';
+import { XIcon, UserCircleIcon } from '../../icons';
 import './ToolsPanel.css';
 
 export interface ToolsPanelProps {
@@ -22,18 +23,6 @@ export interface ToolsPanelProps {
   style?: React.CSSProperties;
 }
 
-const CloseIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-    <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-  </svg>
-);
-
-const ToolsIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-    <circle cx="9" cy="9" r="7.25" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M9 6a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 4.5c1.2 0 2.25.8 2.25 1.8V13.5h-4.5v-1.2c0-1 1.05-1.8 2.25-1.8z" fill="currentColor"/>
-  </svg>
-);
 
 const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
   {
@@ -117,7 +106,7 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
         {/* ── Header ────────────────────────────────────────────────── */}
         <div className="kiln-tools-panel__header">
           <span className="kiln-tools-panel__header-icon" aria-hidden="true">
-            <ToolsIcon />
+            <UserCircleIcon size={18} />
           </span>
           {header && (
             <span className="kiln-tools-panel__header-title">{header}</span>
@@ -128,7 +117,7 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
             aria-label="Close tools panel"
             onClick={() => setOpen(false)}
           >
-            <CloseIcon />
+            <XIcon size={18} />
           </button>
         </div>
 
@@ -152,7 +141,7 @@ const ToolsPanel = React.forwardRef<HTMLElement, ToolsPanelProps>((
           aria-controls={panelId}
           onClick={() => setOpen(!open)}
         >
-          <ToolsIcon />
+          <UserCircleIcon size={18} />
         </button>
       )}
     </>

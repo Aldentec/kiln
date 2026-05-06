@@ -235,6 +235,43 @@ Always use `cn()` from `../../utils` for class strings. Never use `.filter(Boole
 
 ---
 
+## Icon Library
+
+All icons live in `src/icons/`. The library is split into groups by category:
+
+| File | Exports |
+|---|---|
+| `navigation.tsx` | `ChevronDownIcon`, `ChevronUpIcon`, `ChevronRightIcon`, `ChevronLeftIcon`, `ArrowRightIcon`, `ArrowLeftIcon`, `ArrowUpIcon`, `ArrowDownIcon`, `MenuIcon` |
+| `status.tsx` | `CheckIcon`, `CheckCircleIcon`, `XIcon`, `XCircleIcon`, `InfoIcon`, `WarningIcon` |
+| `actions.tsx` | `PlusIcon`, `MinusIcon`, `TrashIcon`, `PencilIcon`, `SearchIcon`, `ExternalLinkIcon`, `CopyIcon`, `SettingsIcon`, `EyeIcon`, `EyeOffIcon`, `UploadIcon`, `DownloadIcon`, `FilterIcon`, `SortIcon` |
+| `content.tsx` | `FileIcon`, `FolderIcon`, `ImageIcon`, `CodeIcon`, `TerminalIcon`, `LinkIcon`, `BookmarkIcon`, `TagIcon` |
+| `social.tsx` | `UserIcon`, `UsersIcon`, `BellIcon`, `StarIcon`, `HeartIcon` |
+| `misc.tsx` | `DragHandleIcon`, `ShieldIcon`, `ZapIcon`, `SmartphoneIcon`, `GridIcon`, `ListIcon` |
+| `theme.tsx` | `SunIcon`, `MoonIcon` |
+
+### Icon style rules (enforced — do not deviate)
+
+1. **`viewBox="0 0 24 24"`** — all icons use a 24×24 grid.
+2. **`fill="currentColor"`** — no `stroke` attributes anywhere. All shapes are filled paths.
+3. **`fill-rule="evenodd"`** — use for compound paths that create visual "holes" (e.g. a circle with an inner cutout). Simple single-path icons do not need it.
+4. **No hardcoded colors** — color is always `currentColor`.
+5. **Default `size={20}`** — the `createIcon` factory sets width and height from `size`. Callers can override.
+6. **`aria-hidden="true"` by default** — icons are decorative unless the caller passes `aria-label`.
+7. **`[Name]Icon` suffix** — every icon export ends in `Icon` (e.g. `TrashIcon`, not `Trash`).
+8. **Use `createIcon` factory** — never write a raw `React.forwardRef` SVG component. Use the factory in `base.tsx`.
+9. **No strokes** — convert any stroke-based SVG to fill-based paths before adding to the library. Use `fill-rule="evenodd"` for compound/cutout shapes.
+10. **All icons exported from `src/icons/index.ts` and `src/index.ts`** — new icons must be added to both.
+
+### Adding a new icon
+
+1. Find the correct category file (or create a new one if a new category is needed).
+2. Write a fill-based `createIcon(...)` call following the style rules above.
+3. Export it from the category file.
+4. Add a barrel export in `src/icons/index.ts` (covered automatically by `export *`).
+5. Verify the icon renders correctly at `size={16}`, `size={20}`, and `size={24}`.
+
+---
+
 ## Class Merging — `cn()`
 
 ```tsx

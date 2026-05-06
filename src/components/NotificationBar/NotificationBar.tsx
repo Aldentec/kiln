@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-02
 import React from 'react';
 import { cn } from '../../utils';
+import { InfoIcon, CheckCircleIcon, WarningIcon, XCircleIcon, XIcon } from '../../icons';
 import './NotificationBar.css';
 
 export type NotificationBarType = 'info' | 'success' | 'warning' | 'error';
@@ -24,30 +25,10 @@ export interface NotificationBarProps {
 // ── Type icons ──────────────────────────────────────────────────────────────
 
 const ICONS: Record<NotificationBarType, React.ReactNode> = {
-  info: (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M8 7v4M8 5v.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-    </svg>
-  ),
-  success: (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M5 8l2.5 2.5L11 5.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  ),
-  warning: (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M8 2L1.5 13.5h13L8 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      <path d="M8 6v3.5M8 11v.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-    </svg>
-  ),
-  error: (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M10 6L6 10M6 6l4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
-    </svg>
-  ),
+  info:    <InfoIcon size={16} />,
+  success: <CheckCircleIcon size={16} />,
+  warning: <WarningIcon size={16} />,
+  error:   <XCircleIcon size={16} />,
 };
 
 // ── Component ───────────────────────────────────────────────────────────────
@@ -96,9 +77,7 @@ const NotificationBar = React.forwardRef<HTMLDivElement, NotificationBarProps>((
                 aria-label="Dismiss notification"
                 onClick={() => item.onDismiss?.(item.id)}
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M11 3L3 11M3 3l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+                <XIcon size={14} />
               </button>
             )}
           </div>

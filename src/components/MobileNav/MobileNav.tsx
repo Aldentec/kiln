@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../utils';
+import { XIcon } from '../../icons';
 import './MobileNav.css';
 
 export interface MobileNavItem {
@@ -109,7 +110,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
             onClick={close}
             aria-label="Close navigation menu"
           >
-            <span className="kiln-mnav__close-x" aria-hidden="true">✕</span>
+            <XIcon size={18} />
           </button>
         </div>
 

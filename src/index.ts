@@ -1,5 +1,18 @@
 // Kiln design system — v0.1.0
 
+// Icons
+export type { IconProps } from './icons/types';
+export * from './icons/navigation';
+export * from './icons/status';
+export * from './icons/actions';
+export * from './icons/content';
+export * from './icons/social';
+export * from './icons/misc';
+export * from './icons/theme';
+export * from './icons/communication';
+export * from './icons/media';
+export * from './icons/ui';
+
 // Utilities
 export { cn, Slot } from './utils';
 export type { SlotProps, PolymorphicProps, PolymorphicPropsWithRef } from './utils';
@@ -120,3 +133,17 @@ export type { HeroProps, HeroVariant, HeroSize, HeroAlign } from './components/H
 
 export { default as List } from './components/List';
 export type { ListProps, KilnListItem } from './components/List';
+
+export { default as Table } from './components/Table';
+export type {
+  TableProps,
+  TableColumnDefinition,
+  TableSortingState,
+  TableSelectionType,
+  TableVariant,
+  TableContentDensity,
+  TableAriaLabels,
+} from './components/Table';
+
+export { CopyToClipboard } from './components/CopyToClipboard';
+export type { CopyToClipboardProps, CopyStatus, CopyPlacement } from './components/CopyToClipboard';

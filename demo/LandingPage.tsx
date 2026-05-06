@@ -3,6 +3,12 @@ import {
   Nav, Button, Card, Badge, Chip, Tabs, Input,
   Footer, Grid, Hero, Accordion,
 } from '@doriansmith/kiln';
+import {
+  ShieldIcon, ZapIcon, SmartphoneIcon, HeartIcon,
+  BellIcon, BugIcon, UserCircleIcon, EnvelopeIcon,
+  StarIcon, StarFilledIcon, StarHalfIcon,
+  FaceFrownIcon, FaceNeutralIcon, FaceSmileIcon,
+} from '@doriansmith/kiln';
 
 // Lazy-load CodeBlock so highlight.js never lands on the critical path.
 // The install snippets are below the fold; a brief unstyled flash is acceptable.
@@ -26,79 +32,25 @@ export default function App() {
 // ─── Pillar data ──────────────────────────────────────────
 const PILLARS = [
   {
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <path
-          d="M18 6L7 11v9c0 7.2 5 12.9 11 14.5C24 32.9 29 27.2 29 20V11L18 6z"
-          stroke="var(--kiln-primary)"
-          strokeWidth="2"
-          fill="none"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M13 18l3.5 3.5L23 14"
-          stroke="var(--kiln-primary)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    icon: <ShieldIcon size={36} />,
     title: 'Accessible by default',
     description:
       'Every component meets WCAG AA out of the box. Keyboard navigation, focus management, focus rings, and correct ARIA are built in, not bolted on. Accessibility debt costs more to fix later than to build correctly now.',
   },
   {
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
-        <path
-          d="M20 5L9 20h9l-2 11L28 16h-9l2-11z"
-          fill="var(--kiln-accent)"
-          stroke="var(--kiln-accent-dark)"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    icon: <ZapIcon size={36} />,
     title: 'Performance-first',
     description:
       "Kiln components don't tank your Lighthouse score. Zero layout shift on every interaction. All animations use transform and opacity: GPU-accelerated, no layout thrashing. Bundle size is measured and budgeted.",
   },
   {
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-accent)" opacity="0.12" />
-        <rect x="13" y="4" width="10" height="28" rx="2" stroke="var(--kiln-accent)" strokeWidth="2" fill="none" />
-        <circle cx="18" cy="28" r="1.2" fill="var(--kiln-accent)" />
-        <line x1="14" y1="8" x2="22" y2="8" stroke="var(--kiln-accent)" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: <SmartphoneIcon size={36} />,
     title: 'Genuinely mobile-ready',
     description:
       'Every component works on real devices at 375px. All interactive elements meet the 44x44px touch target requirement. No text below 14px on small screens. Positioned overlays are viewport-constrained. Mobile is not optional.',
   },
   {
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="var(--kiln-primary)" opacity="0.12" />
-        <rect x="6" y="8" width="24" height="20" rx="3" stroke="var(--kiln-primary)" strokeWidth="2" fill="none" />
-        <path
-          d="M12 15l5 3.5L12 22"
-          stroke="var(--kiln-primary)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M20 22h4"
-          stroke="var(--kiln-primary)"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
+    icon: <HeartIcon size={36} />,
     title: 'Built for solo devs',
     description:
       'From npm install to a rendered Kiln page in under 2 minutes. No config files, no setup wizards, no theme providers, no context wrappers. Every example is copy-paste ready. TypeScript is fully inferred.',
@@ -118,6 +70,10 @@ const INITIAL_ISSUES: DemoIssue[] = [
 
 const SEVERITY_BADGE: Record<IssueSeverity, 'critical' | 'warning' | 'running' | 'info'> = {
   critical: 'critical', high: 'warning', medium: 'running', low: 'info',
+};
+
+const SEVERITY_FACE: Record<IssueSeverity, React.ComponentType<{ size?: number }>> = {
+  critical: FaceFrownIcon, high: FaceFrownIcon, medium: FaceNeutralIcon, low: FaceSmileIcon,
 };
 
 const DEMO_NAV_TABS = [
@@ -206,12 +162,15 @@ function LiveDemo() {
           <div style={{ marginTop: 'var(--kiln-space-6)' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--kiln-space-4)', marginBottom: 'var(--kiln-space-6)' }}>
               {([
-                { value: openCount, label: 'Open issues', badge: <Badge variant={openCount > 0 ? 'warning' : 'success'}>{openCount > 0 ? 'Needs attention' : 'All clear'}</Badge> },
-                { value: criticalCount, label: 'Critical', badge: criticalCount > 0 ? <Badge variant="critical">P0</Badge> : <Badge variant="success">None</Badge> },
-                { value: '98', label: 'Lighthouse', badge: <Badge variant="success">Healthy</Badge> },
-              ] as const).map(({ value, label, badge }) => (
+                { icon: <BugIcon size={24} />, value: openCount, label: 'Open issues', badge: <Badge variant={openCount > 0 ? 'warning' : 'success'}>{openCount > 0 ? 'Needs attention' : 'All clear'}</Badge> },
+                { icon: <BellIcon size={24} />, value: criticalCount, label: 'Critical', badge: criticalCount > 0 ? <Badge variant="critical">P0</Badge> : <Badge variant="success">None</Badge> },
+                { icon: <StarFilledIcon size={24} />, value: '98', label: 'Lighthouse', badge: <Badge variant="success">Healthy</Badge> },
+              ] as const).map(({ icon, value, label, badge }) => (
                 <Card key={label} variant="default" style={{ '--kiln-card-padding': 'var(--kiln-space-5)' } as React.CSSProperties}>
-                  <div style={{ fontSize: 'var(--kiln-text-3xl)', fontWeight: 700, lineHeight: 1, color: 'var(--kiln-gray-900)' }}>{value}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', marginBottom: 'var(--kiln-space-2)' }}>
+                    {icon}
+                    <div style={{ fontSize: 'var(--kiln-text-3xl)', fontWeight: 700, lineHeight: 1, color: 'var(--kiln-gray-900)' }}>{value}</div>
+                  </div>
                   <div style={{ fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', margin: 'var(--kiln-space-1) 0 var(--kiln-space-2)' }}>{label}</div>
                   {badge}
                 </Card>
@@ -259,10 +218,13 @@ function LiveDemo() {
                   No issues match your filter.
                 </p>
               )}
-              {filteredIssues.map(issue => (
+              {filteredIssues.map(issue => {
+                const FaceIcon = SEVERITY_FACE[issue.severity];
+                return (
                 <Card key={issue.id} variant="default" style={{ '--kiln-card-padding': 'var(--kiln-space-4)' } as React.CSSProperties}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--kiln-space-3)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', minWidth: 0 }}>
+                      <FaceIcon size={20} />
                       <Badge variant={SEVERITY_BADGE[issue.severity]}>{issue.severity}</Badge>
                       <span style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 500, color: 'var(--kiln-gray-900)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{issue.title}</span>
                     </div>
@@ -274,7 +236,8 @@ function LiveDemo() {
                     </div>
                   </div>
                 </Card>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -283,9 +246,9 @@ function LiveDemo() {
         {tab === 'settings' && (
           <div style={{ marginTop: 'var(--kiln-space-6)', maxWidth: 420 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--kiln-space-5)' }}>
-              <Input label="Display name" placeholder="Dorian Smith" value={name}
+              <Input label="Display name" iconLeft={<UserCircleIcon size={18} />} placeholder="Dorian Smith" value={name}
                 onChange={e => { setName(e.target.value); setSaved(false); }} />
-              <Input label="Email" type="email" placeholder="you@example.com" value={email}
+              <Input label="Email" iconLeft={<EnvelopeIcon size={18} />} type="email" placeholder="you@example.com" value={email}
                 onChange={e => { setEmail(e.target.value); setSaved(false); }}
                 helperText="Used for alert notifications." />
               <div>

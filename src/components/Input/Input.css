@@ -6,11 +6,6 @@
 }
 
 /* Keyframes outside @layer so they're reachable from any context */
-@keyframes kiln-input-burst {
-  0%   { opacity: 0.7; transform: scale(1);    }
-  100% { opacity: 0;   transform: scale(1.07); }
-}
-
 @keyframes kiln-input-border-spin {
   from { --kiln-field-angle: 0deg;   }
   to   { --kiln-field-angle: 360deg; }
@@ -71,30 +66,32 @@
   border-radius: var(--kiln-input-radius, var(--kiln-radius-xl));
   padding: 1.5px;
   background: var(--kiln-gray-200);
-  /* box-shadow excluded — GPU-unfriendly when animated */
   transition:
     background var(--kiln-duration-fast) var(--kiln-ease-out),
     transform  var(--kiln-duration-fast) var(--kiln-ease-spring);
 }
 
-/* Burst ring — expands and fades the moment focus lands */
-.kiln-input-wrap::after {
+/* ::before — spinning gradient ring, always clipped to 1.5px border only */
+.kiln-input-wrap::before {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: calc(var(--kiln-input-radius, var(--kiln-radius-xl)) + 3px);
-  border: 1.5px solid var(--kiln-primary);
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--kiln-field-angle),
+    #89216b 0%,
+    #c45ba0 25%,
+    #f7b733 50%,
+    #c45ba0 75%,
+    #89216b 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   opacity: 0;
   pointer-events: none;
-}
-
-.kiln-input-wrap:focus-within::after {
-  animation: kiln-input-burst 550ms var(--kiln-ease-out) both;
-}
-
-@keyframes kiln-input-burst {
-  0%   { opacity: 0.7; transform: scale(1);    }
-  100% { opacity: 0;   transform: scale(1.07); }
 }
 
 /* Hover — subtle purple-tinted border, slight lift */
@@ -110,27 +107,19 @@
   transform: none;
 }
 
-/* Focus — spinning conic-gradient border + brand glow */
+/* Focus — reveal spinning border ring + brand glow */
 .kiln-input-wrap:focus-within {
-  background: conic-gradient(
-    from var(--kiln-field-angle),
-    #89216b 0%,
-    #c45ba0 25%,
-    #f7b733 50%,
-    #c45ba0 75%,
-    #89216b 100%
-  );
-  animation: kiln-input-border-spin 4s linear infinite;
+  background: var(--kiln-gray-200);
   box-shadow:
-    0 0 0 3px rgba(137, 33, 107, 0.12),
-    0 0 28px rgba(137, 33, 107, 0.16),
-    0 6px 20px rgba(0, 0, 0, 0.07);
+    0 0 0 3px rgba(137, 33, 107, 0.10),
+    0 0 12px rgba(137, 33, 107, 0.09),
+    0 4px 12px rgba(0, 0, 0, 0.05);
   transform: translateY(-1px);
 }
 
-@keyframes kiln-input-border-spin {
-  from { --kiln-field-angle: 0deg;   }
-  to   { --kiln-field-angle: 360deg; }
+.kiln-input-wrap:focus-within::before {
+  opacity: 1;
+  animation: kiln-input-border-spin 4s linear infinite;
 }
 
 /* Error — source order after :focus-within so same specificity wins here */
@@ -280,12 +269,7 @@
   background: rgba(137, 33, 107, 0.22);
 }
 
-[data-theme="dark"] .kiln-input-wrap:hover:not(:focus-within):not(:has(.kiln-input:disabled)) {
-  background: rgba(196, 91, 160, 0.38);
-  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
-}
-
-[data-theme="dark"] .kiln-input-wrap:focus-within {
+[data-theme="dark"] .kiln-input-wrap::before {
   background: conic-gradient(
     from var(--kiln-field-angle),
     #c45ba0 0%,
@@ -294,16 +278,21 @@
     #e879a8 75%,
     #c45ba0 100%
   );
-  box-shadow:
-    0 0 0 3px rgba(196, 91, 160, 0.2),
-    0 0 40px rgba(196, 91, 160, 0.22),
-    0 0 80px rgba(137, 33, 107, 0.1),
-    0 8px 28px rgba(0, 0, 0, 0.5);
 }
 
-[data-theme="dark"] .kiln-input-wrap::after {
-  border-color: var(--kiln-primary-light);
+[data-theme="dark"] .kiln-input-wrap:hover:not(:focus-within):not(:has(.kiln-input:disabled)) {
+  background: rgba(196, 91, 160, 0.38);
+  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
 }
+
+[data-theme="dark"] .kiln-input-wrap:focus-within {
+  background: rgba(137, 33, 107, 0.22);
+  box-shadow:
+    0 0 0 3px rgba(196, 91, 160, 0.15),
+    0 0 16px rgba(196, 91, 160, 0.12),
+    0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
 
 [data-theme="dark"] .kiln-input-wrap:has(.kiln-input--error) {
   background: var(--kiln-severity-critical);
@@ -342,18 +331,18 @@
 @media (prefers-reduced-motion: reduce) {
   .kiln-input-wrap {
     animation: none !important;
-    /* box-shadow removed from reduced-motion transition — was inadvertently animating it */
     transition: background 150ms linear !important;
+  }
+
+  .kiln-input-wrap::before {
+    animation: none !important;
+    opacity: 0 !important;
   }
 
   .kiln-input-wrap:focus-within {
     background: var(--kiln-primary) !important;
     animation: none !important;
     transform: none !important;
-  }
-
-  .kiln-input-wrap::after {
-    animation: none !important;
   }
 
   [data-theme="dark"] .kiln-input-wrap:focus-within {

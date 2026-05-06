@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-03
 import React, { useId, useCallback, useEffect } from 'react';
 import { cn } from '../../utils';
+import { ChevronLeftIcon, ChevronRightIcon } from '../../icons';
 import './SideNav.css';
 
 export interface SideNavItem {
@@ -34,17 +35,8 @@ export interface SideNavProps {
   style?: React.CSSProperties;
 }
 
-const CollapseIcon = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path
-      d={open ? 'M10 3H3v10h7M13 8H7M10 5l3 3-3 3' : 'M6 3h7v10H6M3 8h6M6 5L3 8l3 3'}
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+const CollapseIcon = ({ open }: { open: boolean }) =>
+  open ? <ChevronLeftIcon size={16} /> : <ChevronRightIcon size={16} />;
 
 const SideNav: React.FC<SideNavProps> = ({
   groups,

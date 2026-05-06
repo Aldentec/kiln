@@ -1,5 +1,6 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { Nav, Footer, Hero, Card, Badge, Button, Grid, Chip, LoadingIndicator } from '@doriansmith/kiln';
+import { TagIcon, SettingsIcon, TicketIcon, ArrowRightIcon } from '@doriansmith/kiln';
 import { NAV_ITEMS, NAV_LOGO, FOOTER_LINKS, isNavActive, navigate, NavActions } from './nav';
 
 // Lazy-load each demo so highlight.js / heavy content stays off the critical path.
@@ -14,7 +15,7 @@ type DemoId = 'ecommerce' | 'settings' | 'support';
 interface DemoMeta {
   id: DemoId;
   label: string;
-  eyebrow: string;
+  icon: React.ComponentType<{ size?: number }>;
   title: string;
   description: string;
   tags: string[];
@@ -25,7 +26,7 @@ const DEMOS: DemoMeta[] = [
   {
     id: 'ecommerce',
     label: 'E-Commerce Store',
-    eyebrow: '🛒 Demo 1',
+    icon: TagIcon,
     title: 'Product Store',
     description: 'A fully interactive product catalog with real-time search, category filters, product detail tabs, spec badges, star ratings, and a shopping cart — all in one cohesive UI.',
     tags: ['Grid', 'Card', 'Badge', 'Button', 'Chip', 'Input', 'Tabs', 'Modal', 'Accordion', 'Tooltip'],
@@ -34,7 +35,7 @@ const DEMOS: DemoMeta[] = [
   {
     id: 'settings',
     label: 'Account Settings',
-    eyebrow: '⚙️ Demo 2',
+    icon: SettingsIcon,
     title: 'Settings Dashboard',
     description: 'A complete account settings experience with profile editing, granular notification toggles, billing plan selection with RadioButtons, and a secure account deletion flow.',
     tags: ['Tabs', 'Input', 'Textarea', 'Toggle', 'RadioButton', 'Modal', 'Badge', 'Tooltip'],
@@ -43,7 +44,7 @@ const DEMOS: DemoMeta[] = [
   {
     id: 'support',
     label: 'Support Center',
-    eyebrow: '🎫 Demo 3',
+    icon: TicketIcon,
     title: 'Ticket Manager',
     description: 'A help-desk interface for tracking support tickets: live search, status filters, action dropdowns, a new-ticket form with priority RadioButtons, and an FAQ accordion.',
     tags: ['Card', 'Badge', 'Chip', 'Input', 'Textarea', 'DropdownMenu', 'Modal', 'Accordion', 'Tooltip'],
@@ -139,8 +140,11 @@ export default function DemosPage() {
                   onClick={() => setActiveDemo(demo.id)}
                   style={{ '--kiln-card-padding': 'var(--kiln-space-6)' } as React.CSSProperties}
                 >
-                  <p style={{ ...sectionLabel, marginBottom: 'var(--kiln-space-2)' }}>
-                    {demo.eyebrow}
+                  <div style={{ marginBottom: 'var(--kiln-space-3)', color: 'var(--kiln-primary)' }}>
+                    <demo.icon size={28} />
+                  </div>
+                  <p style={{ ...sectionLabel, marginBottom: 'var(--kiln-space-1)' }}>
+                    Demo {DEMOS.indexOf(demo) + 1}
                   </p>
                   <h3 style={{
                     margin: '0 0 var(--kiln-space-2)',
@@ -171,8 +175,9 @@ export default function DemosPage() {
                     variant={activeDemo === demo.id ? 'primary' : 'secondary'}
                     size="sm"
                     onClick={(e) => { e.stopPropagation(); setActiveDemo(demo.id); }}
+                    rightIcon={<ArrowRightIcon size={14} />}
                   >
-                    {activeDemo === demo.id ? 'Viewing' : 'View demo →'}
+                    {activeDemo === demo.id ? 'Viewing' : 'View demo'}
                   </Button>
                 </Card>
               ))}
@@ -190,7 +195,12 @@ export default function DemosPage() {
           <div style={sectionBase}>
             {/* Demo header */}
             <div style={{ marginBottom: 'var(--kiln-space-5)', paddingBottom: 'var(--kiln-space-5)', borderBottom: '1px solid var(--kiln-gray-200)' }}>
-              <p style={sectionLabel}>{active.eyebrow}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-2)', marginBottom: 'var(--kiln-space-1)' }}>
+                <active.icon size={20} style={{ color: 'var(--kiln-primary)' }} />
+                <p style={{ ...sectionLabel, margin: 0 }}>
+                  Demo {DEMOS.indexOf(active) + 1}
+                </p>
+              </div>
               <h2 style={{ margin: '0 0 var(--kiln-space-2)', fontSize: 'var(--kiln-text-2xl)', fontWeight: 700, color: 'var(--kiln-gray-900)', letterSpacing: 'var(--kiln-tracking-tight)' }}>
                 {active.label}
               </h2>

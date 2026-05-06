@@ -73,6 +73,15 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['code', 'language', 'showCopy'],
   },
+  'copy-to-clipboard': {
+    tips: [
+      { label: 'Zero intrusion', text: "The wrapper never overrides the child's role, aria-label, or keyboard events — it only listens for the bubbled click." },
+      { label: 'Placement', text: 'Choose the side with the most viewport space. top works for most cases; right avoids covering inline values like API keys.' },
+      { label: 'Dark mode', text: 'The tooltip surface automatically inverts when data-theme="dark" is on <html> — no extra config needed.' },
+      { label: 'Non-interactive children', text: 'When wrapping a div or span, add role="button", tabIndex={0}, and an onKeyDown handler so keyboard users can trigger the copy.' },
+    ],
+    quickProps: ['value', 'placement', 'successMessage', 'duration', 'onCopy'],
+  },
   'dropdown-menu': {
     tips: [
       { label: 'Alignment', text: 'Use align="end" to anchor the menu to the right edge of the trigger.' },
@@ -174,6 +183,15 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
       { label: 'Keyboard', text: 'Arrow Up/Down and Home/End navigate between items.' },
     ],
     quickProps: ['groups', 'activeId', 'onSelect', 'header', 'open', 'width'],
+  },
+  table: {
+    tips: [
+      { label: 'Controlled sort', text: 'Pass sortingColumn + sortingDescending and handle onSortingChange to sort server-side. Omit both to sort in-browser automatically.' },
+      { label: 'Selection state', text: 'selectedItems and onSelectionChange are fully controlled — store the array in your own state and spread it back in.' },
+      { label: 'Slots', text: 'header, filter, pagination, and footer accept any ReactNode. Compose with Input, Button, and Badge for a complete data view.' },
+      { label: 'Empty state', text: 'Pass an empty prop with a custom ReactNode to show a branded zero-state when items is empty.' },
+    ],
+    quickProps: ['columnDefinitions', 'items', 'trackBy', 'selectionType', 'selectedItems', 'onSelectionChange', 'sortingColumn', 'onSortingChange', 'loading', 'header', 'filter', 'pagination', 'empty'],
   },
   'table-of-contents': {
     tips: [

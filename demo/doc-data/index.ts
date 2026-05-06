@@ -8,6 +8,7 @@ import * as _button from './button';
 import * as _card from './card';
 import * as _chip from './chip';
 import * as _codeBlock from './code-block';
+import * as _copyToClipboard from './copy-to-clipboard';
 import * as _dropdownMenu from './dropdown-menu';
 import * as _errorMessage from './error-message';
 import * as _footer from './footer';
@@ -25,6 +26,7 @@ import * as _radioButton from './radio-button';
 import * as _scrollToTop from './scroll-to-top';
 import * as _sideNav from './side-nav';
 import * as _splitPanel from './split-panel';
+import * as _table from './table';
 import * as _tabs from './tabs';
 import * as _tableOfContents from './table-of-contents';
 import * as _textarea from './textarea';
@@ -43,6 +45,7 @@ export const button = _button.button;
 export const card = _card.card;
 export const chip = _chip.chip;
 export const codeBlock = _codeBlock.codeBlock;
+export const copyToClipboard = _copyToClipboard.copyToClipboard;
 export const dropdownMenu = _dropdownMenu.dropdownMenu;
 export const errorMessage = _errorMessage.errorMessage;
 export const footer = _footer.footer;
@@ -60,6 +63,7 @@ export const radioButton = _radioButton.radioButton;
 export const scrollToTop = _scrollToTop.scrollToTop;
 export const sideNav = _sideNav.sideNav;
 export const splitPanel = _splitPanel.splitPanel;
+export const table = _table.table;
 export const tabs = _tabs.tabs;
 export const tableOfContents = _tableOfContents.tableOfContents;
 export const textarea = _textarea.textarea;
@@ -82,6 +86,7 @@ export const componentDocs: ComponentDoc[] = [
   _card.card,
   _chip.chip,
   _codeBlock.codeBlock,
+  _copyToClipboard.copyToClipboard,
   _dropdownMenu.dropdownMenu,
   _errorMessage.errorMessage,
   _footer.footer,
@@ -99,6 +104,7 @@ export const componentDocs: ComponentDoc[] = [
   _scrollToTop.scrollToTop,
   _sideNav.sideNav,
   _splitPanel.splitPanel,
+  _table.table,
   _tabs.tabs,
   _tableOfContents.tableOfContents,
   _textarea.textarea,

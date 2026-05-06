@@ -1,131 +1,133 @@
 # Contributing to Kiln
 
-Thanks for your interest in contributing. Kiln is a small, opinionated
-design system built for indie devs and small teams. Contributions are
-welcome as long as they align with the three core pillars:
-
-1. Accessibility first — WCAG AA, always
-2. Performance first — Lighthouse scores are a floor, not a target
-3. Solo dev friendly — keep setup simple, APIs obvious
+Thanks for your interest in contributing. Kiln is opinionated by design — read this document before opening a PR so your contribution lands cleanly.
 
 ---
 
-## Before you open a PR
+## Core principles
 
-Check the open issues first to see if someone is already working on
-what you have in mind. If you are proposing a new component or a
-significant change, open an issue to discuss it before writing code.
-Kiln is intentionally minimal. Not every component belongs here.
+Kiln evaluates every decision against one question: **"Does this help an indie developer ship a real product faster?"** If yes, keep it. If no, cut it.
+
+All contributions must uphold the Four Pillars:
+
+1. **Accessibility-first** — WCAG AA by default. Keyboard navigation, screen reader support, correct ARIA.
+2. **Performance-first** — Lighthouse floor: Performance 99, Accessibility 100, SEO 100. CLS = 0 on all interactions.
+3. **Mobile-first** — 44x44px touch targets, 14px minimum text, no viewport overflow at 375px.
+4. **Solo-dev friendly** — no config, no providers, copy-paste ready examples.
 
 ---
 
-## Setup
-
-You will need Node.js 18+ and npm.
+## Development setup
 
 ```bash
-git clone https://github.com/Aldentec/kiln.git
-cd kiln
 npm install
-```
-
-Run the demo app locally to preview components:
-
-```bash
-npm run dev
-```
-
-Build the library:
-
-```bash
-npm run build
-```
-
-Run tests:
-
-```bash
-npm test
+npm test          # run all tests
+npm run build     # build library
+npm run dev       # start demo dev server
 ```
 
 ---
 
 ## Adding a component
 
-Every component lives in `src/components/ComponentName/` and must include:
+Only add components on the approved list for the target release. Ask first if unsure.
 
-- `ComponentName.tsx` — the React component
-- `ComponentName.css` — scoped styles using `--kiln-*` tokens
-- `ComponentName.test.tsx` — tests with vitest and @testing-library/react
-- `index.ts` — barrel export
-
-Export it from `src/index.ts` and register it on the demo page in `demo/`.
-
-### Class naming
-
-All classes use the `kiln-` prefix in BEM-ish style:
-
-`
-.kiln-button
-.kiln-button--primary
-.kiln-button--lg
-.kiln-button__icon
-`
-### Tokens
-
-Use only existing `--kiln-*` tokens from `src/styles/design-tokens.css`.
-Do not introduce new colors, gradients, spacing values, or easing curves.
-If a token is genuinely missing, open an issue to discuss adding it first.
+1. Create `src/components/ComponentName/` with:
+   - `ComponentName.tsx` — component
+   - `ComponentName.css` — `@layer kiln`-wrapped styles
+   - `ComponentName.test.tsx` — vitest + @testing-library/react tests
+   - `index.ts` — re-exports
+2. Export from `src/index.ts`
+3. Import CSS in `src/styles/index.css`
+4. Add to `demo/ComponentsPage.tsx` (alphabetical order)
+5. Complete all three verification stamps before marking done:
+   - `// a11y: WCAG AA verified YYYY-MM-DD`
+   - `// perf: CLS=0, GPU-friendly YYYY-MM-DD`
+   - `// mobile: verified 375px/768px YYYY-MM-DD`
 
 ---
 
-## Accessibility checklist
+## Adding an icon
 
-Every component must pass this before merging:
+Icons live in `src/icons/`. All icons must follow these rules.
 
-- [ ] Keyboard navigable (Tab, Shift+Tab, Enter, Space, arrow keys, Escape where appropriate)
-- [ ] Visible focus ring using `--kiln-focus-ring` token
-- [ ] Correct ARIA roles, labels, and states
-- [ ] Color contrast meets WCAG AA (4.5:1 for text, 3:1 for UI elements)
-- [ ] Works correctly at 200% browser zoom
-- [ ] Interactive elements meet 44x44px touch target size
+### Style rules
 
----
+| Rule | Value |
+|---|---|
+| `viewBox` | `"0 0 24 24"` |
+| Color | `fill="currentColor"` — no `stroke` attributes |
+| Fill rule | `fill-rule="evenodd"` for compound/cutout paths; omit for simple single paths |
+| Default size | `size={20}` (set by the `createIcon` factory) |
+| Accessibility | `aria-hidden="true"` by default; override with `aria-label` |
+| Naming | `[Name]Icon` suffix — e.g. `TrashIcon`, not `Trash` |
+| Factory | Always use `createIcon` from `src/icons/base.tsx` — never write raw `forwardRef` SVG components |
 
-## Performance checklist
+### Steps
 
-Every component must pass this before merging:
+1. Identify the correct category file:
+   - `navigation.tsx` — chevrons, arrows, menus
+   - `status.tsx` — check, error, warning, info, x
+   - `actions.tsx` — CRUD, file ops, visibility, settings
+   - `content.tsx` — file types, links, tags
+   - `social.tsx` — user, notifications, reactions
+   - `misc.tsx` — drag, grid, shield, phone, zap
+   - `theme.tsx` — sun, moon
+2. Add a `createIcon(...)` call following the style rules.
+3. Export from the category file (already barrel-exported via `export *` in `index.ts`).
+4. Add a new category file to `src/icons/index.ts` if creating a new group.
+5. Verify the icon renders correctly at `size={16}`, `size={20}`, and `size={24}`.
 
-- [ ] Zero layout shift (CLS = 0) on mount and all interactions
-- [ ] Animations use only `transform` and `opacity`
-- [ ] No JavaScript animation libraries imported
-- [ ] No new npm dependencies introduced without discussion
-- [ ] CSS is scoped — no accidental global style bleed
+### Converting a stroke icon to fill
 
----
-
-## What Kiln will not accept
-
-- New npm dependencies (zero dependencies is a core guarantee)
-- Components that duplicate what CSS handles natively
-- Theming APIs or token overrides beyond what already exists
-- GSAP or any animation library (deferred to v0.2.0 as optional)
-- Storybook (deferred to v0.2.0)
-- Components that fail the accessibility or performance checklists above
-
-If you are unsure whether something belongs in Kiln, open an issue and ask.
-
----
-
-## Submitting a PR
-
-- Keep PRs focused. One component or one fix per PR.
-- Include a screenshot or screen recording for visual changes.
-- Make sure `npm run build` and `npm test` pass before submitting.
-- Write a clear PR description explaining what changed and why.
+Stroke-based SVGs must be redrawn as filled paths before being added to the library. The path data will differ — you cannot simply remove `stroke` and add `fill`. Use a design tool or hand-edit the path to produce a filled shape that matches the intent of the stroke version.
 
 ---
 
-## License
+## CSS conventions
 
-By contributing to Kiln you agree that your contributions will be
-licensed under the MIT License.
+- All rules inside `@layer kiln { ... }`
+- `@keyframes` and `@property` declarations **outside** the layer (browser requirement)
+- Colors via design tokens only — no hardcoded hex values
+- Component-level tokens documented at the top of each `.css` file
+- `prefers-reduced-motion: reduce` override required for every animation
+- Dark mode via `[data-theme="dark"] .kiln-*` inside the layer
+
+---
+
+## Tests
+
+Every component needs tests covering:
+- All variants and states
+- Keyboard interactions (Tab, Enter, Space, arrows, Escape)
+- Controlled and uncontrolled modes where applicable
+- ARIA attributes
+- Error and loading states
+
+Run tests with:
+
+```bash
+npm test
+npm run test:watch
+```
+
+---
+
+## Pull requests
+
+- One concern per PR
+- Pass `npm test` and `npx tsc --noEmit` before opening
+- Verify Lighthouse scores against `localhost:4173` (production preview), not the dev server
+- Reference the issue number if applicable
+
+---
+
+## What we will not merge
+
+- Components not on the approved release list (ask first)
+- Stroke-based icons (must be fill-based)
+- Hardcoded hex colors in CSS
+- New JavaScript animation dependencies
+- Accessibility regressions (any WCAG AA failure)
+- Lighthouse regressions (Performance < 99, Accessibility < 100, SEO < 100)
+- Unverified mobile behavior at 375px

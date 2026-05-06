@@ -1,0 +1,509 @@
+/* ─── Component tokens ─────────────────────────────────────────────────────────
+   --kiln-table-radius           border-radius of the container (default: --kiln-radius-lg)
+   --kiln-table-border           border / divider color (default: --kiln-gray-200)
+   --kiln-table-header-bg        header row background (default: --kiln-gray-50)
+   --kiln-table-header-color     header text color (default: --kiln-gray-700)
+   --kiln-table-row-hover-bg     hover background for clickable rows (default: --kiln-gray-50)
+   --kiln-table-selected-bg      selected row background (default: --kiln-primary-50)
+   --kiln-table-stripe-bg        even-row background for striped variant (default: --kiln-gray-50)
+   --kiln-table-cell-py          vertical cell padding comfortable (default: 12px)
+   --kiln-table-cell-px          horizontal cell padding (default: 16px)
+──────────────────────────────────────────────────────────────────────────────── */
+
+@keyframes kiln-table-loading-bar {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes kiln-table-shimmer {
+  0%   { background-position: -400% center; }
+  100% { background-position:  400% center; }
+}
+
+@layer kiln {
+
+.kiln-table {
+  --kiln-table-radius:       var(--kiln-radius-lg);
+  --kiln-table-border:       var(--kiln-gray-200);
+  --kiln-table-header-bg:    var(--kiln-gray-50);
+  --kiln-table-header-color: var(--kiln-gray-700);
+  --kiln-table-row-hover-bg: var(--kiln-gray-100);
+  --kiln-table-selected-bg:  var(--kiln-primary-50);
+  --kiln-table-stripe-bg:    var(--kiln-gray-50);
+  --kiln-table-cell-py:      12px;
+  --kiln-table-cell-px:      16px;
+
+  font-family: var(--kiln-font-sans);
+  font-size: var(--kiln-text-sm);
+  color: var(--kiln-gray-800);
+}
+
+/* ── Variants ─────────────────────────────────────────────────────────────── */
+
+.kiln-table--container {
+  border: 1px solid var(--kiln-table-border);
+  border-radius: var(--kiln-table-radius);
+  box-shadow: var(--kiln-shadow-sm);
+  background: var(--kiln-surface-raised);
+  overflow: hidden;
+}
+
+.kiln-table--borderless {
+  background: transparent;
+}
+
+.kiln-table--stacked {
+  border: 1px solid var(--kiln-table-border);
+  border-radius: 0;
+  background: var(--kiln-surface-raised);
+  overflow: hidden;
+}
+
+/* ── Slots ────────────────────────────────────────────────────────────────── */
+
+.kiln-table__header {
+  padding: var(--kiln-space-4) var(--kiln-space-4) 0;
+  border-bottom: 1px solid var(--kiln-table-border);
+}
+
+.kiln-table--borderless .kiln-table__header {
+  padding-inline: 0;
+  border-bottom: none;
+}
+
+.kiln-table__filter {
+  padding: var(--kiln-space-3) var(--kiln-space-4);
+  border-bottom: 1px solid var(--kiln-table-border);
+}
+
+.kiln-table--borderless .kiln-table__filter {
+  padding-inline: 0;
+}
+
+.kiln-table__pagination {
+  padding: var(--kiln-space-3) var(--kiln-space-4);
+  border-top: 1px solid var(--kiln-table-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--kiln-space-2);
+}
+
+.kiln-table--borderless .kiln-table__pagination {
+  padding-inline: 0;
+}
+
+.kiln-table__footer {
+  padding: var(--kiln-space-3) var(--kiln-space-4);
+  border-top: 1px solid var(--kiln-table-border);
+  font-size: var(--kiln-text-sm);
+  color: var(--kiln-gray-600);
+}
+
+.kiln-table--borderless .kiln-table__footer {
+  padding-inline: 0;
+}
+
+/* ── Scroll wrapper ───────────────────────────────────────────────────────── */
+
+.kiln-table__scroll-wrap {
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+/* ── Loading bar ──────────────────────────────────────────────────────────── */
+
+.kiln-table__loading-bar {
+  height: 3px;
+  background: var(--kiln-gray-100);
+  overflow: hidden;
+  position: relative;
+}
+
+.kiln-table__loading-bar-inner {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 100%;
+  background: var(--kiln-gradient-brand);
+  animation: kiln-table-loading-bar 1.4s linear infinite;
+}
+
+/* ── Native table ─────────────────────────────────────────────────────────── */
+
+.kiln-table__native {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: auto;
+}
+
+/* ── TH ───────────────────────────────────────────────────────────────────── */
+
+.kiln-table__thead {
+  position: relative;
+  z-index: 2;
+}
+
+.kiln-table__th {
+  padding: var(--kiln-table-cell-py) var(--kiln-table-cell-px);
+  text-align: left;
+  font-size: var(--kiln-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--kiln-tracking-wide);
+  text-transform: uppercase;
+  color: var(--kiln-table-header-color);
+  background: var(--kiln-table-header-bg);
+  border-bottom: 2px solid var(--kiln-table-border);
+  white-space: nowrap;
+  position: relative;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.kiln-table__th--sticky {
+  position: sticky;
+  top: var(--kiln-table-sticky-offset, 0);
+  z-index: 3;
+}
+
+.kiln-table__th--sticky-col {
+  z-index: 4;
+}
+
+.kiln-table__th--sortable {
+  cursor: pointer;
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out),
+              color var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+.kiln-table__th--sortable:hover {
+  background: var(--kiln-gray-100);
+  color: var(--kiln-gray-900);
+}
+
+.kiln-table__th--sorted {
+  color: var(--kiln-primary);
+}
+
+.kiln-table__th--selection {
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  padding: var(--kiln-table-cell-py) 12px;
+  text-align: center;
+}
+
+.kiln-table__th-content {
+  display: flex;
+  align-items: center;
+  gap: var(--kiln-space-2);
+  min-width: 0;
+}
+
+.kiln-table__th-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.kiln-table__sort-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--kiln-gray-400);
+  transition: color var(--kiln-duration-fast) var(--kiln-ease-out),
+              opacity var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+.kiln-table__th--sortable:hover .kiln-table__sort-icon {
+  color: var(--kiln-gray-600);
+  opacity: 1;
+}
+
+.kiln-table__th--sorted .kiln-table__sort-icon {
+  color: var(--kiln-primary);
+}
+
+/* ── Resize handle ────────────────────────────────────────────────────────── */
+
+.kiln-table__resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
+  touch-action: none;
+  z-index: 1;
+}
+
+.kiln-table__resize-handle::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  right: 2px;
+  width: 2px;
+  background: var(--kiln-table-border);
+  border-radius: 1px;
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+.kiln-table__resize-handle:hover::after,
+.kiln-table__resize-handle:active::after {
+  background: var(--kiln-primary);
+}
+
+/* ── TD ───────────────────────────────────────────────────────────────────── */
+
+.kiln-table__td {
+  padding: var(--kiln-table-cell-py) var(--kiln-table-cell-px);
+  border-bottom: 1px solid var(--kiln-table-border);
+  color: var(--kiln-gray-800);
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+  background: inherit;
+}
+
+.kiln-table--wrap-lines .kiln-table__td {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.kiln-table__td--row-header {
+  font-weight: 500;
+  color: var(--kiln-gray-900);
+}
+
+.kiln-table__td--selection {
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  padding: var(--kiln-table-cell-py) 12px;
+  text-align: center;
+}
+
+.kiln-table__td--sticky-col {
+  position: sticky;
+  z-index: 1;
+  background: inherit;
+}
+
+/* ── Loading over existing data ───────────────────────────────────────────── */
+
+.kiln-table__tbody--loading {
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity var(--kiln-duration-normal) var(--kiln-ease-out);
+}
+
+/* ── TR ───────────────────────────────────────────────────────────────────── */
+
+.kiln-table__tr {
+  background: var(--kiln-surface-raised);
+  transition: background var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+.kiln-table--borderless .kiln-table__tr {
+  background: transparent;
+}
+
+.kiln-table__tbody .kiln-table__tr:last-child .kiln-table__td {
+  border-bottom: none;
+}
+
+.kiln-table__tr--clickable {
+  cursor: pointer;
+}
+
+.kiln-table__tr--clickable:hover {
+  background: var(--kiln-table-row-hover-bg) !important;
+}
+
+.kiln-table__tr--selected {
+  background: var(--kiln-table-selected-bg) !important;
+}
+
+.kiln-table__tr--selected .kiln-table__td {
+  border-bottom-color: var(--kiln-primary-100);
+}
+
+.kiln-table__tr--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Striped ─────────────────────────────────────────────────────────────── */
+
+.kiln-table--striped .kiln-table__tbody .kiln-table__tr:nth-child(even):not(.kiln-table__tr--selected) {
+  background: var(--kiln-table-stripe-bg);
+}
+
+/* ── Compact density ──────────────────────────────────────────────────────── */
+
+.kiln-table--compact {
+  --kiln-table-cell-py: 7px;
+  --kiln-table-cell-px: 12px;
+  font-size: var(--kiln-text-xs);
+}
+
+/* ── Checkbox / radio ─────────────────────────────────────────────────────── */
+
+.kiln-table__checkbox,
+.kiln-table__radio {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  accent-color: var(--kiln-primary);
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.kiln-table__checkbox:disabled,
+.kiln-table__radio:disabled {
+  cursor: not-allowed;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+
+.kiln-table__empty-cell {
+  padding: var(--kiln-space-10) var(--kiln-space-4);
+  text-align: center;
+  color: var(--kiln-gray-500);
+}
+
+.kiln-table__empty-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kiln-space-2);
+  font-size: var(--kiln-text-sm);
+  color: var(--kiln-gray-500);
+}
+
+/* ── Skeleton rows ────────────────────────────────────────────────────────── */
+
+.kiln-table__skeleton-block {
+  height: 14px;
+  border-radius: var(--kiln-radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--kiln-gray-100) 25%,
+    var(--kiln-gray-200) 50%,
+    var(--kiln-gray-100) 75%
+  );
+  background-size: 400% auto;
+  animation: kiln-table-shimmer 1.6s linear infinite;
+}
+
+/* Vary widths so skeleton looks natural */
+.kiln-table__tr--skeleton .kiln-table__td:nth-child(2) .kiln-table__skeleton-block { width: 75%; }
+.kiln-table__tr--skeleton .kiln-table__td:nth-child(3) .kiln-table__skeleton-block { width: 55%; }
+.kiln-table__tr--skeleton .kiln-table__td:nth-child(4) .kiln-table__skeleton-block { width: 85%; }
+.kiln-table__tr--skeleton .kiln-table__td:nth-child(5) .kiln-table__skeleton-block { width: 40%; }
+
+/* ── Focus rings ──────────────────────────────────────────────────────────── */
+
+.kiln-table__th:focus-visible,
+.kiln-table__td:focus-visible {
+  outline: 2px solid var(--kiln-primary);
+  outline-offset: -2px;
+  z-index: 5;
+  position: relative;
+}
+
+/* ── Screen-reader only ───────────────────────────────────────────────────── */
+
+.kiln-table__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Dark theme ───────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] .kiln-table {
+  --kiln-table-border:       var(--kiln-gray-200);
+  --kiln-table-header-bg:    var(--kiln-gray-100);
+  --kiln-table-header-color: var(--kiln-gray-600);
+  --kiln-table-row-hover-bg: var(--kiln-gray-100);
+  --kiln-table-selected-bg:  var(--kiln-primary-100);
+  --kiln-table-stripe-bg:    var(--kiln-gray-100);
+}
+
+[data-theme="dark"] .kiln-table--container,
+[data-theme="dark"] .kiln-table--stacked {
+  background: var(--kiln-surface-raised);
+}
+
+[data-theme="dark"] .kiln-table__skeleton-block {
+  background: linear-gradient(
+    90deg,
+    var(--kiln-gray-200) 25%,
+    var(--kiln-gray-300) 50%,
+    var(--kiln-gray-200) 75%
+  );
+  background-size: 400% auto;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .kiln-table {
+    --kiln-table-cell-py: 10px;
+    --kiln-table-cell-px: 12px;
+  }
+
+  .kiln-table__th,
+  .kiln-table__td {
+    font-size: max(14px, var(--kiln-text-xs));
+  }
+
+  .kiln-table__th--selection,
+  .kiln-table__td--selection {
+    width: 44px;
+    min-width: 44px;
+    padding-inline: 8px;
+  }
+
+  .kiln-table__checkbox,
+  .kiln-table__radio {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-table__loading-bar-inner,
+  .kiln-table__skeleton-block,
+  .kiln-table__tr,
+  .kiln-table__th--sortable,
+  .kiln-table__sort-icon,
+  .kiln-table__tbody--loading {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+} /* end @layer kiln */

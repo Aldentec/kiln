@@ -96,6 +96,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `NotificationBar` | Stacked dismissible banners with info / success / warning / error variants and `aria-live`. |
 | `SideNav` | Grouped vertical nav with active state and keyboard navigation. |
 | `SplitPanel` | Expandable bottom panel with drag-to-resize handle and keyboard resize (arrow keys). |
+| `Table` | Full-featured data table. Column sorting, multi/single row selection, sticky header, column resize, column visibility, loading/empty/error states, and slots for header, filter, pagination, and footer. ARIA grid pattern with optional arrow-key cell navigation. |
 | `TableOfContents` | Sticky ToC with IntersectionObserver active-section tracking. |
 | `ThemeToggle` | Light/dark toggle, persists to `localStorage`. |
 | `Toast` / `ToastContainer` | Non-blocking toasts with four severity variants and configurable position. |
@@ -107,6 +108,53 @@ document.documentElement.setAttribute('data-theme', 'dark');
 | `ErrorMessage` | Error display with optional retry button. |
 | `ScrollToTop` | Scrolls to top on route change. Renders nothing. |
 | `CodeBlock` | Styled `<pre><code>` with copy button and language label. |
+| `CopyToClipboard` | Zero-intrusion wrapper that copies a value to the clipboard on click and shows a contextual confirmation tooltip adjacent to the trigger. |
+
+---
+
+## Icons
+
+Kiln ships a built-in fill-based icon library. Import icons directly:
+
+```tsx
+import { ChevronDownIcon, CheckCircleIcon, TrashIcon } from '@doriansmith/kiln';
+
+<ChevronDownIcon size={20} />
+<CheckCircleIcon size={16} aria-label="Success" />
+<TrashIcon className="my-icon" style={{ color: 'red' }} />
+```
+
+All icons accept:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `size` | `number \| string` | `20` | Width and height in px |
+| `className` | `string` | — | CSS class |
+| `style` | `CSSProperties` | — | Inline styles |
+| `aria-label` | `string` | — | Makes icon visible to screen readers; omit for decorative icons |
+| `aria-hidden` | `boolean` | `true` | Auto-set to `true` when no `aria-label` is provided |
+
+### Icon catalogue
+
+**Navigation:** `ChevronDownIcon`, `ChevronUpIcon`, `ChevronRightIcon`, `ChevronLeftIcon`, `ArrowRightIcon`, `ArrowLeftIcon`, `ArrowUpIcon`, `ArrowDownIcon`, `MenuIcon`, `AngleUpIcon`, `AngleDownIcon`, `AngleLeftIcon`, `AngleRightIcon`
+
+**Status:** `CheckIcon`, `CheckCircleIcon`, `XIcon`, `XCircleIcon`, `InfoIcon`, `WarningIcon`, `StatusPositiveIcon`, `StatusNegativeIcon`, `StatusInfoIcon`, `StatusWarningIcon`, `StatusInProgressIcon`, `StatusPendingIcon`, `StatusStoppedIcon`, `StatusNotStartedIcon`
+
+**Actions:** `PlusIcon`, `MinusIcon`, `TrashIcon`, `PencilIcon`, `SearchIcon`, `ExternalLinkIcon`, `CopyIcon`, `SettingsIcon`, `EyeIcon`, `EyeOffIcon`, `UploadIcon`, `DownloadIcon`, `FilterIcon`, `SortIcon`, `AnchorLinkIcon`, `CalendarIcon`, `CommandPromptIcon`, `DeleteMarkerIcon`, `DotIcon`, `EditGenAiIcon`, `EllipsisIcon`, `FlagIcon`, `GenAiIcon`, `HistoryIcon`, `RefreshIcon`, `RemoveIcon`, `RedoIcon`, `ScriptIcon`, `SearchGenAiIcon`, `SendIcon`, `ShareIcon`, `SlashIcon`, `SubtractMinusIcon`, `SuggestionsIcon`, `TicketIcon`, `UndoIcon`, `UnlockedIcon`, `UploadDownloadIcon`
+
+**Content:** `FileIcon`, `FolderIcon`, `ImageIcon`, `CodeIcon`, `TerminalIcon`, `LinkIcon`, `BookmarkIcon`, `TagIcon`, `FileOpenIcon`, `FolderOpenIcon`
+
+**Social:** `UserIcon`, `UsersIcon`, `BellIcon`, `StarIcon`, `HeartIcon`, `FaceSmileIcon`, `FaceNeutralIcon`, `FaceFrownIcon`, `GroupIcon`, `HeartFilledIcon`, `StarHalfIcon`, `StarFilledIcon`, `UserProfileIcon`
+
+**Miscellaneous:** `DragHandleIcon`, `ShieldIcon`, `ZapIcon`, `SmartphoneIcon`, `GridIcon`, `ListIcon`, `KeyIcon`, `KeyboardIcon`, `LocationPinIcon`, `MapIcon`
+
+**Theme:** `SunIcon`, `MoonIcon`, `LightDarkIcon`
+
+**Communication:** `CallIcon`, `ContactIcon`, `EnvelopeIcon`, `GlobeIcon`, `BugIcon`, `LockPrivateIcon`, `SecurityIcon`, `AtSymbolIcon`, `MicrophoneIcon`, `MicrophoneOffIcon`
+
+**Media:** `AudioFullIcon`, `AudioHalfIcon`, `AudioOffIcon`, `Backward10SecondsIcon`, `Forward10SecondsIcon`, `ClosedCaptionIcon`, `ClosedCaptionUnavailableIcon`, `MiniPlayerIcon`, `MultiscreenIcon`, `PauseIcon`, `PlayIcon`, `StopCircleIcon`, `TranscriptIcon`, `VideoOffIcon`, `VideoOnIcon`, `VideoUnavailableIcon`, `VideoCameraOffIcon`, `VideoCameraOnIcon`, `VideoCameraUnavailableIcon`
+
+**UI:** `CaretDownFilledIcon`, `CaretDownIcon`, `CaretLeftFilledIcon`, `CaretRightFilledIcon`, `CaretUpFilledIcon`, `CaretUpIcon`, `ExpandIcon`, `ShrinkIcon`, `FullScreenIcon`, `ExitFullScreenIcon`, `TreeviewCollapseIcon`, `TreeviewExpandIcon`, `ZoomInIcon`, `ZoomOutIcon`, `ZoomToFitIcon`, `ResizeAreaIcon`, `ViewFullIcon`, `ViewHorizontalIcon`, `ViewVerticalIcon`, `InsertRowIcon`, `GridViewIcon`, `ListViewIcon`
 
 ---
 
@@ -499,6 +547,71 @@ Override per-instance with the `--kiln-grid-gap` CSS token:
 
 ---
 
+## CopyToClipboard
+
+A zero-intrusion wrapper that copies `value` to the clipboard when any child element is clicked, then shows a small confirmation tooltip immediately adjacent to the trigger. The child element keeps full ownership of its role, `aria-label`, and keyboard handling.
+
+```tsx
+import { CopyToClipboard, Button } from '@doriansmith/kiln';
+
+// Wrap any element — one prop is all that's required
+<CopyToClipboard value="<SearchIcon />">
+  <Button variant="ghost" aria-label="Copy SearchIcon import">
+    <SearchIcon />
+  </Button>
+</CopyToClipboard>
+
+// Tooltip placement
+<CopyToClipboard value={shareUrl} placement="right" successMessage="Link copied!">
+  <button type="button" aria-label="Copy share link">
+    <LinkIcon size={16} />
+  </button>
+</CopyToClipboard>
+
+// Inline code snippet
+<CopyToClipboard value="npm install @doriansmith/kiln" placement="bottom">
+  <code style={{ cursor: 'pointer' }}>npm install @doriansmith/kiln</code>
+</CopyToClipboard>
+
+// Callbacks and custom duration
+<CopyToClipboard
+  value={apiKey}
+  placement="right"
+  successMessage="API key copied!"
+  duration={3000}
+  onCopy={(v) => analytics.track('copy', { value: v })}
+  onError={(err) => console.error(err)}
+>
+  <Input label="API key" value={apiKey} readOnly />
+</CopyToClipboard>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | — | **Required.** String written to the clipboard on click. |
+| `children` | `React.ReactNode` | — | **Required.** The trigger element. Retains its own role, label, and keyboard events. |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Which side of the trigger the tooltip appears on. |
+| `duration` | `number` | `2000` | Milliseconds the tooltip stays visible before fading out. |
+| `successMessage` | `string` | `'Copied!'` | Tooltip text after a successful clipboard write. |
+| `errorMessage` | `string` | `'Failed to copy'` | Tooltip text when the write fails. |
+| `onCopy` | `(value: string) => void` | — | Called with the copied value after success. |
+| `onError` | `(err: unknown) => void` | — | Called with the caught error on failure. |
+| `className` | `string` | — | Extra classes on the wrapper `<span>`. |
+
+### Accessibility
+
+- An always-mounted `role="status"` + `aria-live="polite"` region announces the result to screen readers without racing against DOM mount timing.
+- The visual tooltip is marked `aria-hidden="true"` to prevent double-announcement.
+- Copy is triggered via event bubbling — child buttons handle their own keyboard (`Enter` / `Space`) events naturally.
+
+### Dark mode
+
+The tooltip automatically inverts to a light surface when `data-theme="dark"` is set on `<html>` — no extra configuration needed.
+
+---
+
 ## TypeScript
 
 All props are fully typed. Named type exports:
@@ -514,6 +627,7 @@ import type {
   NotificationBarItem, NotificationBarType,
   ToolsPanelProps, SplitPanelProps,
   AppLayoutBreadcrumb, AppLayoutNotification,
+  CopyToClipboardProps, CopyStatus, CopyPlacement,
 } from '@doriansmith/kiln';
 ```
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
   Card, Badge, Button, Grid, Chip, Input, Modal, Tabs, Accordion,
   toast, ToastContainer, Tooltip,
+  StarFilledIcon, StarHalfIcon, StarIcon,
+  AudioFullIcon, KeyboardIcon, ZapIcon, GridIcon, VideoCameraOnIcon, LocationPinIcon,
 } from '@doriansmith/kiln';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -17,7 +19,7 @@ interface Product {
   category: 'audio' | 'peripherals' | 'accessories';
   description: string;
   specs: string[];
-  emoji: string;
+  icon: React.ComponentType<{ size?: number }>;
   rating: number;
   reviews: number;
 }
@@ -31,42 +33,42 @@ interface CartItem {
 
 const PRODUCTS: Product[] = [
   {
-    id: 'p1', emoji: '🎧', name: 'Wireless Headphones', price: 79.99,
+    id: 'p1', icon: AudioFullIcon, name: 'Wireless Headphones', price: 79.99,
     badge: 'new', category: 'audio',
     description: 'Premium wireless headphones with active noise cancellation and 30-hour battery life. Crystal-clear highs, deep bass, and an over-ear fit designed for all-day wear.',
     specs: ['30hr battery', 'Bluetooth 5.2', '40mm drivers', 'USB-C charging', 'Foldable design'],
     rating: 4.5, reviews: 128,
   },
   {
-    id: 'p2', emoji: '⌨️', name: 'Mechanical Keyboard', price: 129.99, originalPrice: 159.99,
+    id: 'p2', icon: KeyboardIcon, name: 'Mechanical Keyboard', price: 129.99, originalPrice: 159.99,
     badge: 'sale', category: 'peripherals',
     description: 'Compact TKL mechanical keyboard with RGB backlighting and hot-swappable switches. Fully compatible with Mac and Windows right out of the box.',
     specs: ['TKL layout', 'RGB backlit', 'Hot-swap sockets', 'USB-C', 'PBT doubleshot keycaps'],
     rating: 4.7, reviews: 342,
   },
   {
-    id: 'p3', emoji: '🔌', name: 'USB-C Hub 7-in-1', price: 49.99,
+    id: 'p3', icon: ZapIcon, name: 'USB-C Hub 7-in-1', price: 49.99,
     category: 'accessories',
     description: 'Expand your laptop with 7 essential ports — including 4K HDMI output and 100W power delivery passthrough — in one slim aluminum hub.',
     specs: ['HDMI 4K@60Hz', '3× USB-A 3.0', 'SD + microSD', '100W PD passthrough', 'Aluminum body'],
     rating: 4.3, reviews: 89,
   },
   {
-    id: 'p4', emoji: '🖥️', name: 'Monitor Stand Pro', price: 39.99, originalPrice: 59.99,
+    id: 'p4', icon: GridIcon, name: 'Monitor Stand Pro', price: 39.99, originalPrice: 59.99,
     badge: 'sale', category: 'accessories',
     description: 'Adjustable bamboo monitor riser with a built-in cable management drawer and storage shelf. Supports monitors up to 32" at 27kg.',
     specs: ['Height adjustable', 'Cable management', '27kg capacity', 'Sustainable bamboo', 'Up to 32"'],
     rating: 4.4, reviews: 56,
   },
   {
-    id: 'p5', emoji: '📷', name: 'HD Webcam 1080p', price: 89.99,
+    id: 'p5', icon: VideoCameraOnIcon, name: 'HD Webcam 1080p', price: 89.99,
     badge: 'new', category: 'peripherals',
     description: '1080p at 60fps with autofocus, low-light AI correction, a built-in dual-mic array, and a physical privacy shutter for peace of mind.',
     specs: ['1080p @ 60fps', 'Autofocus', 'Low-light AI', 'Dual microphone', 'Privacy shutter'],
     rating: 4.6, reviews: 201,
   },
   {
-    id: 'p6', emoji: '🖱️', name: 'Desk Mat XL', price: 24.99,
+    id: 'p6', icon: LocationPinIcon, name: 'Desk Mat XL', price: 24.99,
     badge: 'soldout', category: 'accessories',
     description: 'Large format desk mat with premium stitched edges and a non-slip rubber base. Protects your desk and anchors your keyboard and mouse.',
     specs: ['90 × 40 cm', '4mm thick', 'Anti-slip base', 'Stitched edges', 'Machine washable'],
@@ -122,10 +124,12 @@ const BADGE_LABEL: Record<string, string> = {
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <span aria-label={`${rating} out of 5 stars`} style={{ color: '#f59e0b', letterSpacing: '-0.04em', fontSize: 'var(--kiln-text-sm)' }}>
-      {[1, 2, 3, 4, 5].map(n => (
-        <span key={n} aria-hidden="true">{n <= Math.floor(rating) ? '★' : '☆'}</span>
-      ))}
+    <span aria-label={`${rating} out of 5 stars`} style={{ color: '#f59e0b', letterSpacing: '-0.04em', display: 'inline-flex', alignItems: 'center', gap: '1px' }}>
+      {[1, 2, 3, 4, 5].map(n => {
+        if (n <= Math.floor(rating)) return <StarFilledIcon key={n} size={14} />;
+        if (n - 0.5 <= rating) return <StarHalfIcon key={n} size={14} />;
+        return <StarIcon key={n} size={14} />;
+      })}
     </span>
   );
 }
@@ -248,7 +252,7 @@ export default function DemoEcommerce() {
                   borderRadius: 'var(--kiln-radius-md)',
                   marginBottom: 'var(--kiln-space-3)',
                 }} aria-hidden="true">
-                  {product.emoji}
+                  <product.icon size={24} />
                 </div>
 
                 {/* Badge row — always reserves 22 px so names start at the same baseline */}
@@ -312,7 +316,7 @@ export default function DemoEcommerce() {
           borderTop: '1px solid var(--kiln-gray-200)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', marginBottom: 'var(--kiln-space-4)', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '1.75rem' }} aria-hidden="true">{selected.emoji}</span>
+            <selected.icon size={28} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <h3 style={{ margin: '0 0 2px', fontSize: 'var(--kiln-text-base)', fontWeight: 700, color: 'var(--kiln-gray-900)' }}>
                 {selected.name}
@@ -392,7 +396,7 @@ export default function DemoEcommerce() {
                     background: 'var(--kiln-surface)',
                     borderRadius: 'var(--kiln-radius-md)',
                   }}>
-                    <span style={{ fontSize: '1.5rem', flexShrink: 0 }} aria-hidden="true">{item.product.emoji}</span>
+                    <item.product.icon size={20} style={{ flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 'var(--kiln-text-sm)', fontWeight: 600, color: 'var(--kiln-gray-900)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.product.name}

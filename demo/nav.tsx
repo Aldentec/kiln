@@ -8,6 +8,7 @@ export { navigate };
 export const NAV_ITEMS = [
   { href: '/get-started',     label: 'Get Started' },
   { href: '/components',      label: 'Components' },
+  { href: '/icon-library',    label: 'Icon Library' },
   { href: '/design-language', label: 'Design Language' },
   { href: '/demos',           label: 'Demos' },
   { href: '/about',           label: 'About' },
@@ -34,6 +35,7 @@ export const FOOTER_LINKS = [
   { href: 'https://www.npmjs.com/package/@doriansmith/kiln', label: 'npm', external: true as const },
   { href: '/get-started',     label: 'Get Started' },
   { href: '/components',      label: 'Components' },
+  { href: '/icon-library',    label: 'Icon Library' },
   { href: '/design-language', label: 'Design Language' },
   { href: '/demos',           label: 'Demos' },
   { href: '/about',           label: 'About' },
@@ -43,5 +45,6 @@ export function isNavActive(href: string): boolean {
   const path = window.location.pathname.replace(/\/$/, '') || '/';
   if (href === '/') return path === '/';
   // Match /components and /components/badge etc.
+  // Match /icon-library and /icon-library/child routes etc.
   return path === href || path.startsWith(href + '/');
 }

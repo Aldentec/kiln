@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-02
 import React, { useId, useRef, useCallback, useState, useEffect } from 'react';
 import { cn } from '../../utils';
+import { ChevronUpIcon, ChevronDownIcon } from '../../icons';
 import './SplitPanel.css';
 
 export interface SplitPanelProps {
@@ -19,17 +20,8 @@ export interface SplitPanelProps {
   style?: React.CSSProperties;
 }
 
-const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-    <path
-      d={open ? 'M11 9L7 5 3 9' : 'M3 5l4 4 4-4'}
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+const ChevronIcon = ({ open }: { open: boolean }) =>
+  open ? <ChevronUpIcon size={14} /> : <ChevronDownIcon size={14} />;
 
 const SplitPanel = React.forwardRef<HTMLDivElement, SplitPanelProps>((
   {

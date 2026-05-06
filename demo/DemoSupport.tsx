@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
   Card, Badge, Button, Chip, Input, Textarea, Modal, Accordion,
   RadioButton, DropdownMenu, toast, ToastContainer, Tooltip,
+  BugIcon, ZapIcon, CheckCircleIcon, StatusInProgressIcon, StatusPendingIcon,
+  PlusIcon,
 } from '@doriansmith/kiln';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -18,34 +20,35 @@ interface Ticket {
   submittedAt: string;
   author: string;
   category: string;
+  icon: React.ComponentType<{ size?: number }>;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const INITIAL_TICKETS: Ticket[] = [
   {
-    id: 't1',
+    id: 't1', icon: BugIcon,
     title: 'Login page unresponsive on Safari 17',
     description: 'After the latest update, users on Safari 17 are unable to submit the login form. The button clicks but nothing happens. No console errors. Affects roughly 12% of our user base.',
     status: 'open', priority: 'critical',
     submittedAt: '5 min ago', author: 'Alex Chen', category: 'Bug',
   },
   {
-    id: 't2',
+    id: 't2', icon: BugIcon,
     title: 'Export to CSV missing last row',
     description: 'When exporting more than 1,000 records to CSV, the final row is always omitted. The preview shows all records correctly. Happens consistently across all browsers.',
     status: 'in-progress', priority: 'high',
     submittedAt: '1 hour ago', author: 'Maria Torres', category: 'Bug',
   },
   {
-    id: 't3',
+    id: 't3', icon: ZapIcon,
     title: 'Add keyboard shortcut for quick actions',
     description: 'It would be a significant productivity improvement to be able to trigger the quick-action panel using a keyboard shortcut (e.g. Cmd+K). Many power users have requested this.',
     status: 'open', priority: 'medium',
     submittedAt: '3 hours ago', author: 'Sam Okafor', category: 'Feature',
   },
   {
-    id: 't4',
+    id: 't4', icon: BugIcon,
     title: 'Dashboard charts not loading for EU region',
     description: 'Users in the EU region report that dashboard analytics charts show an indefinite loading state. API calls return 200 but the payload appears empty. Possibly a region-specific config issue.',
     status: 'open', priority: 'high',
@@ -268,7 +271,9 @@ export default function DemoSupport() {
                     style={{ '--kiln-card-padding': 'var(--kiln-space-4)' } as React.CSSProperties}
                   >
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--kiln-space-3)' }}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', gap: 'var(--kiln-space-3)', flex: 1, minWidth: 0 }}>
+                        <ticket.icon size={20} style={{ color: 'var(--kiln-primary)', flexShrink: 0, marginTop: '2px' }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--kiln-space-2)', marginBottom: 'var(--kiln-space-2)' }}>
                           <Badge variant={STATUS_BADGE[ticket.status]} size="sm">
                             {STATUS_LABEL[ticket.status]}

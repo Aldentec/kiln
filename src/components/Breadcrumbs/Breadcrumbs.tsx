@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-02 — 44px touch targets, 14px+ text
 import React from 'react';
 import { cn } from '../../utils';
+import { ChevronRightIcon } from '../../icons';
 import './Breadcrumbs.css';
 
 export interface BreadcrumbItem {
@@ -20,22 +21,7 @@ export interface BreadcrumbsProps {
 }
 
 const DefaultSep = () => (
-  <svg
-    className="kiln-breadcrumbs__sep-icon"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path
-      d="M6 3l5 5-5 5"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+  <ChevronRightIcon className="kiln-breadcrumbs__sep-icon" size={16} />
 );
 
 const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>((

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../utils';
+import { XIcon } from '../../icons';
 import './Modal.css';
 
 export interface ModalProps {
@@ -87,7 +88,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title, ariaLab
         {title && (
           <div className="kiln-modal-header">
             <h3 id={titleId}>{title}</h3>
-            <button className="kiln-modal-close" onClick={onClose} aria-label="Close dialog">✕</button>
+            <button className="kiln-modal-close" onClick={onClose} aria-label="Close dialog"><XIcon size={18} /></button>
           </div>
         )}
         {children}

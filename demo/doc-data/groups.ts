@@ -9,6 +9,7 @@ export const COMPONENT_GROUPS = [
       { id: 'card', label: 'Card' },
       { id: 'chip', label: 'Chip' },
       { id: 'code-block', label: 'CodeBlock' },
+      { id: 'copy-to-clipboard', label: 'CopyToClipboard' },
       { id: 'dropdown-menu', label: 'DropdownMenu' },
       { id: 'error-message', label: 'ErrorMessage' },
       { id: 'footer', label: 'Footer' },
@@ -27,6 +28,7 @@ export const COMPONENT_GROUPS = [
 
       { id: 'side-nav', label: 'SideNav' },
       { id: 'split-panel', label: 'SplitPanel' },
+      { id: 'table', label: 'Table' },
       { id: 'tabs', label: 'Tabs' },
       { id: 'table-of-contents', label: 'TableOfContents' },
       { id: 'textarea', label: 'Textarea' },

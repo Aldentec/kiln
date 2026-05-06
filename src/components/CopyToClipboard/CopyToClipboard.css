@@ -1,0 +1,230 @@
+/*
+ * CopyToClipboard
+ *
+ * Pillar 3 · Composability — wrapper uses inline-flex so it fits tightly
+ *   around any child without breaking block/inline flow.
+ * Pillar 4 · Consistency   — all values reference kiln design tokens;
+ *   animation curve (cubic-bezier spring) matches Tooltip, Toast, etc.
+ */
+
+@layer kiln {
+
+/* ─── Wrapper ──────────────────────────────────────────────────────────────── */
+
+.kiln-copy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* cursor is intentionally not set here — the child owns its own cursor */
+}
+
+/* ─── Screen-reader live region (visually hidden) ──────────────────────────── */
+
+.kiln-copy__sr {
+  position: absolute;
+  width:  1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Visual tooltip ───────────────────────────────────────────────────────── */
+
+.kiln-copy__tip {
+  /* Surface tokens — overridden for dark mode below */
+  --_bg:   var(--kiln-gray-900, #111827);
+  --_text: #ffffff;
+
+  /* Layout */
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  white-space: nowrap;
+  pointer-events: none;   /* never intercepts hover / click events */
+  z-index: 60;            /* above Tooltip (50) in stacking order  */
+
+  /* Appearance — all colour references go through custom properties */
+  background: var(--_bg);
+  color: var(--_text);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: var(--kiln-radius-md, 6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+
+  /* Animation timing */
+  animation-duration: 150ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Dark-mode surface flip ───────────────────────────────────────────────── */
+/* ThemeToggle sets data-theme="dark" on <html>. Flipping just --_bg and        */
+/* --_text is enough — the arrow (::after) inherits --_bg automatically.        */
+
+[data-theme="dark"] .kiln-copy__tip {
+  --_bg:   var(--kiln-gray-50, #f9fafb);
+  --_text: var(--kiln-gray-900, #111827);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Status icon accent colour — darker shades in dark mode for contrast on light bg */
+.kiln-copy__tip[data-status="success"] { --_icon-color: var(--kiln-teal-400, #2dd4bf); }
+.kiln-copy__tip[data-status="error"]   { --_icon-color: #f87171; }
+
+[data-theme="dark"] .kiln-copy__tip[data-status="success"] { --_icon-color: var(--kiln-teal-600, #0d9488); }
+[data-theme="dark"] .kiln-copy__tip[data-status="error"]   { --_icon-color: #dc2626; }
+
+.kiln-copy__tip svg { color: var(--_icon-color); flex-shrink: 0; }
+
+/* ─── Tooltip arrow (::after triangle) ────────────────────────────────────── */
+
+.kiln-copy__tip::after {
+  content: '';
+  position: absolute;
+  border: 5px solid transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Placements — position + arrow + enter / leave keyframe assignments
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── top ──────────────────────────────────────────────────────────────────── */
+
+.kiln-copy[data-placement="top"] .kiln-copy__tip {
+  bottom: calc(100% + 9px);
+  left: 50%;
+}
+
+.kiln-copy[data-placement="top"] .kiln-copy__tip::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--_bg);
+}
+
+.kiln-copy[data-placement="top"] .kiln-copy__tip[data-phase="visible"] {
+  animation-name: kiln-copy-in-top;
+}
+.kiln-copy[data-placement="top"] .kiln-copy__tip[data-phase="leaving"] {
+  animation-name: kiln-copy-out-top;
+}
+
+/* ─── bottom ───────────────────────────────────────────────────────────────── */
+
+.kiln-copy[data-placement="bottom"] .kiln-copy__tip {
+  top: calc(100% + 9px);
+  left: 50%;
+}
+
+.kiln-copy[data-placement="bottom"] .kiln-copy__tip::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--_bg);
+}
+
+.kiln-copy[data-placement="bottom"] .kiln-copy__tip[data-phase="visible"] {
+  animation-name: kiln-copy-in-bottom;
+}
+.kiln-copy[data-placement="bottom"] .kiln-copy__tip[data-phase="leaving"] {
+  animation-name: kiln-copy-out-bottom;
+}
+
+/* ─── left ─────────────────────────────────────────────────────────────────── */
+
+.kiln-copy[data-placement="left"] .kiln-copy__tip {
+  right: calc(100% + 9px);
+  top: 50%;
+}
+
+.kiln-copy[data-placement="left"] .kiln-copy__tip::after {
+  left: 100%;
+  top: 50%;
+  margin-top: -5px;
+  border-left-color: var(--_bg);
+}
+
+.kiln-copy[data-placement="left"] .kiln-copy__tip[data-phase="visible"] {
+  animation-name: kiln-copy-in-left;
+}
+.kiln-copy[data-placement="left"] .kiln-copy__tip[data-phase="leaving"] {
+  animation-name: kiln-copy-out-left;
+}
+
+/* ─── right ────────────────────────────────────────────────────────────────── */
+
+.kiln-copy[data-placement="right"] .kiln-copy__tip {
+  left: calc(100% + 9px);
+  top: 50%;
+}
+
+.kiln-copy[data-placement="right"] .kiln-copy__tip::after {
+  right: 100%;
+  top: 50%;
+  margin-top: -5px;
+  border-right-color: var(--_bg);
+}
+
+.kiln-copy[data-placement="right"] .kiln-copy__tip[data-phase="visible"] {
+  animation-name: kiln-copy-in-right;
+}
+.kiln-copy[data-placement="right"] .kiln-copy__tip[data-phase="leaving"] {
+  animation-name: kiln-copy-out-right;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Keyframes
+   Each pair shares the centering transform so the tooltip never jumps.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes kiln-copy-in-top {
+  from { opacity: 0; transform: translateX(-50%) translateY( 5px) scale(0.93); }
+  to   { opacity: 1; transform: translateX(-50%) translateY( 0)   scale(1);    }
+}
+@keyframes kiln-copy-out-top {
+  from { opacity: 1; transform: translateX(-50%) translateY( 0)   scale(1);    }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-4px) scale(0.93); }
+}
+
+@keyframes kiln-copy-in-bottom {
+  from { opacity: 0; transform: translateX(-50%) translateY(-5px) scale(0.93); }
+  to   { opacity: 1; transform: translateX(-50%) translateY( 0)   scale(1);    }
+}
+@keyframes kiln-copy-out-bottom {
+  from { opacity: 1; transform: translateX(-50%) translateY( 0)   scale(1);    }
+  to   { opacity: 0; transform: translateX(-50%) translateY( 4px) scale(0.93); }
+}
+
+@keyframes kiln-copy-in-left {
+  from { opacity: 0; transform: translateY(-50%) translateX( 5px) scale(0.93); }
+  to   { opacity: 1; transform: translateY(-50%) translateX( 0)   scale(1);    }
+}
+@keyframes kiln-copy-out-left {
+  from { opacity: 1; transform: translateY(-50%) translateX( 0)   scale(1);    }
+  to   { opacity: 0; transform: translateY(-50%) translateX(-4px) scale(0.93); }
+}
+
+@keyframes kiln-copy-in-right {
+  from { opacity: 0; transform: translateY(-50%) translateX(-5px) scale(0.93); }
+  to   { opacity: 1; transform: translateY(-50%) translateX( 0)   scale(1);    }
+}
+@keyframes kiln-copy-out-right {
+  from { opacity: 1; transform: translateY(-50%) translateX( 0)   scale(1);    }
+  to   { opacity: 0; transform: translateY(-50%) translateX( 4px) scale(0.93); }
+}
+
+/* ─── Reduced-motion override ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .kiln-copy__tip {
+    animation-duration: 1ms !important;
+  }
+}
+
+} /* end @layer kiln */

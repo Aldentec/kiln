@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
   Card, Badge, Button, Tabs, Input, Textarea, Toggle, RadioButton, Modal,
   toast, ToastContainer, Tooltip,
+  EnvelopeIcon, BellIcon, ZapIcon, ShieldIcon, CalendarIcon, TagIcon,
+  UserCircleIcon, CreditCardIcon, LockIcon,
 } from '@doriansmith/kiln';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -10,6 +12,7 @@ type Plan = 'free' | 'pro' | 'team';
 
 interface NotificationPref {
   id: string;
+  icon: React.ComponentType<{ size?: number }>;
   label: string;
   description: string;
   enabled: boolean;
@@ -18,12 +21,12 @@ interface NotificationPref {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const INITIAL_NOTIFS: NotificationPref[] = [
-  { id: 'email',     label: 'Email notifications',  description: 'Receive updates and alerts via email',                  enabled: true  },
-  { id: 'push',      label: 'Browser push',         description: 'Real-time desktop notifications in your browser',       enabled: false },
-  { id: 'marketing', label: 'Product updates',      description: 'New features, release notes, and announcements',        enabled: true  },
-  { id: 'security',  label: 'Security alerts',      description: 'Login attempts and suspicious activity on your account', enabled: true  },
-  { id: 'digest',    label: 'Weekly digest',        description: 'A summary of your activity sent every Monday morning',  enabled: false },
-  { id: 'billing',   label: 'Billing notices',      description: 'Invoices, payment failures, and upcoming renewals',     enabled: true  },
+  { id: 'email',     icon: EnvelopeIcon,  label: 'Email notifications',  description: 'Receive updates and alerts via email',                  enabled: true  },
+  { id: 'push',      icon: BellIcon,      label: 'Browser push',         description: 'Real-time desktop notifications in your browser',       enabled: false },
+  { id: 'marketing', icon: ZapIcon,       label: 'Product updates',      description: 'New features, release notes, and announcements',        enabled: true  },
+  { id: 'security',  icon: ShieldIcon,    label: 'Security alerts',      description: 'Login attempts and suspicious activity on your account', enabled: true  },
+  { id: 'digest',    icon: CalendarIcon,  label: 'Weekly digest',        description: 'A summary of your activity sent every Monday morning',  enabled: false },
+  { id: 'billing',   icon: TagIcon,       label: 'Billing notices',      description: 'Invoices, payment failures, and upcoming renewals',     enabled: true  },
 ];
 
 const PLANS: { value: Plan; label: string; price: string; period: string; features: string[]; badge?: string }[] = [
@@ -218,20 +221,23 @@ export default function DemoSettings() {
                 Choose which notifications you receive. You can change these at any time.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {notifs.map((notif, i) => (
+                 {notifs.map((notif, i) => (
                   <div key={notif.id} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     gap: 'var(--kiln-space-4)',
                     padding: 'var(--kiln-space-4) 0',
                     borderBottom: i < notifs.length - 1 ? '1px solid var(--kiln-gray-200)' : 'none',
                   }}>
-                    <div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-900)' }}>
-                        {notif.label}
-                      </p>
-                      <p style={{ margin: '2px 0 0', fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-500)' }}>
-                        {notif.description}
-                      </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--kiln-space-3)', minWidth: 0 }}>
+                      <notif.icon size={20} style={{ color: 'var(--kiln-primary)', flexShrink: 0 }} />
+                      <div>
+                        <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-900)' }}>
+                          {notif.label}
+                        </p>
+                        <p style={{ margin: '2px 0 0', fontSize: 'var(--kiln-text-xs)', color: 'var(--kiln-gray-500)' }}>
+                          {notif.description}
+                        </p>
+                      </div>
                     </div>
                     <Toggle
                       checked={notif.enabled}

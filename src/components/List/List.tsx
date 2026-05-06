@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-05-05
 import React, { useState, useRef, useCallback, useId } from 'react';
 import { cn } from '../../utils';
+import { DragHandleIcon } from '../../icons';
 import './List.css';
 
 export interface KilnListItem {
@@ -37,16 +38,6 @@ function getLabel(item: KilnListItem, index: number): string {
   return `item ${index + 1}`;
 }
 
-const DragIcon: React.FC = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
-    <circle cx="5" cy="4" r="1.5" />
-    <circle cx="11" cy="4" r="1.5" />
-    <circle cx="5" cy="8" r="1.5" />
-    <circle cx="11" cy="8" r="1.5" />
-    <circle cx="5" cy="12" r="1.5" />
-    <circle cx="11" cy="12" r="1.5" />
-  </svg>
-);
 
 const List = React.forwardRef<HTMLUListElement, ListProps>(({
   items,
@@ -259,7 +250,7 @@ const List = React.forwardRef<HTMLUListElement, ListProps>(({
                   onKeyDown={(e) => onHandleKeyDown(e, index)}
                   disabled={item.disabled}
                 >
-                  <DragIcon />
+                  <DragHandleIcon size={16} />
                 </button>
               )}
 

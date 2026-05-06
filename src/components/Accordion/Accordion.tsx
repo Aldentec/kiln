@@ -3,6 +3,7 @@
 // mobile: verified 375px/768px 2026-04-30
 import React, { useId, useRef, useState } from 'react';
 import { cn } from '../../utils';
+import { ChevronDownIcon } from '../../icons';
 import './Accordion.css';
 
 export interface AccordionItem {
@@ -106,22 +107,7 @@ const Accordion: React.FC<AccordionProps> = ({
                 onKeyDown={(e) => handleKeyDown(e, index)}
               >
                 <span className="kiln-accordion__trigger-text">{item.title}</span>
-                <svg
-                  className="kiln-accordion__icon"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M5 7.5L10 12.5L15 7.5"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <ChevronDownIcon className="kiln-accordion__icon" size={20} />
               </button>
             </h3>
 

@@ -1,8 +1,7 @@
 // a11y: WCAG AA verified 2026-04-29
 // perf: CLS=0, GPU-friendly 2026-04-29
 import React, { useState, useEffect, useCallback } from 'react';
-import Moon from '../../icons/tsx/moon';
-import Sun from '../../icons/tsx/sun';
+import { MoonIcon, SunIcon } from '../../icons';
 import './ThemeToggle.css';
 
 export type KilnTheme = 'light' | 'dark';
@@ -43,7 +42,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
-      {theme === 'light' ? <Moon width={28} height={28} /> : <Sun width={28} height={28} />}
+      {theme === 'light' ? <MoonIcon size={28} /> : <SunIcon size={28} />}
     </button>
   );
 };

@@ -10,6 +10,7 @@ const AboutPage          = lazy(() => import('./AboutPage'));
 const DemosPage          = lazy(() => import('./DemosPage'));
 const DesignLanguagePage = lazy(() => import('./DesignLanguagePage'));
 const GetStartedPage     = lazy(() => import('./GetStartedPage'));
+const IconLibraryPage    = lazy(() => import('./IconLibraryPage'));
 
 interface PageMeta { title: string; description: string; }
 
@@ -37,6 +38,10 @@ const PAGE_META: Record<string, PageMeta> = {
   '/design-language': {
     title: 'Design Language — Kiln React Component Library',
     description: 'The design principles, token system, colour palette, typography, spacing, and iconography that underpin every Kiln component.',
+  },
+  '/icon-library': {
+    title: 'Icon Library — Kiln React Component Library',
+    description: 'Browse all available icons in the Kiln design system. Search, filter, and copy icons with one click.',
   },
 };
 
@@ -78,6 +83,7 @@ export default function App() {
   else if (route === 'demos')        page = <DemosPage />;
   else if (route === 'design-language') page = <DesignLanguagePage />;
   else if (route === 'get-started')  page = <GetStartedPage />;
+  else if (route === 'icon-library') page = <IconLibraryPage />;
   else                               page = <LandingPage />;
 
   return (
