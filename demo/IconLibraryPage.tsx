@@ -450,7 +450,7 @@ export default function IconLibraryPage() {
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--kiln-space-3)', flexWrap: 'wrap' }}>
               <h1 style={{ fontSize: 'var(--kiln-text-xl)', fontWeight: 700, margin: 0 }}>
                 Available icons{' '}
-                <span style={{ color: 'var(--kiln-gray-400)', fontWeight: 400 }}>
+                <span style={{ color: 'var(--kiln-gray-600)', fontWeight: 400 }}>
                   ({normalised ? filteredIcons.length : TOTAL_ICONS})
                 </span>
               </h1>
@@ -494,7 +494,7 @@ export default function IconLibraryPage() {
             />
           }
           empty={
-            <div style={{ textAlign: 'center', padding: 'var(--kiln-space-12) 0', color: 'var(--kiln-gray-400)' }}>
+            <div style={{ textAlign: 'center', padding: 'var(--kiln-space-12) 0', color: 'var(--kiln-gray-600)' }}>
               <SearchIcon size={32} style={{ marginBottom: 'var(--kiln-space-2)', opacity: 0.4 }} />
               <p style={{ fontSize: 'var(--kiln-text-sm)', margin: 0 }}>
                 No icons found for <strong>"{query}"</strong>
