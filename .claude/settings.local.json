@@ -22,7 +22,8 @@
       "Bash(Get-ChildItem -Path \"e:\\\\Dev\\\\kiln\" -Force)",
       "Bash(Select-Object Name, Mode)",
       "Bash(node scripts/build-sitemap.mjs)",
-      "Bash(Start-Process -NoNewWindow -FilePath \"npm\" -ArgumentList \"run\",\"dev\",\"--\",\"--port\",\"5174\")"
+      "Bash(Start-Process -NoNewWindow -FilePath \"npm\" -ArgumentList \"run\",\"dev\",\"--\",\"--port\",\"5174\")",
+      "mcp__playwright__browser_type"
     ]
   }
 }
