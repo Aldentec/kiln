@@ -1,0 +1,80 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { EasingDemo } from '../components/EasingDemo';
+import { MotionScale } from '../components/MotionScale';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function MotionPage({ children }) {
+  return <DesignLanguageLayout section="Motion">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Motion"
+  description="Easing curves, duration tokens, and the principle that motion should communicate."
+  size="sm"
+/>
+
+# Motion
+
+Kiln defines four easing curves and four duration tokens. Motion in the system is not decoration — it communicates state changes, guides attention, and creates a sense of physical weight that makes the UI feel grounded rather than arbitrary.
+
+## The decisions
+
+**`ease-out` for things entering the screen**
+
+Objects in the real world don't stop instantly. When something arrives — a toast, a dropdown, a sidebar — it should decelerate as it settles into place. `ease-out` (`cubic-bezier(0.16, 1, 0.3, 1)`) starts fast and finishes gently. The fast start means the user sees movement immediately; the gentle finish means it feels natural, not abrupt.
+
+**`ease-in-out` for state transitions**
+
+When an element transitions between two states — a tab switching, a panel sliding — both the start and end need to feel smooth. `ease-in-out` (`cubic-bezier(0.65, 0, 0.35, 1)`) accelerates from rest and decelerates back to rest, simulating the natural physics of an object moving between two positions.
+
+**`spring` for interactive feedback**
+
+The slight overshoot in `spring` (`cubic-bezier(0.34, 1.56, 0.64, 1)`) communicates physicality. A toggle that springs slightly past its endpoint before settling back feels responsive — like it has weight. A toggle that just moves linearly feels digital and flat. Use `spring` for interactive elements: toggles, button presses, selection states.
+
+**`bounce` only for delight moments**
+
+`bounce` (`cubic-bezier(0.68, -0.55, 0.265, 1.55)`) is the most dramatic curve — it starts by going backwards before overshooting forward. Used too frequently, it becomes annoying. Reserved for genuine delight moments: a success animation after form submission, a notification bell when important news arrives. If you are considering using `bounce` for a functional UI element, use `spring` instead.
+
+**Duration decisions**
+
+- `fast` (250ms) — micro-interactions that should feel instant: hover state, focus ring appearance, chip selection
+- `normal` (380ms) — component-level transitions: accordion expand, tab switch, dropdown open
+- `slow` (500ms) — page-level: modal open, drawer slide, page fade
+- `slower` (700ms) — onboarding and emphasis moments where you want the user to notice the transition
+
+**`prefers-reduced-motion` is not optional**
+
+Every animation in the system — without exception — must have a `prefers-reduced-motion: reduce` override. The override uses `animation: none !important` and `transition: none !important`. Users who have requested reduced motion may have vestibular disorders where motion causes physical discomfort. This is an accessibility requirement, not a preference.
+
+## Easing curves
+
+<EasingDemo />
+
+## Duration scale
+
+<MotionScale />
+
+## Token reference
+
+<TokenTable tokens={[
+  { name: '--kiln-ease-out',     value: 'cubic-bezier(0.16, 1, 0.3, 1)',      description: 'Entering elements — fast start, gentle finish' },
+  { name: '--kiln-ease-in-out',  value: 'cubic-bezier(0.65, 0, 0.35, 1)',     description: 'State transitions — smooth acceleration and deceleration' },
+  { name: '--kiln-ease-spring',  value: 'cubic-bezier(0.34, 1.56, 0.64, 1)',  description: 'Interactive feedback — slight overshoot' },
+  { name: '--kiln-ease-bounce',  value: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', description: 'Delight moments — pronounced overshoot. Use sparingly.' },
+  { name: '--kiln-duration-fast',   value: '250ms', description: 'Micro-interactions: hover, focus, chip selection' },
+  { name: '--kiln-duration-normal', value: '380ms', description: 'Component transitions: accordion, tabs, dropdown' },
+  { name: '--kiln-duration-slow',   value: '500ms', description: 'Page-level: modal, drawer, page fade' },
+  { name: '--kiln-duration-slower', value: '700ms', description: 'Onboarding and emphasis moments' },
+]} />
+
+## Usage guidelines
+
+**Do:** Default to `ease-out` + `duration-fast` for any hover or focus state. Use `ease-in-out` + `duration-normal` for accordion and tab transitions. Always add a `prefers-reduced-motion` override in every component CSS file.
+
+**Don't:** Use `bounce` for functional UI elements like dropdowns, tooltips, or form validation. Don't animate layout properties (height, width, margin, padding) — use `transform` and `opacity` only. Don't use `slower` for anything the user has to wait for before interacting.
+
+## Extending it
+
+Easing curves and duration tokens are part of Kiln's personality — they define the feel of every interaction in the system. Overriding them globally changes how every component behaves simultaneously. They are intentionally not user-themeable. If a specific component needs different timing (e.g. a custom animated chart), override the transition inline on that component rather than changing the global token.

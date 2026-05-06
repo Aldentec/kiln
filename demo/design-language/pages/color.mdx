@@ -1,0 +1,116 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { ColorPaletteViewer } from '../components/ColorPaletteViewer';
+import { ContrastChecker } from '../components/ContrastChecker';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function ColorPage({ children }) {
+  return <DesignLanguageLayout section="Color">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Color"
+  description="The palette, semantic system, and accessibility principles behind every color decision."
+  size="sm"
+/>
+
+# Color
+
+Kiln's color system has three layers: brand colors (primary and accent), semantic colors (status and severity), and structural neutrals (the gray scale). Each layer has a distinct job, and they are not interchangeable.
+
+## The decisions
+
+**Primary `#89216b` — why this color?**
+
+The primary was chosen for three reasons: it is distinctive enough to be recognizable, warm enough to feel approachable, and dark enough to hit 7.2:1 contrast on white without any adjustment. Most brand colors fail WCAG AA when used for text — primary was specifically selected to pass by default so it can be used for links, focus rings, and interactive affordances without needing a separate "text-safe" variant.
+
+**Accent `#f7b733` — energy with constraint**
+
+The accent provides warmth and visual energy. It is deliberately not used for text or interactive states — it does not have sufficient contrast on white backgrounds for body text. Its job is decorative and highlight-only: gradient stops, loading indicators, hover accents. Treating it as a decoration token rather than a semantic one prevents misuse.
+
+**The gray scale — why Slate, not neutral gray?**
+
+The gray scale uses the Slate family (cool blue-leaning grays) rather than neutral grays. This creates a more refined, modern feel and pairs naturally with the warm primary. The contrast between warm brand and cool neutrals is intentional — it gives the UI visual depth without requiring complex color work from the consumer.
+
+**Status and severity colors — why not themeable?**
+
+Red means error. Green means success. These carry universal semantic meaning that predates any brand. Making them themeable would allow a consumer to set error to purple — technically valid, but cognitively harmful. Status and severity colors are locked.
+
+**The two-surface model**
+
+Light mode uses `#ffffff` for raised surfaces and `#f8fafc` for the page background. Dark mode uses `#0d1525` for raised surfaces and `#0b1120` for the background. Pure black `#000000` was rejected because it creates a harsh contrast jump that feels cheap and is harder on eyes in low-light environments. The deep navy reads as premium and reduces eye strain.
+
+## Primary palette
+
+<ColorPaletteViewer
+  label="Primary scale"
+  swatches={[
+    { token: '--kiln-primary-50',  hex: '#fce8f5', label: '50' },
+    { token: '--kiln-primary-100', hex: '#f5d0ea', label: '100' },
+    { token: '--kiln-primary-200', hex: '#e8a8d1', label: '200' },
+    { token: '--kiln-primary',     hex: '#89216b', label: 'DEFAULT' },
+    { token: '--kiln-primary-dark',hex: '#5c1547', label: 'dark' },
+    { token: '--kiln-primary-900', hex: '#2d0a23', label: '900' },
+  ]}
+/>
+
+<ColorPaletteViewer
+  label="Accent"
+  swatches={[
+    { token: '--kiln-accent-light', hex: '#fac85a', label: 'light' },
+    { token: '--kiln-accent',       hex: '#f7b733', label: 'DEFAULT' },
+    { token: '--kiln-accent-dark',  hex: '#c4911a', label: 'dark' },
+  ]}
+/>
+
+<ColorPaletteViewer
+  label="Gray scale (Slate)"
+  swatches={[
+    { token: '--kiln-gray-50',  hex: '#f8fafc', label: '50' },
+    { token: '--kiln-gray-100', hex: '#f1f5f9', label: '100' },
+    { token: '--kiln-gray-200', hex: '#e2e8f0', label: '200' },
+    { token: '--kiln-gray-300', hex: '#cbd5e1', label: '300' },
+    { token: '--kiln-gray-400', hex: '#94a3b8', label: '400' },
+    { token: '--kiln-gray-500', hex: '#64748b', label: '500' },
+    { token: '--kiln-gray-600', hex: '#475569', label: '600' },
+    { token: '--kiln-gray-700', hex: '#334155', label: '700' },
+    { token: '--kiln-gray-800', hex: '#1e293b', label: '800' },
+    { token: '--kiln-gray-900', hex: '#0f172a', label: '900' },
+    { token: '--kiln-gray-950', hex: '#020617', label: '950' },
+  ]}
+/>
+
+## Contrast checker
+
+Use this to verify any color pairing meets WCAG AA (4.5:1 for normal text, 3:1 for large text and UI components).
+
+<ContrastChecker />
+
+## Semantic colors
+
+<TokenTable tokens={[
+  { name: '--kiln-status-success', value: '#10b981', description: 'Positive outcomes, completion, valid states', preview: 'color' },
+  { name: '--kiln-status-warning', value: '#f59e0b', description: 'Caution, attention required, non-critical issues', preview: 'color' },
+  { name: '--kiln-status-error',   value: '#ef4444', description: 'Errors, failures, destructive actions', preview: 'color' },
+  { name: '--kiln-status-info',    value: '#3b82f6', description: 'Informational, neutral notifications', preview: 'color' },
+  { name: '--kiln-status-pending', value: '#8b5cf6', description: 'Queued, waiting, in-review states', preview: 'color' },
+  { name: '--kiln-status-running', value: '#f7b733', description: 'Active processing, in-progress operations', preview: 'color' },
+]} />
+
+<TokenTable tokens={[
+  { name: '--kiln-severity-critical', value: '#dc2626', description: 'Critical severity — 4.67:1 on light bg', preview: 'color' },
+  { name: '--kiln-severity-high',     value: '#f97316', description: 'High severity', preview: 'color' },
+  { name: '--kiln-severity-medium',   value: '#eab308', description: 'Medium severity', preview: 'color' },
+  { name: '--kiln-severity-low',      value: '#22c55e', description: 'Low severity / resolved', preview: 'color' },
+]} />
+
+## Usage guidelines
+
+**Do:** Use `--kiln-primary` for links, focus rings, active nav items, and primary actions. Use `--kiln-gray-600` for body text on light surfaces. Use status colors only for their semantic meaning.
+
+**Don't:** Use `--kiln-accent` for text — it does not meet contrast requirements on white. Don't use status red for non-error UI (e.g. a "delete" CTA that isn't destructive yet). Don't add new colors — use the token system.
+
+## Extending it
+
+Primary and accent can be overridden via the theming system (`registerTheme`, `applyTheme`). The theming engine automatically recalculates all derived palette values and enforces WCAG AA compliance. Status and severity colors are not themeable. Gray scale is not themeable — it is a structural neutral, not a brand expression.

@@ -8,9 +8,19 @@ const LandingPage        = lazy(() => import('./LandingPage'));
 const ComponentsPage     = lazy(() => import('./ComponentsPage'));
 const AboutPage          = lazy(() => import('./AboutPage'));
 const DemosPage          = lazy(() => import('./DemosPage'));
-const DesignLanguagePage = lazy(() => import('./DesignLanguagePage'));
 const GetStartedPage     = lazy(() => import('./GetStartedPage'));
 const IconLibraryPage    = lazy(() => import('./IconLibraryPage'));
+
+// Design language MDX pages
+const DLIndex        = lazy(() => import('./design-language/pages/index.mdx'));
+const DLColor        = lazy(() => import('./design-language/pages/color.mdx'));
+const DLTypography   = lazy(() => import('./design-language/pages/typography.mdx'));
+const DLSpacing      = lazy(() => import('./design-language/pages/spacing.mdx'));
+const DLElevation    = lazy(() => import('./design-language/pages/elevation.mdx'));
+const DLMotion       = lazy(() => import('./design-language/pages/motion.mdx'));
+const DLBorderRadius = lazy(() => import('./design-language/pages/border-radius.mdx'));
+const DLTheming      = lazy(() => import('./design-language/pages/theming.mdx'));
+const DLIconography  = lazy(() => import('./design-language/pages/iconography.mdx'));
 
 interface PageMeta { title: string; description: string; }
 
@@ -39,6 +49,38 @@ const PAGE_META: Record<string, PageMeta> = {
     title: 'Design Language — Kiln React Component Library',
     description: 'The design principles, token system, colour palette, typography, spacing, and iconography that underpin every Kiln component.',
   },
+  '/design-language/color': {
+    title: 'Color — Design Language — Kiln',
+    description: 'Kiln\'s color system: brand palette, semantic status colors, gray scale, and accessibility contrast requirements.',
+  },
+  '/design-language/typography': {
+    title: 'Typography — Design Language — Kiln',
+    description: 'Space Grotesk, JetBrains Mono, the type scale, line heights, and the rules behind readable interfaces.',
+  },
+  '/design-language/spacing': {
+    title: 'Spacing — Design Language — Kiln',
+    description: 'The 4px base unit, the named spacing scale, and how rhythm is created across every component.',
+  },
+  '/design-language/elevation': {
+    title: 'Elevation — Design Language — Kiln',
+    description: 'Shadow tokens, the z-index scale, and how Kiln creates depth without noise.',
+  },
+  '/design-language/motion': {
+    title: 'Motion — Design Language — Kiln',
+    description: 'Easing curves, duration tokens, and the principle that every animation must communicate something.',
+  },
+  '/design-language/border-radius': {
+    title: 'Border Radius — Design Language — Kiln',
+    description: 'The radius scale, when to use each step, and how rounded corners define Kiln\'s personality.',
+  },
+  '/design-language/theming': {
+    title: 'Theming — Design Language — Kiln',
+    description: 'How to apply custom brand colors to Kiln while the system automatically enforces WCAG AA accessibility.',
+  },
+  '/design-language/iconography': {
+    title: 'Iconography — Design Language — Kiln',
+    description: 'Kiln\'s icon-agnostic approach, sizing guidelines, recommended libraries, and accessibility requirements.',
+  },
   '/icon-library': {
     title: 'Icon Library — Kiln React Component Library',
     description: 'Browse all available icons in the Kiln design system. Search, filter, and copy icons with one click.',
@@ -46,11 +88,12 @@ const PAGE_META: Record<string, PageMeta> = {
 };
 
 export default function App() {
-  const { route, slug } = useRouter();
+  const { route, slug, dlSection } = useRouter();
 
   useEffect(() => {
-    const key = route === 'landing' ? '/' : `/${route}`;
-    const meta = PAGE_META[key] ?? PAGE_META['/'];
+    const baseKey = route === 'landing' ? '/' : `/${route}`;
+    const key = dlSection ? `${baseKey}/${dlSection}` : baseKey;
+    const meta = PAGE_META[key] ?? PAGE_META[baseKey] ?? PAGE_META['/'];
 
     document.title = meta.title;
 
@@ -61,7 +104,9 @@ export default function App() {
     // Update canonical
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (canonical) {
-      canonical.href = `https://kiln-ui.com${route === 'landing' ? '/' : `/${route}`}${slug ? `/${slug}` : ''}`;
+      const basePath = route === 'landing' ? '/' : `/${route}`;
+      const subPath = dlSection ? `/${dlSection}` : slug ? `/${slug}` : '';
+      canonical.href = `https://kiln-ui.com${basePath}${subPath}`;
     }
 
     // Update OG / Twitter tags to match current page
@@ -75,13 +120,23 @@ export default function App() {
     if (ogUrl)   ogUrl.content   = canonical?.href ?? '';
     if (twTitle) twTitle.content = meta.title;
     if (twDesc)  twDesc.content  = meta.description;
-  }, [route, slug]);
+  }, [route, slug, dlSection]);
 
   let page;
   if (route === 'components')        page = <ComponentsPage initialSlug={slug} />;
   else if (route === 'about')        page = <AboutPage />;
   else if (route === 'demos')        page = <DemosPage />;
-  else if (route === 'design-language') page = <DesignLanguagePage />;
+  else if (route === 'design-language') {
+    if (dlSection === 'color')         page = <DLColor />;
+    else if (dlSection === 'typography')   page = <DLTypography />;
+    else if (dlSection === 'spacing')      page = <DLSpacing />;
+    else if (dlSection === 'elevation')    page = <DLElevation />;
+    else if (dlSection === 'motion')       page = <DLMotion />;
+    else if (dlSection === 'border-radius') page = <DLBorderRadius />;
+    else if (dlSection === 'theming')      page = <DLTheming />;
+    else if (dlSection === 'iconography')  page = <DLIconography />;
+    else                                   page = <DLIndex />;
+  }
   else if (route === 'get-started')  page = <GetStartedPage />;
   else if (route === 'icon-library') page = <IconLibraryPage />;
   else                               page = <LandingPage />;

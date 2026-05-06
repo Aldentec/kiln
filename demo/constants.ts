@@ -1,6 +1,7 @@
 export const KILN_STATS = {
-  npmDownloads: '500+',
-  componentCount: '25+',
+  npmDownloads: '1000+',
+  componentCount: '35',
+  iconCount: '150',
   axeIssues: '0',
   bundleSizeGzipped: '<26 KB',
   bundleSizeGzippedFull: 'under 26 KB',

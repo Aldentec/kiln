@@ -1,0 +1,163 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { ContrastChecker } from '../components/ContrastChecker';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function ThemingPage({ children }) {
+  return <DesignLanguageLayout section="Theming">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Theming"
+  description="How to apply your own brand colors while keeping everything accessible."
+  size="sm"
+/>
+
+# Theming
+
+Kiln's theming system lets you apply your own brand colors while the system automatically enforces accessibility. You provide a primary color; Kiln derives the full palette, verifies contrast ratios, and applies it to the DOM.
+
+## Five color principles
+
+**1. The 4.5:1 rule is enforced, not suggested**
+
+When you call `registerTheme({ primary: '#yourColor' })`, the system checks whether your color meets WCAG AA (4.5:1) for text use on the current surface. If it doesn't, the system adjusts lightness in HSL space until it does. Your color is the intention; the system enforces the contract.
+
+**2. Foreground is always calculated**
+
+Kiln never assumes white or black text on a colored background. `bestForeground(bgHex)` computes which of `#ffffff` or `#000000` achieves a higher contrast ratio against your compiled background color. This means a light primary color will automatically get dark text, and a dark primary will get light text.
+
+**3. Surface tints are derived**
+
+The `50`, `100`, and `200` tints in the palette are derived as low-opacity rgba values from the background-use color. They automatically work on any surface color without requiring a separate dark-mode palette definition.
+
+**4. Status and severity colors are not themeable**
+
+Red means error everywhere. These semantic colors carry universal meaning and are locked in the system. The theming API only exposes `primary` and optionally `accent`.
+
+**5. Dark mode recalculates**
+
+When `mode: 'dark'` is passed (or when the user toggles dark mode with a custom theme active), the system recalculates the palette against the dark surface color (`#0d1525`). A color that works on white may not work on dark — the engine handles this automatically.
+
+## Three-layer token architecture
+
+The theming system compiles your input into CSS custom properties in three stages:
+
+1. **Brand input** — you provide `primary` hex and optionally `accent` hex
+2. **Compiled token map** — `compileTheme()` runs WCAG math and derives the full palette: text-safe variant, background-safe variant, light/dark variants, tint scale, foreground color, gradients, and glow shadows
+3. **DOM application** — the compiled map is written as inline styles on `<html>` using `setProperty()`, overriding the base token values defined in `kiln.css`
+
+## API reference
+
+### `registerTheme(name, input)`
+
+Stores a named theme for later application. Does not apply it immediately.
+
+```js
+import { registerTheme } from '@doriansmith/kiln/theme';
+
+registerTheme('brand', { primary: '#1a56db', accent: '#f7b733' });
+```
+
+### `applyTheme(name)`
+
+Applies a previously registered theme to `<html>`.
+
+```js
+applyTheme('brand');
+```
+
+### `applyKilnTheme(input)`
+
+Convenience function that compiles and applies in one call. Best for simple setups.
+
+```js
+import { applyKilnTheme } from '@doriansmith/kiln/theme';
+
+applyKilnTheme({ primary: '#1a56db' });
+```
+
+### `getActiveTheme()`
+
+Returns the name of the currently applied theme, or `null` if no custom theme is active.
+
+```js
+const current = getActiveTheme(); // 'brand' or null
+```
+
+### `getRegisteredThemes()`
+
+Returns an array of all registered theme names.
+
+```js
+const themes = getRegisteredThemes(); // ['brand', 'enterprise', 'dark-pro']
+```
+
+### `getThemeTokens(name)`
+
+Returns the compiled token map for a registered theme without applying it — useful for inspecting what a theme will produce.
+
+```js
+const tokens = getThemeTokens('brand');
+// { '--kiln-primary': '#1c53d4', '--kiln-primary-bg': '#1a56db', ... }
+```
+
+### `resetTheme(element?)`
+
+Removes all custom theme tokens from the element (defaults to `<html>`). Reverts to the base Kiln palette.
+
+```js
+resetTheme(); // revert to default
+```
+
+## HTML attribute API
+
+Kiln auto-detects theme configuration from HTML attributes on page load — no JavaScript required for static setups:
+
+```html
+<html data-kiln-primary="#1a56db" data-kiln-accent="#f59e0b" data-kiln-mode="light">
+```
+
+If these attributes are present when the page loads, `kilnTheme.js` automatically compiles and applies the theme.
+
+## OS preference detection
+
+To respect the user's OS dark mode preference alongside a custom theme:
+
+```js
+import { applyKilnTheme } from '@doriansmith/kiln/theme';
+
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+applyKilnTheme({
+  primary: '#1a56db',
+  mode: prefersDark ? 'dark' : 'light',
+});
+```
+
+## Contrast checker
+
+Use this to evaluate your brand color before registering a theme. The minimum acceptable ratio is 4.5:1 for normal text.
+
+<ContrastChecker />
+
+## What is and isn't themeable
+
+<TokenTable tokens={[
+  { name: '--kiln-primary',     value: 'Themeable', description: 'Brand primary color — text-safe variant auto-calculated' },
+  { name: '--kiln-accent',      value: 'Themeable', description: 'Accent/highlight color — text contrast enforced' },
+  { name: '--kiln-primary-bg',  value: 'Derived',   description: 'Background-safe primary — white text ≥ 4.5:1' },
+  { name: '--kiln-primary-fg',  value: 'Derived',   description: '#fff or #000 — whichever contrasts best with primary-bg' },
+  { name: '--kiln-status-*',    value: 'Locked',    description: 'Status colors — semantic meaning, not themeable' },
+  { name: '--kiln-severity-*',  value: 'Locked',    description: 'Severity colors — semantic meaning, not themeable' },
+  { name: '--kiln-gray-*',      value: 'Locked',    description: 'Structural neutrals — not brand expression' },
+  { name: '--kiln-space-*',     value: 'Locked',    description: 'Spacing scale — not part of brand' },
+  { name: '--kiln-radius-*',    value: 'Locked',    description: 'Radius scale — not part of brand' },
+  { name: '--kiln-ease-*',      value: 'Locked',    description: 'Easing curves — personality, not brand' },
+  { name: '--kiln-duration-*',  value: 'Locked',    description: 'Duration tokens — personality, not brand' },
+]} />
+
+## Extending it
+
+The theming system is intentionally constrained to `primary` and `accent`. If you need to override structural tokens (radius, spacing, motion), you can do so directly via CSS — these are not part of the theming API because they are system-wide decisions that affect layout, not brand expression. Be aware that changing them globally will affect every component.

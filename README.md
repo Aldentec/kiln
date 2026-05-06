@@ -69,6 +69,143 @@ export default function App() {
 document.documentElement.setAttribute('data-theme', 'dark');
 ```
 
+### Using your own brand colors
+
+Kiln supports named themes — register as many as you need and switch between them with a single call. All themes are accessibility-enforced automatically.
+
+---
+
+**Register and apply themes**
+
+```js
+import { registerTheme, applyTheme } from 'kiln';
+
+// Register light and dark variants of your brand
+registerTheme('brand-light', {
+  primary: '#2563eb',
+  accent:  '#f59e0b',
+  mode:    'light',
+});
+
+registerTheme('brand-dark', {
+  primary: '#2563eb',  // same hue — Kiln recalculates for dark surface
+  accent:  '#f59e0b',
+  mode:    'dark',
+});
+
+// Apply one
+applyTheme('brand-light');
+
+// Switch later (e.g. when user toggles dark mode)
+applyTheme('brand-dark');
+```
+
+Kiln compiles each theme independently against its surface, so your `brand-light` and `brand-dark` primary values will have different lightness — whatever is needed to meet WCAG AA on each background.
+
+---
+
+**Register any number of themes**
+
+```js
+registerTheme('high-contrast', {
+  primary: '#000080',
+  accent:  '#cc0000',
+  mode:    'light',
+});
+
+registerTheme('campaign-summer', {
+  primary: '#e85d04',
+  accent:  '#ffba08',
+  mode:    'light',
+});
+
+// Inspect registered themes
+import { getRegisteredThemes } from 'kiln';
+getRegisteredThemes(); // ['brand-light', 'brand-dark', 'high-contrast', 'campaign-summer']
+```
+
+---
+
+**Preview a theme before applying**
+
+```js
+import { getThemeTokens } from 'kiln';
+
+const tokens = getThemeTokens('brand-dark');
+// { '--kiln-primary': '#4d8fff', '--kiln-primary-fg': '#ffffff', ... }
+// Inspect resolved values before committing to the switch
+```
+
+---
+
+**Compile without registering (SSR / build-time use)**
+
+`compileTheme` is a pure function — no DOM, no side effects. Use it at build time or in server environments:
+
+```js
+import { compileTheme } from 'kiln';
+
+const tokens = compileTheme({ primary: '#2563eb', mode: 'light' });
+// Inject as inline styles, generate a CSS file, or pass to a renderer
+```
+
+---
+
+**Simple single-theme setup**
+
+If you only need one theme and don't want to think about registration:
+
+```js
+import { applyKilnTheme } from 'kiln';
+
+applyKilnTheme({
+  primary: '#2563eb',
+  accent:  '#f59e0b',
+  mode:    'light',
+});
+```
+
+---
+
+**HTML attribute API (SSR / no-JS)**
+
+```html
+<html data-kiln-primary="#2563eb" data-kiln-accent="#f59e0b" data-kiln-mode="light">
+```
+
+Kiln picks these up automatically on load. For multi-theme SSR setups, use `registerTheme` / `applyTheme` in your JS instead.
+
+---
+
+**Resetting to Kiln defaults**
+
+```js
+import { resetTheme } from 'kiln';
+resetTheme(); // Removes all custom tokens, restores design-tokens.css defaults
+```
+
+---
+
+**What gets themed**
+
+| Affected | Not affected |
+|---|---|
+| Buttons, badges, chips | Status colors (error, warning, success) |
+| Focus rings, links | Severity indicators |
+| Primary-tinted surfaces | Neutrals / grays |
+| Gradients using primary | Typography, spacing, radius |
+
+> **Note on color adjustment:** Kiln may silently adjust your color's lightness to meet contrast requirements. Use `getThemeTokens(name)` to inspect the final resolved values before applying.
+
+> **Note on dark mode:** Register a separate `dark` variant of your theme. Kiln does not automatically derive a dark variant — it recalculates from scratch against the dark surface, which produces better results than any automatic inversion.
+
+> **Note on OS preference detection:** Kiln does not watch `prefers-color-scheme` automatically. Wire that up yourself and call `applyTheme()` in the handler:
+> ```js
+> const mq = window.matchMedia('(prefers-color-scheme: dark)');
+> mq.addEventListener('change', e => applyTheme(e.matches ? 'brand-dark' : 'brand-light'));
+> applyTheme(mq.matches ? 'brand-dark' : 'brand-light');
+> ```
+
 ---
 
 ## What's included

@@ -1,0 +1,66 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { SpacingScale } from '../components/SpacingScale';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function SpacingPage({ children }) {
+  return <DesignLanguageLayout section="Spacing">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Spacing"
+  description="The 4px base unit and the scale that creates rhythm across every component."
+  size="sm"
+/>
+
+# Spacing
+
+All spacing in Kiln is based on a 4px (0.25rem) base unit. Every padding, margin, and gap value in every component comes from this scale — there are no one-off values, no `padding: 5px`, no `margin: 9px`.
+
+## The decisions
+
+**Why 4px?**
+
+4px divides evenly into all common screen densities (1x, 1.5x, 2x, 3x) and into the standard browser font size (16px = 4 × 4). It is the de facto standard for precisely this reason. Components built on a 4px grid align with each other without manual tweaking.
+
+**Named tokens, not raw values**
+
+`space-4` is more meaningful than `1rem`. The name carries semantic weight: `space-2` is tight, `space-4` is a standard unit of breathing room, `space-8` is a section gap, `space-16` is a major layout division. When a developer reaches for a spacing value, the token name guides the decision in a way that a raw pixel value doesn't.
+
+**Non-linear gaps in the scale**
+
+There is no `space-7`, `space-9`, `space-11`, `space-13`, `space-14`, or `space-15`. The gaps are intentional — they prevent splitting differences. If you need something between `space-6` (1.5rem) and `space-8` (2rem), pick one. Usually the larger choice is right because whitespace is almost always underused, not overused, in practice.
+
+**Why stop at `space-16`?**
+
+`space-16` (4rem / 64px) is the largest standard spacing value. Anything larger is a layout decision — section padding, hero heights, page margins — and those belong in layout components (`Hero`, `Header`, `AppLayout`), not in the spacing scale. Using `space-16` as a maximum keeps the scale grounded in component-level thinking.
+
+## Visual scale
+
+<SpacingScale />
+
+## Token reference
+
+<TokenTable tokens={[
+  { name: '--kiln-space-1',  value: '0.25rem', description: '4px — icon gaps, badge padding, micro-spacing', preview: 'spacing' },
+  { name: '--kiln-space-2',  value: '0.5rem',  description: '8px — tight element gaps, inline padding', preview: 'spacing' },
+  { name: '--kiln-space-3',  value: '0.75rem', description: '12px — compact UI padding (small chips, tags)', preview: 'spacing' },
+  { name: '--kiln-space-4',  value: '1rem',    description: '16px — standard element padding, form gaps', preview: 'spacing' },
+  { name: '--kiln-space-5',  value: '1.25rem', description: '20px — medium gap, list item spacing', preview: 'spacing' },
+  { name: '--kiln-space-6',  value: '1.5rem',  description: '24px — card padding, section inner gaps', preview: 'spacing' },
+  { name: '--kiln-space-8',  value: '2rem',    description: '32px — section gaps, heading margin', preview: 'spacing' },
+  { name: '--kiln-space-10', value: '2.5rem',  description: '40px — large section padding', preview: 'spacing' },
+  { name: '--kiln-space-12', value: '3rem',    description: '48px — major content gaps', preview: 'spacing' },
+  { name: '--kiln-space-16', value: '4rem',    description: '64px — page-level vertical rhythm', preview: 'spacing' },
+]} />
+
+## Usage guidelines
+
+**Do:** Use `space-4` as your default padding unit for any component that needs breathing room. Use `space-6` for card padding. Use `space-8` as the gap between a heading and its content section. Use `space-16` for major section separation on pages.
+
+**Don't:** Override spacing tokens — changes cascade to every component that uses them. Don't use raw pixel or rem values inside components; always reference a token. Don't introduce new spacing values between existing steps.
+
+## Extending it
+
+Spacing tokens are not user-themeable and are not intended to be overridden. If you do override them (e.g. setting `--kiln-space-4` to `1.5rem` to create a more spacious feel), be aware that the change propagates to every component in the system simultaneously. This can create pleasant consistent results or cascading layout problems depending on the magnitude of the change. Test thoroughly at all breakpoints if you go this route.

@@ -1,0 +1,110 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function IconographyPage({ children }) {
+  return <DesignLanguageLayout section="Iconography">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Iconography"
+  description="Icon usage guidelines, sizing, and accessibility requirements."
+  size="sm"
+/>
+
+# Iconography
+
+Kiln does not ship a bundled icon set. The library is icon-agnostic by design — components that need icons accept them as React nodes, so you bring whichever library fits your project.
+
+## The decisions
+
+**No bundled icons — why?**
+
+A comprehensive icon library adds significant package weight even when tree-shaken (SVG paths are dense). More importantly, forcing a specific icon library creates a hard dependency that affects every consumer. A developer already using Lucide doesn't want Heroicons shipped with their components. Kiln's job is to handle layout, state, accessibility, and styling — icon choice belongs to the consumer.
+
+**Components accept icon props as React nodes**
+
+Any component that renders an icon accepts it as a prop typed as `React.ReactNode`. This means you can pass any icon from any library:
+
+```tsx
+import { Pencil } from 'lucide-react';
+
+<Button variant="ghost" icon={<Pencil size={16} />}>Edit</Button>
+```
+
+**Recommended library: Lucide**
+
+Lucide is the recommended starting point for new projects. It matches Kiln's aesthetic most closely: geometric construction, consistent 1.5px stroke weight, clean geometric corners, and a comprehensive set covering most product needs. The Lucide `size` prop maps directly to Kiln's text scale.
+
+Other good options: Phosphor Icons (larger set, multiple weights), Heroicons (Tailwind-aligned, good for simple use cases).
+
+**Sizing — match the text context**
+
+Icons should follow the surrounding text size, not a fixed size:
+
+- `size={16}` — inline icons in `text-sm` contexts (badges, chips, table cells, helper text)
+- `size={20}` — default standalone icons and inline icons in `text-base` contexts
+- `size={24}` — prominent standalone icons (empty states, feature callouts, page headings)
+
+Mismatched icon size and text size creates optical tension. A 24px icon next to 14px text looks heavy; a 16px icon next to 20px text disappears.
+
+**Stroke weight — 1.5px**
+
+Kiln's aesthetic favors 1.5px stroke weight for icons. This is Lucide's default. If you use a library with heavier strokes (2px+), icons will feel visually heavier than Kiln components. 1px strokes are too delicate at small sizes in dark mode.
+
+**Consistency within a product**
+
+Mixing icon libraries within the same product creates visual noise — different optical weights, different corner styles, different proportions. Pick one library and stick to it. If you need an icon not in your primary library, redraw it to match the style rather than importing a second library.
+
+## Size pairings
+
+<TokenTable tokens={[
+  { name: 'size={16}', value: '16px', description: 'text-xs / text-sm contexts — badges, chips, table cells, labels' },
+  { name: 'size={20}', value: '20px', description: 'text-base contexts — default standalone, button icons, nav items' },
+  { name: 'size={24}', value: '24px', description: 'text-lg+ contexts — empty states, feature callouts, page headings' },
+]} />
+
+## Accessibility requirements
+
+**Icons without visible labels — always need `aria-label`**
+
+If an icon is the sole indicator of an action or meaning, the button or container must have an `aria-label`:
+
+```tsx
+// ✓ Correct — aria-label describes the action
+<button aria-label="Delete item">
+  <Trash2 size={16} aria-hidden="true" />
+</button>
+
+// ✗ Wrong — screen reader announces nothing meaningful
+<button>
+  <Trash2 size={16} />
+</button>
+```
+
+**Decorative icons — always `aria-hidden`**
+
+Icons that accompany visible text labels are decorative. Mark them `aria-hidden="true"` so screen readers don't announce them alongside the label text:
+
+```tsx
+// ✓ Correct — icon is decorative, text label is the accessible name
+<button>
+  <Pencil size={16} aria-hidden="true" />
+  Edit profile
+</button>
+```
+
+**Never rely on icons alone for critical information**
+
+Don't use a red circle icon as the sole indicator of an error, or a check icon as the sole indicator of success. Always pair icons with text or `aria-label`. Color alone is insufficient for color-blind users; icon alone is insufficient for screen reader users.
+
+## Usage guidelines
+
+**Do:** Pass icons as React nodes to component props. Use `aria-hidden="true"` on all decorative icons. Size icons to match the surrounding text scale. Add `aria-label` to any icon-only interactive element.
+
+**Don't:** Import two different icon libraries in the same product. Use icons below `size={14}` — they become illegible and too small to tap on mobile. Use animated icons for functional state (use text or ARIA attributes instead). Bundle your own icon set as SVG sprites — the React node pattern works better with Kiln's rendering model.
+
+## Extending it
+
+Any icon library works with Kiln. If you're building custom icons, use a 24×24 viewBox with 1.5px stroke, round line caps (`stroke-linecap="round"`), and round line joins (`stroke-linejoin="round"`) to match Kiln's aesthetic. Keep paths clean — complex icons at 16px become visual noise.

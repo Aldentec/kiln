@@ -1,0 +1,75 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { DesignLanguageCard } from '../components/DesignLanguageCard';
+import { Hero } from '@doriansmith/kiln';
+
+export default function DesignLanguageIndex({ children }) {
+  return <DesignLanguageLayout>{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="The visual and systemic building blocks behind every Kiln component"
+  description="Color, typography, spacing, tokens, iconography, and motion — documented so you can extend the system consistently."
+  size="md"
+/>
+
+# Design Language
+
+Great UI is not about decoration — it is about removing friction. Every color decision, every spacing step, every easing curve in Kiln exists to help users understand, navigate, and trust the interface they're using. A design language is the agreement between the system and the person building with it: predictable, internally consistent, and honest about the tradeoffs it has made.
+
+This documentation captures those agreements. It is not exhaustive — it is opinionated. Kiln makes choices so you don't have to relitigate them for every project.
+
+## What's documented here
+
+Kiln's design language covers the foundation layer that every component is built on: color, typography, spacing, elevation, motion, border radius, theming, and iconography. Each section explains what the system is, why specific choices were made (this is the important part), and how to work with or extend it safely.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--kiln-space-5)', marginTop: 'var(--kiln-space-8)' }}>
+  <DesignLanguageCard
+    icon="🎨"
+    title="Color"
+    description="The palette, semantic system, and accessibility principles behind every color decision."
+    href="/design-language/color"
+  />
+  <DesignLanguageCard
+    icon="Aa"
+    title="Typography"
+    description="Font choices, the type scale, and the rules that keep text readable at every size."
+    href="/design-language/typography"
+  />
+  <DesignLanguageCard
+    icon="↔"
+    title="Spacing"
+    description="The 4px base unit and the scale that creates rhythm across every component."
+    href="/design-language/spacing"
+  />
+  <DesignLanguageCard
+    icon="☁"
+    title="Elevation"
+    description="Shadows, layering, and the z-index system that creates depth without noise."
+    href="/design-language/elevation"
+  />
+  <DesignLanguageCard
+    icon="◑"
+    title="Motion"
+    description="Easing curves, duration tokens, and the principle that motion should communicate."
+    href="/design-language/motion"
+  />
+  <DesignLanguageCard
+    icon="⬜"
+    title="Border Radius"
+    description="The radius scale and how consistent rounding defines Kiln's personality."
+    href="/design-language/border-radius"
+  />
+  <DesignLanguageCard
+    icon="🎨"
+    title="Theming"
+    description="How to apply your own brand colors while keeping everything accessible."
+    href="/design-language/theming"
+  />
+  <DesignLanguageCard
+    icon="◆"
+    title="Iconography"
+    description="Icon usage guidelines, sizing, and accessibility requirements."
+    href="/design-language/iconography"
+  />
+</div>

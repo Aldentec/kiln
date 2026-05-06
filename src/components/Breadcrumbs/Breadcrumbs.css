@@ -180,12 +180,12 @@
       rgba(255, 255, 255, 0.4),
       transparent
     );
-    animation: kiln-breadcrumbs__shimmer 4s ease-in-out infinite;
+    animation: kiln-breadcrumbs__shimmer 1.2s ease-in-out 1 forwards;
   }
 
   @keyframes kiln-breadcrumbs__shimmer {
-    0%, 100% { transform: translateX(0); }
-    50%      { transform: translateX(250%); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(350%); }
   }
 
   /* ── Dark theme ────────────────────────────────────────────────────── */

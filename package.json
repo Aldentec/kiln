@@ -64,7 +64,7 @@
     "format": "prettier --write src demo",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "build:site": "vite build",
+    "build:site": "node scripts/build-sitemap.mjs && vite build",
     "preview": "vite preview",
     "deploy:site": "npm run build:site && cd cdk && npm run deploy"
   },
@@ -73,6 +73,8 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@mdx-js/react": "^3.1.1",
+    "@mdx-js/rollup": "^3.1.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",

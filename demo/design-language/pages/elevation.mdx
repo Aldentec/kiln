@@ -1,0 +1,86 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { ShadowScale } from '../components/ShadowScale';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function ElevationPage({ children }) {
+  return <DesignLanguageLayout section="Elevation">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Elevation"
+  description="Shadows, layering, and the z-index system that creates depth without noise."
+  size="sm"
+/>
+
+# Elevation
+
+Elevation in Kiln is expressed through two mechanisms: shadows (visual depth) and the z-index scale (stacking order). Together they define a clear hierarchy for how UI layers sit above or below each other.
+
+## The decisions
+
+**Low-opacity shadows everywhere**
+
+All shadows use very low opacity values (0.04–0.15 for the black component). This is deliberate. Heavy, dark shadows feel dated and aggressive — they draw attention to themselves rather than communicating depth. Modern UI uses subtle shadows to create a sense of lifted surfaces without competing with content. The result is a UI that feels clean and considered.
+
+**Six sizes mapping to a clear hierarchy**
+
+The six shadow sizes (xs through 2xl) map directly to a usage hierarchy:
+
+- `shadow-xs` — barely-there separation (table rows, dividers, inset input fields)
+- `shadow-sm` — subtle lift (cards, chips, most interactive elements)
+- `shadow-md` — floating UI (dropdowns, tooltips, date pickers)
+- `shadow-lg` — prominent overlay (sidebars, large panels, drawer backs)
+- `shadow-xl` — full overlay (modals, confirmation dialogs)
+- `shadow-2xl` — maximum elevation (command palettes, critical alerts)
+
+Each step is meaningfully different from the last. There is no ambiguity about which to use.
+
+**Glow shadows — brand presence without weight**
+
+`shadow-glow` and `shadow-glow-accent` use the brand colors to create a premium interactive feel on primary buttons and key interactive elements. The glow is used sparingly — it is a reward for intentional moments (a CTA button, a focused input in a critical form) rather than a general decorative effect. Overuse kills the signal.
+
+**Dark mode increases shadow opacity**
+
+On dark surfaces, light-on-dark requires more shadow contrast to read. In dark mode, shadows use `rgba(0,0,0,0.5)` instead of `rgba(0,0,0,0.08)`. Without this adjustment, shadows become invisible and components appear to float without ground.
+
+**Named z-index values prevent wars**
+
+Z-index conflicts are one of the most frustrating CSS bugs. Kiln uses semantic z-index tokens so every developer reaches for the same values: dropdown at 100, sticky nav at 200, backdrop overlays at 500, modals at 1000, toasts at 1100. The gaps between values (100 units each) leave room for one-off adjustments without requiring a system-wide renumber.
+
+## Shadow scale
+
+<ShadowScale />
+
+## Token reference
+
+<TokenTable tokens={[
+  { name: '--kiln-shadow-xs',          value: '0 1px 2px rgba(0,0,0,0.05)',                                              description: 'Barely-there separation', preview: 'shadow' },
+  { name: '--kiln-shadow-sm',          value: '0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)',                 description: 'Cards, chips, inputs', preview: 'shadow' },
+  { name: '--kiln-shadow-md',          value: '0 4px 6px -1px rgba(0,0,0,0.07)',                                         description: 'Dropdowns, popovers', preview: 'shadow' },
+  { name: '--kiln-shadow-lg',          value: '0 10px 15px -3px rgba(0,0,0,0.08)',                                       description: 'Modals, drawers', preview: 'shadow' },
+  { name: '--kiln-shadow-xl',          value: '0 20px 25px -5px rgba(0,0,0,0.08)',                                       description: 'Prominent overlays', preview: 'shadow' },
+  { name: '--kiln-shadow-2xl',         value: '0 25px 50px -12px rgba(0,0,0,0.15)',                                      description: 'Maximum elevation', preview: 'shadow' },
+  { name: '--kiln-shadow-glow',        value: '0 0 20px rgba(137,33,107,0.2)',                                           description: 'Primary brand glow — buttons, focused CTAs', preview: 'shadow' },
+  { name: '--kiln-shadow-glow-accent', value: '0 0 20px rgba(247,183,51,0.2)',                                           description: 'Accent glow — highlight moments', preview: 'shadow' },
+  { name: '--kiln-shadow-inner',       value: 'inset 0 2px 4px rgba(0,0,0,0.04)',                                        description: 'Pressed states, inset fields', preview: 'shadow' },
+]} />
+
+<TokenTable tokens={[
+  { name: '--kiln-z-dropdown', value: '100',  description: 'Dropdown menus, select lists, date pickers' },
+  { name: '--kiln-z-sticky',   value: '200',  description: 'Sticky navigation, fixed headers' },
+  { name: '--kiln-z-overlay',  value: '500',  description: 'Backdrop overlays behind modals' },
+  { name: '--kiln-z-modal',    value: '1000', description: 'Modals, dialogs, drawers' },
+  { name: '--kiln-z-toast',    value: '1100', description: 'Toasts and notifications — always on top' },
+]} />
+
+## Usage guidelines
+
+**Do:** Use `shadow-sm` as your default card shadow. Increase to `shadow-md` on hover for interactive cards. Use `shadow-glow` only on primary CTA buttons and only when they are the most important interactive element on the page. Always pair shadow size with z-index — `shadow-lg` elements should generally use `z-modal`.
+
+**Don't:** Apply shadows to flat background elements (page sections, text containers) — shadows are for lifted surfaces only. Don't mix glow shadows with non-brand colors. Don't try to create intermediate shadow values by mixing tokens — pick the closest one.
+
+## Extending it
+
+Shadow tokens can be overridden via CSS. The glow shadows (`shadow-glow`, `shadow-glow-accent`) use hardcoded rgba values derived from the default primary color — if you apply a custom theme via `registerTheme`, the glow colors will not automatically update to match your new primary. The theming engine does recalculate glow shadows when using `compileTheme`, so use the theming API rather than raw CSS overrides if you need consistent glows.

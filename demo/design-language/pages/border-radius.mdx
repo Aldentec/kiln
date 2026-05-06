@@ -1,0 +1,74 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { RadiusScale } from '../components/RadiusScale';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function BorderRadiusPage({ children }) {
+  return <DesignLanguageLayout section="Border Radius">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Border Radius"
+  description="The radius scale and how consistent rounding defines Kiln's personality."
+  size="sm"
+/>
+
+# Border Radius
+
+Kiln uses six named border-radius tokens, from `sm` (6px) to `full` (pill shape). Rounded corners are not decoration — they define the personality of the system and communicate approachability.
+
+## The decisions
+
+**Rounded, not sharp, not circular**
+
+Sharp corners (`border-radius: 0`) feel utilitarian and austere — appropriate for dense data tables or financial dashboards but not for a general-purpose component library aimed at products that should feel approachable. Fully circular rectangles look playful rather than professional. Kiln's rounded-but-not-circular default signals competence without coldness.
+
+**`sm` (6px) — dense elements**
+
+Inputs, badges, inline code, and small form elements use `radius-sm`. The rounding is enough to visually soften the element without consuming the visual weight that larger radii would at small sizes. At 14px height, a 12px radius looks overcrowded; 6px lands correctly.
+
+**`md` (8px) — standard interactive elements**
+
+Buttons, chips, dropdowns, and menu items use `radius-md`. This is the default radius for anything a user clicks. 8px feels professional and contemporary — slightly more rounded than enterprise defaults but not aggressively rounded.
+
+**`lg` (12px) and `xl` (16px) — cards and panels**
+
+Larger surfaces need larger radii to read as rounded — at 300px width, 8px radius barely registers. Cards use `radius-lg` or `radius-xl` depending on size and prominence. The rule of thumb: larger the surface, the more radius is needed to achieve the same perceived roundness.
+
+**`2xl` (20px) — hero and feature panels**
+
+Used for the largest display elements: hero sections, feature highlight panels, full-bleed cards. At this scale, 20px creates a clean, modern look that works on both desktop and mobile.
+
+**`full` (9999px) — pills**
+
+Tags, toggles, certain button variants, and avatar rings use `radius-full`. The 9999px value is intentional rather than `50%` — `50%` creates an oval on non-square elements, while 9999px creates a true pill regardless of aspect ratio.
+
+**Consistency over perfection**
+
+The most important rule about border radius is internal consistency: all buttons should use the same radius, all cards should use the same radius. Using different radii on similar components within the same UI creates visual tension that feels like a bug even when the individual choices are reasonable.
+
+## Visual scale
+
+<RadiusScale />
+
+## Token reference
+
+<TokenTable tokens={[
+  { name: '--kiln-radius-sm',   value: '0.375rem', description: '6px — Inputs, badges, code blocks, dense elements', preview: 'radius' },
+  { name: '--kiln-radius-md',   value: '0.5rem',   description: '8px — Buttons, chips, dropdowns, standard interactive elements', preview: 'radius' },
+  { name: '--kiln-radius-lg',   value: '0.75rem',  description: '12px — Cards, panels, standard containers', preview: 'radius' },
+  { name: '--kiln-radius-xl',   value: '1rem',     description: '16px — Large cards, modals, prominent containers', preview: 'radius' },
+  { name: '--kiln-radius-2xl',  value: '1.25rem',  description: '20px — Hero sections, feature panels', preview: 'radius' },
+  { name: '--kiln-radius-full', value: '9999px',   description: 'Pill shape — tags, toggles, avatar rings', preview: 'radius' },
+]} />
+
+## Usage guidelines
+
+**Do:** Use `radius-md` for all clickable elements unless there is a strong reason to deviate. Use `radius-xl` or `radius-2xl` for card-like surfaces that need to feel elevated and premium. Use `radius-full` for any element that should read as a pill — tags, status indicators, toggles.
+
+**Don't:** Mix different radii on related components within the same view (e.g. some buttons with `radius-sm`, others with `radius-xl`). Don't use `radius-full` on elements that are not intentionally pill-shaped — it will look strange on wide elements. Don't use `radius-2xl` on small elements — the rounding becomes disproportionate.
+
+## Extending it
+
+Radius tokens are system-wide and not individually overridable per component at the token level. If you want a consistently sharper feel across the system, override the token values in your CSS. If you only want to change a single component's radius, use the component-level token — for example, `--kiln-button-radius` on `Button` — rather than touching the global scale.

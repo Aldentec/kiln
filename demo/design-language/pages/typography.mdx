@@ -1,0 +1,76 @@
+import { DesignLanguageLayout } from '../components/DesignLanguageLayout';
+import { TypographyScale } from '../components/TypographyScale';
+import { TokenTable } from '../components/TokenTable';
+import { Hero } from '@doriansmith/kiln';
+
+export default function TypographyPage({ children }) {
+  return <DesignLanguageLayout section="Typography">{children}</DesignLanguageLayout>;
+}
+
+<Hero
+  eyebrow="Design Language"
+  title="Typography"
+  description="Font choices, the type scale, and the rules that keep text readable at every size."
+  size="sm"
+/>
+
+# Typography
+
+Kiln uses two typefaces: Space Grotesk for all interface text, and JetBrains Mono for code. Everything else — the scale, the line heights, the tracking — is derived from first principles about readability and hierarchy.
+
+## The decisions
+
+**Why Space Grotesk?**
+
+Space Grotesk has geometric construction with humanist details. The letterforms are clean and modern without feeling cold or overly technical — the slightly quirky details (the open `a`, the distinctive `t`) make it readable at small sizes while giving it personality at display sizes. It reads as "technical product" rather than "corporate", which matches Kiln's intended audience: developers and technical product teams who build real things.
+
+**Why JetBrains Mono?**
+
+JetBrains Mono was designed specifically for code editors, which means it has been optimised for the exact use case Kiln needs: dense monospaced text at small sizes with maximum legibility. Its ligature support (→, !=, >=) makes code easier to scan. It is distinct enough from Space Grotesk that code blocks are immediately recognizable as code without needing a box or background.
+
+**The type scale — why these specific sizes?**
+
+The scale is not linear. The jumps between sizes are deliberate: `xs → sm` is a small step for fine-tuning labels, but `2xl → 3xl → 4xl` are large jumps that force real hierarchy decisions. There is no `1.375rem` size — if you need something between `lg` and `xl`, you are probably trying to split a difference that shouldn't be split. Pick the larger one.
+
+**72ch max-width on body text**
+
+Optimal line length for reading is 50–75 characters. At 16px with Space Grotesk's average character width, 72ch hits roughly 65–70 characters per line — the sweet spot for sustained reading. This is enforced on the `p` element in the MDX provider and should be applied to any long-form body copy.
+
+**Why `1.625` line height for body?**
+
+`leading-tight` (1.25) is for headings, where density communicates importance and blocks of text are short. Body copy needs air — `leading-relaxed` (1.625) reduces eye fatigue during sustained reading. The difference is significant at 16px: `1.5` feels slightly cramped, `1.625` breathes without wasting space.
+
+## Type scale
+
+<TypographyScale />
+
+## Token reference
+
+<TokenTable tokens={[
+  { name: '--kiln-font-sans', value: "'Space Grotesk', -apple-system, sans-serif", description: 'Primary sans-serif — all UI text' },
+  { name: '--kiln-font-mono', value: "'JetBrains Mono', 'Fira Code', monospace", description: 'Monospace — code, tokens, technical labels' },
+  { name: '--kiln-text-xs',   value: '0.75rem',  description: 'Captions, labels, helper text (12px)', preview: 'text' },
+  { name: '--kiln-text-sm',   value: '0.875rem', description: 'Secondary text, metadata, badges (14px)', preview: 'text' },
+  { name: '--kiln-text-base', value: '1rem',     description: 'Body copy, default UI text (16px)', preview: 'text' },
+  { name: '--kiln-text-lg',   value: '1.125rem', description: 'Emphasized body, card titles (18px)', preview: 'text' },
+  { name: '--kiln-text-xl',   value: '1.25rem',  description: 'Section headings, h3 (20px)', preview: 'text' },
+  { name: '--kiln-text-2xl',  value: '1.5rem',   description: 'Page subheadings, h2 (24px)', preview: 'text' },
+  { name: '--kiln-text-3xl',  value: '1.875rem', description: 'Page headings, h1 (30px)', preview: 'text' },
+  { name: '--kiln-text-4xl',  value: '2.25rem',  description: 'Hero and display headings (36px)', preview: 'text' },
+  { name: '--kiln-leading-tight',   value: '1.25',  description: 'Headings — density over air' },
+  { name: '--kiln-leading-normal',  value: '1.5',   description: 'UI elements, compact text' },
+  { name: '--kiln-leading-relaxed', value: '1.625', description: 'Body copy — maximum readability' },
+  { name: '--kiln-tracking-tight',  value: '-0.025em', description: 'Large headings — tighten for density' },
+  { name: '--kiln-tracking-normal', value: '0',         description: 'Default — most UI text' },
+  { name: '--kiln-tracking-wide',   value: '0.025em',   description: 'All-caps labels, eyebrows' },
+]} />
+
+## Usage guidelines
+
+**Do:** Use `text-base` and `leading-relaxed` for any body copy longer than two sentences. Use `tracking-tight` on headings `2xl` and above — large text looks better slightly tighter. Use `font-mono` for all code, token names, keyboard shortcuts, and technical values.
+
+**Don't:** Use sizes below `text-xs` (12px) anywhere. Don't use `text-4xl` for anything other than display headings or hero sections — it loses legibility as body. Don't mix fonts for decorative effect — Space Grotesk and JetBrains Mono are the only two typefaces in the system.
+
+## Extending it
+
+`--kiln-font-sans` and `--kiln-font-mono` are CSS custom properties and can be overridden with any typeface. Be aware that x-height mismatches between replacement fonts and Space Grotesk will affect spacing rhythm — components use these tokens for both size and line-height calculations, so a font with an unusually tall or short x-height will push things slightly off. Test at several sizes when switching fonts.

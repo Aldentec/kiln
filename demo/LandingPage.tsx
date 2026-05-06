@@ -373,6 +373,7 @@ export default function LandingPage() {
             {([
               { value: KILN_STATS.npmDownloads, label: 'npm downloads' },
               { value: KILN_STATS.componentCount, label: 'components' },
+              { value: KILN_STATS.iconCount, label: 'icons' },
               { value: KILN_STATS.axeIssues, label: 'axe issues' },
               { value: KILN_STATS.bundleSizeGzipped, label: 'gzipped total' },
             ] as const).map(({ value, label }) => (

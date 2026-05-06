@@ -289,6 +289,7 @@ export default function DemoSupport() {
                           {ticket.author} · {ticket.submittedAt}
                         </p>
                       </div>
+                      </div>
 
                       <DropdownMenu
                         trigger={
