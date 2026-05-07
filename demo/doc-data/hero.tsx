@@ -127,6 +127,7 @@ export const hero: ComponentDoc = {
 // Full viewport height — fills the screen until the user scrolls
 <Hero
   fullPage
+  navOffset
   variant="gradient"
   title="Your product. Shipped."
   description="The toolkit that gets out of your way."
@@ -160,6 +161,7 @@ export const hero: ComponentDoc = {
     { name: 'variant', type: "'default' | 'gradient' | 'glass'", default: "'default'", required: false, description: 'Visual style. default: body background. gradient: dark brand gradient with primary glow. glass: frosted-glass surface with backdrop-filter blur.' },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'lg'", required: false, description: 'Controls min-height. lg=80vh, md=60vh, sm=no min-height. Override via --kiln-hero-min-height.' },
     { name: 'fullPage', type: 'boolean', default: 'false', required: false, description: 'Makes the hero fill the full viewport height (100svh). Content is vertically centred. Ideal for opening landing page sections.' },
+    { name: 'navOffset', type: 'boolean', default: 'false', required: false, description: 'When true (requires fullPage), subtracts the sticky nav height so the hero fills exactly the visible area below the nav. Uses --kiln-nav-height (default 60px).' },
     { name: 'id', type: 'string', default: '—', required: false, description: 'Forwarded to the <h1> element. The parent <section> receives aria-labelledby pointing to this id — makes the hero a properly labelled landmark.' },
     { name: 'className', type: 'string', default: '—', required: false, description: 'Additional CSS classes on the outer <section>.' },
     { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles. Use component tokens to override layout and typography: --kiln-hero-min-height, --kiln-hero-max-width, --kiln-hero-padding-x, --kiln-hero-padding-y, --kiln-hero-title-size, --kiln-hero-desc-size, --kiln-hero-gap.' },

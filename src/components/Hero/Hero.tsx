@@ -20,6 +20,8 @@ export interface HeroProps {
   size?: HeroSize;
   /** Fills the full viewport height — content is vertically centred. Uses 100svh so mobile browser chrome is excluded. */
   fullPage?: boolean;
+  /** When true (and fullPage is true), subtracts the nav height so the hero sits flush below a sticky nav without scrolling. Uses --kiln-nav-height (default 60px). */
+  navOffset?: boolean;
   id?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -35,6 +37,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(({
   variant = 'default',
   size = 'lg',
   fullPage = false,
+  navOffset = false,
   id,
   className,
   style,
@@ -48,7 +51,8 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(({
       `kiln-hero--${size}`,
       `kiln-hero--${align}`,
       media && 'kiln-hero--has-media',
-      fullPage && 'kiln-hero--full-page',
+      fullPage && !navOffset && 'kiln-hero--full-page',
+      fullPage && navOffset && 'kiln-hero--full-page-offset',
       className,
     )}
     style={style}

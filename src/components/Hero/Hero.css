@@ -38,6 +38,12 @@
     min-height: 100svh;
   }
 
+  /* ── Full-page with nav offset — subtracts sticky nav height ── */
+  .kiln-hero--full-page-offset {
+    min-height: calc(100vh - var(--kiln-nav-height, 60px));
+    min-height: calc(100svh - var(--kiln-nav-height, 60px));
+  }
+
   /* ── Visual variants ────────────────────────────────────── */
   .kiln-hero--gradient {
     /* Light mode: surface base + brand radial from below — clearly distinct from body bg */
