@@ -3,12 +3,15 @@
    --kiln-blockquote-border-width   left border width  (default: 3px)
    --kiln-blockquote-bg             background         (default: transparent)
    --kiln-blockquote-radius         border-radius      (default: --kiln-radius-sm)
+   --kiln-blockquote-font-size      body font-size     (default: --kiln-text-base)
+   --kiln-blockquote-padding        inner padding      (default: --kiln-space-4 --kiln-space-5)
+   --kiln-blockquote-margin         outer margin       (default: 0)
 ─────────────────────────────────────────────────────────── */
 
 @layer kiln {
   .kiln-blockquote {
-    margin: 0;
-    padding: var(--kiln-space-4) var(--kiln-space-5);
+    margin: var(--kiln-blockquote-margin, 0);
+    padding: var(--kiln-blockquote-padding, var(--kiln-space-4) var(--kiln-space-5));
     border-left: var(--kiln-blockquote-border-width, 3px) solid var(--kiln-blockquote-border-color, var(--kiln-primary));
     background: var(--kiln-blockquote-bg, transparent);
     border-radius: 0 var(--kiln-blockquote-radius, var(--kiln-radius-sm)) var(--kiln-blockquote-radius, var(--kiln-radius-sm)) 0;
@@ -16,7 +19,7 @@
 
   .kiln-blockquote__body {
     font-style: italic;
-    font-size: var(--kiln-text-base);
+    font-size: var(--kiln-blockquote-font-size, var(--kiln-text-base));
     line-height: var(--kiln-leading-relaxed);
     color: var(--kiln-gray-700);
     font-family: Georgia, 'Times New Roman', serif;
