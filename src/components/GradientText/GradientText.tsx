@@ -29,7 +29,7 @@ const GradientText = React.forwardRef<HTMLElement, GradientTextProps>(({
   children,
 }, ref) => (
   <Tag
-    ref={ref as React.Ref<HTMLSpanElement>}
+    ref={ref as React.Ref<never>}
     className={cn('kiln-gradient-text', `kiln-gradient-text--${variant}`, className)}
     style={angle !== 135 ? { '--kiln-gradient-text-angle': `${angle}deg`, ...style } as React.CSSProperties : style}
   >
