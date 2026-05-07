@@ -39,6 +39,7 @@ const Nav: React.FC<NavProps> = ({
   className,
 }) => {
   const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   // Tracks whether the panel has ever been opened; focus restore skips the initial mount.
@@ -48,6 +49,18 @@ const Nav: React.FC<NavProps> = ({
     ((href) => typeof window !== 'undefined' && window.location.pathname === href);
 
   const close = useCallback(() => setOpen(false), []);
+
+  // Publish actual nav height to :root so Hero navOffset calc works correctly.
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const h = entry.borderBoxSize?.[0]?.blockSize ?? el.offsetHeight;
+      document.documentElement.style.setProperty('--kiln-nav-height', `${h}px`);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Escape + scroll lock. No padding-right compensation needed because Nav.css
   // sets scrollbar-gutter: stable on html, which reserves the scrollbar lane permanently.
@@ -153,7 +166,7 @@ const Nav: React.FC<NavProps> = ({
 
   return (
     <>
-      <header className={cn('kiln-nav', sticky && 'kiln-nav--sticky', className)}>
+      <header ref={navRef} className={cn('kiln-nav', sticky && 'kiln-nav--sticky', className)}>
         <div className="kiln-nav__inner">
           {/* Brand */}
           {logo && <div className="kiln-nav__brand">{logo}</div>}
