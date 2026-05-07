@@ -6,10 +6,10 @@
 
 /* Keyframes outside @layer */
 @keyframes kiln-scroll-wheel {
-  0%   { opacity: 1; transform: translateY(0); }
-  60%  { opacity: 0; transform: translateY(6px); }
-  61%  { opacity: 0; transform: translateY(0); }
-  100% { opacity: 1; transform: translateY(0); }
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  60%  { opacity: 0; transform: translateX(-50%) translateY(7px); }
+  61%  { opacity: 0; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 @keyframes kiln-scroll-fade-in {
@@ -62,27 +62,39 @@
 
   /* ── Mouse icon ── */
   .kiln-scroll-indicator__mouse {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: var(--kiln-scroll-indicator-size, 26px);
-    height: calc(var(--kiln-scroll-indicator-size, 26px) * 1.6);
+    position: relative;
+    width: var(--kiln-scroll-indicator-size, 22px);
+    height: calc(var(--kiln-scroll-indicator-size, 22px) * 1.7);
     border: 2px solid var(--kiln-scroll-indicator-color, var(--kiln-gray-500));
     border-radius: 999px;
-    padding-top: 5px;
     box-sizing: border-box;
     flex-shrink: 0;
+  }
+
+  /* Horizontal dividing line — separates button area from scroll wheel body */
+  .kiln-scroll-indicator__mouse::before {
+    content: '';
+    position: absolute;
+    top: 38%;
+    left: -2px;
+    right: -2px;
+    height: 2px;
+    background: var(--kiln-scroll-indicator-color, var(--kiln-gray-500));
   }
 
   /* ── Scrolling wheel dot ── */
   .kiln-scroll-indicator__wheel {
     display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Start near the top of the upper chamber */
+    top: 5px;
+    width: 3px;
+    height: 5px;
+    border-radius: 999px;
     background: var(--kiln-scroll-indicator-pulse-color, var(--kiln-primary));
     animation: kiln-scroll-wheel 1.6s var(--kiln-ease-out) infinite;
-    flex-shrink: 0;
   }
 
   /* ── Label ── */
