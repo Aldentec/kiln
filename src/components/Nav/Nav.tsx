@@ -51,15 +51,15 @@ const Nav: React.FC<NavProps> = ({
   const close = useCallback(() => setOpen(false), []);
 
   // Publish actual nav height to :root so Hero navOffset calc works correctly.
+  // Read offsetHeight after mount (one frame later) to get the settled value,
+  // then never re-measure — the nav height is fixed by its own CSS token.
   useEffect(() => {
     const el = navRef.current;
     if (!el) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const h = entry.borderBoxSize?.[0]?.blockSize ?? el.offsetHeight;
-      document.documentElement.style.setProperty('--kiln-nav-height', `${h}px`);
+    const raf = requestAnimationFrame(() => {
+      document.documentElement.style.setProperty('--kiln-nav-height', `${el.offsetHeight}px`);
     });
-    observer.observe(el);
-    return () => observer.disconnect();
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   // Escape + scroll lock. No padding-right compensation needed because Nav.css
