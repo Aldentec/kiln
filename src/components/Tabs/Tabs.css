@@ -61,7 +61,7 @@
   .kiln-tabs__tab--active {
     background: var(--kiln-tabs-active-bg, var(--kiln-surface-raised, #fff));
     color: var(--kiln-tabs-active-color, var(--kiln-primary));
-    box-shadow: var(--kiln-shadow-sm), 0 0 0 1px rgba(137, 33, 107, 0.1);
+    box-shadow: var(--kiln-shadow-sm), 0 0 0 1px color-mix(in srgb, var(--kiln-primary) 10%, transparent);
   }
 
   .kiln-tabs__tab:disabled {

@@ -111,7 +111,7 @@
   }
 
   .kiln-list__body--link:focus-visible {
-    outline: 3px solid rgba(137, 33, 107, 0.45);
+    outline: 3px solid color-mix(in srgb, var(--kiln-primary) 45%, transparent);
     outline-offset: -3px;
   }
 
@@ -194,7 +194,7 @@
   }
 
   .kiln-list__handle:focus-visible {
-    outline: 3px solid rgba(137, 33, 107, 0.45);
+    outline: 3px solid color-mix(in srgb, var(--kiln-primary) 45%, transparent);
     outline-offset: 2px;
   }
 

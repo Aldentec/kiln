@@ -186,7 +186,7 @@ html {
   border-left: 1px solid color-mix(in srgb, var(--kiln-gray-200) 50%, transparent);
   box-shadow:
     -24px 0 60px rgba(0, 0, 0, 0.16),
-    -4px 0 20px rgba(137, 33, 107, 0.06);
+    -4px 0 20px color-mix(in srgb, var(--kiln-primary) 6%, transparent);
 
   display: flex;
   flex-direction: column;
@@ -376,7 +376,7 @@ html {
     color-mix(in srgb, var(--kiln-surface-raised) 88%, transparent) 100%
   );
   border-left-color: rgba(255, 255, 255, 0.06);
-  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.5), -4px 0 20px rgba(137, 33, 107, 0.1);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.5), -4px 0 20px color-mix(in srgb, var(--kiln-primary) 10%, transparent);
 }
 
 [data-theme="dark"] .kiln-nav__panel-header {

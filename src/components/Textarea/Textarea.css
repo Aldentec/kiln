@@ -99,7 +99,7 @@
 /* Hover */
 .kiln-textarea-wrap:hover:not(:focus-within) {
   background: color-mix(in srgb, var(--kiln-primary) 22%, var(--kiln-gray-200));
-  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.07);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--kiln-primary) 7%, transparent);
   transform: translateY(-1px);
 }
 
@@ -113,16 +113,16 @@
 .kiln-textarea-wrap:focus-within {
   background: conic-gradient(
     from var(--kiln-field-angle),
-    #89216b 0%,
-    #c45ba0 25%,
-    #f7b733 50%,
-    #c45ba0 75%,
-    #89216b 100%
+    var(--kiln-primary) 0%,
+    var(--kiln-primary-light) 25%,
+    var(--kiln-accent) 50%,
+    var(--kiln-primary-light) 75%,
+    var(--kiln-primary) 100%
   );
   animation: kiln-textarea-border-spin 4s linear infinite;
   box-shadow:
-    0 0 0 3px rgba(137, 33, 107, 0.12),
-    0 0 28px rgba(137, 33, 107, 0.16),
+    0 0 0 3px color-mix(in srgb, var(--kiln-primary) 12%, transparent),
+    0 0 28px color-mix(in srgb, var(--kiln-primary) 16%, transparent),
     0 6px 20px rgba(0, 0, 0, 0.07);
   transform: translateY(-1px);
 }
@@ -236,27 +236,27 @@
 /* ─── Dark mode ─────────────────────────────────────────── */
 
 [data-theme="dark"] .kiln-textarea-wrap {
-  background: rgba(137, 33, 107, 0.22);
+  background: color-mix(in srgb, var(--kiln-primary) 22%, transparent);
 }
 
 [data-theme="dark"] .kiln-textarea-wrap:hover:not(:focus-within):not(:has(.kiln-textarea:disabled)) {
-  background: rgba(196, 91, 160, 0.38);
-  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
+  background: color-mix(in srgb, var(--kiln-primary-light) 38%, transparent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--kiln-primary) 16%, transparent);
 }
 
 [data-theme="dark"] .kiln-textarea-wrap:focus-within {
   background: conic-gradient(
     from var(--kiln-field-angle),
-    #c45ba0 0%,
-    #e879a8 25%,
-    #f7b733 50%,
-    #e879a8 75%,
-    #c45ba0 100%
+    var(--kiln-primary-light) 0%,
+    var(--kiln-accent-light, var(--kiln-primary-light)) 25%,
+    var(--kiln-accent) 50%,
+    var(--kiln-accent-light, var(--kiln-primary-light)) 75%,
+    var(--kiln-primary-light) 100%
   );
   box-shadow:
-    0 0 0 3px rgba(196, 91, 160, 0.2),
-    0 0 40px rgba(196, 91, 160, 0.22),
-    0 0 80px rgba(137, 33, 107, 0.1),
+    0 0 0 3px color-mix(in srgb, var(--kiln-primary-light) 20%, transparent),
+    0 0 40px color-mix(in srgb, var(--kiln-primary-light) 22%, transparent),
+    0 0 80px color-mix(in srgb, var(--kiln-primary) 10%, transparent),
     0 8px 28px rgba(0, 0, 0, 0.5);
 }
 

@@ -46,9 +46,9 @@
     right: 0;
     height: 2px;
     background: linear-gradient(90deg,
-      rgba(137, 33, 107, 0.35) 0%,
-      rgba(196, 91, 160, 0.45) 45%,
-      rgba(247, 183, 51, 0.35) 100%
+      color-mix(in srgb, var(--kiln-primary) 35%, transparent) 0%,
+      color-mix(in srgb, var(--kiln-primary-light) 45%, transparent) 45%,
+      color-mix(in srgb, var(--kiln-accent) 35%, transparent) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -106,7 +106,7 @@
   }
 
   [data-theme="dark"] .kiln-modal-container::before {
-    background: linear-gradient(90deg, #89216b 0%, #c45ba0 45%, #f7b733 100%);
+    background: linear-gradient(90deg, var(--kiln-primary) 0%, var(--kiln-primary-light) 45%, var(--kiln-accent) 100%);
   }
 
   [data-theme="dark"] .kiln-modal-close:hover {

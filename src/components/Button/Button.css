@@ -53,21 +53,21 @@
   .kiln-button--primary {
     background: var(--kiln-button-primary-bg, var(--kiln-gradient-brand));
     color: var(--kiln-button-primary-color, #ffffff);
-    box-shadow: 0 4px 14px rgba(137, 33, 107, 0.35),
-                0 1px 3px rgba(137, 33, 107, 0.2);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--kiln-primary) 35%, transparent),
+                0 1px 3px color-mix(in srgb, var(--kiln-primary) 20%, transparent);
   }
 
   .kiln-button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
     transform: scale(1.03);
-    box-shadow: 0 8px 28px rgba(137, 33, 107, 0.4),
-                0 2px 8px rgba(137, 33, 107, 0.25);
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--kiln-primary) 40%, transparent),
+                0 2px 8px color-mix(in srgb, var(--kiln-primary) 25%, transparent);
   }
 
   .kiln-button--primary:active:not(:disabled):not([aria-disabled="true"]) {
     transform: scale(0.96);
     box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25),
                 inset 0 1px 2px rgba(0, 0, 0, 0.15),
-                0 1px 3px rgba(137, 33, 107, 0.15);
+                0 1px 3px color-mix(in srgb, var(--kiln-primary) 15%, transparent);
     transition-duration: 100ms;
   }
 
@@ -188,7 +188,7 @@
 
   .kiln-button--secondary .kiln-button__spinner,
   .kiln-button--ghost .kiln-button__spinner {
-    border-color: rgba(137, 33, 107, 0.25);
+    border-color: color-mix(in srgb, var(--kiln-primary) 25%, transparent);
     border-top-color: var(--kiln-primary);
   }
 
@@ -205,7 +205,7 @@
 
   /* ── Focus ── */
   .kiln-button:focus-visible {
-    outline: 3px solid rgba(137, 33, 107, 0.45);
+    outline: 3px solid color-mix(in srgb, var(--kiln-primary) 45%, transparent);
     outline-offset: 2px;
   }
 

@@ -80,11 +80,11 @@
   padding: 1.5px;
   background: conic-gradient(
     from var(--kiln-field-angle),
-    #89216b 0%,
-    #c45ba0 25%,
-    #f7b733 50%,
-    #c45ba0 75%,
-    #89216b 100%
+    var(--kiln-primary) 0%,
+    var(--kiln-primary-light) 25%,
+    var(--kiln-accent) 50%,
+    var(--kiln-primary-light) 75%,
+    var(--kiln-primary) 100%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -94,10 +94,10 @@
   pointer-events: none;
 }
 
-/* Hover — subtle purple-tinted border, slight lift */
+/* Hover — subtle primary-tinted border, slight lift */
 .kiln-input-wrap:hover:not(:focus-within) {
   background: color-mix(in srgb, var(--kiln-primary) 22%, var(--kiln-gray-200));
-  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.07);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--kiln-primary) 7%, transparent);
   transform: translateY(-1px);
 }
 
@@ -111,8 +111,8 @@
 .kiln-input-wrap:focus-within {
   background: var(--kiln-gray-200);
   box-shadow:
-    0 0 0 3px rgba(137, 33, 107, 0.10),
-    0 0 12px rgba(137, 33, 107, 0.09),
+    0 0 0 3px color-mix(in srgb, var(--kiln-primary) 10%, transparent),
+    0 0 12px color-mix(in srgb, var(--kiln-primary) 9%, transparent),
     0 4px 12px rgba(0, 0, 0, 0.05);
   transform: translateY(-1px);
 }
@@ -266,30 +266,30 @@
 /* ─── Dark mode ─────────────────────────────────────────── */
 
 [data-theme="dark"] .kiln-input-wrap {
-  background: rgba(137, 33, 107, 0.22);
+  background: color-mix(in srgb, var(--kiln-primary) 22%, transparent);
 }
 
 [data-theme="dark"] .kiln-input-wrap::before {
   background: conic-gradient(
     from var(--kiln-field-angle),
-    #c45ba0 0%,
-    #e879a8 25%,
-    #f7b733 50%,
-    #e879a8 75%,
-    #c45ba0 100%
+    var(--kiln-primary-light) 0%,
+    var(--kiln-accent-light, var(--kiln-primary-light)) 25%,
+    var(--kiln-accent) 50%,
+    var(--kiln-accent-light, var(--kiln-primary-light)) 75%,
+    var(--kiln-primary-light) 100%
   );
 }
 
 [data-theme="dark"] .kiln-input-wrap:hover:not(:focus-within):not(:has(.kiln-input:disabled)) {
-  background: rgba(196, 91, 160, 0.38);
-  box-shadow: 0 2px 10px rgba(137, 33, 107, 0.16);
+  background: color-mix(in srgb, var(--kiln-primary-light) 38%, transparent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--kiln-primary) 16%, transparent);
 }
 
 [data-theme="dark"] .kiln-input-wrap:focus-within {
-  background: rgba(137, 33, 107, 0.22);
+  background: color-mix(in srgb, var(--kiln-primary) 22%, transparent);
   box-shadow:
-    0 0 0 3px rgba(196, 91, 160, 0.15),
-    0 0 16px rgba(196, 91, 160, 0.12),
+    0 0 0 3px color-mix(in srgb, var(--kiln-primary-light) 15%, transparent),
+    0 0 16px color-mix(in srgb, var(--kiln-primary-light) 12%, transparent),
     0 6px 20px rgba(0, 0, 0, 0.4);
 }
 

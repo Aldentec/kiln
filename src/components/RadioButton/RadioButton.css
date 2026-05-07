@@ -21,8 +21,8 @@
   .kiln-radio {
     --kiln-radio-size:     1.125rem;
     --kiln-radio-dot-size: 0.5rem;
-    --kiln-radio-glow:     0 0 0 3px rgba(137, 33, 107, 0.14),
-                           0 0 16px rgba(137, 33, 107, 0.2);
+    --kiln-radio-glow:     0 0 0 3px color-mix(in srgb, var(--kiln-primary) 14%, transparent),
+                           0 0 16px color-mix(in srgb, var(--kiln-primary) 20%, transparent);
 
     display: inline-flex;
     align-items: flex-start;
@@ -112,14 +112,14 @@
     transform: scale(0);
     opacity: 0;
     transition: opacity 120ms linear;
-    box-shadow: 0 0 5px rgba(137, 33, 107, 0.4);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--kiln-primary) 40%, transparent);
   }
 
   /* ── Hover (not disabled) ── */
   .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__indicator {
     border-color: var(--kiln-primary-light);
     background: var(--kiln-primary-50);
-    box-shadow: 0 0 0 3px rgba(137, 33, 107, 0.08);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--kiln-primary) 8%, transparent);
   }
 
   /* ── Focus-visible ── */
@@ -129,7 +129,7 @@
     box-shadow:
       0 0 0 2px var(--kiln-surface-raised),
       0 0 0 4px var(--kiln-primary),
-      0 0 14px rgba(137, 33, 107, 0.28);
+      0 0 14px color-mix(in srgb, var(--kiln-primary) 28%, transparent);
   }
 
   /* ── Checked ── */
@@ -154,8 +154,8 @@
   .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly)
     .kiln-radio__input:checked ~ .kiln-radio__indicator {
     box-shadow:
-      0 0 0 4px rgba(137, 33, 107, 0.18),
-      0 0 20px rgba(137, 33, 107, 0.25);
+      0 0 0 4px color-mix(in srgb, var(--kiln-primary) 18%, transparent),
+      0 0 20px color-mix(in srgb, var(--kiln-primary) 25%, transparent);
   }
 
   /* ── Checked + focus ── */
@@ -163,7 +163,7 @@
     box-shadow:
       0 0 0 2px var(--kiln-surface-raised),
       0 0 0 4px var(--kiln-primary),
-      0 0 18px rgba(137, 33, 107, 0.32);
+      0 0 18px color-mix(in srgb, var(--kiln-primary) 32%, transparent);
   }
 
   /* ── Content ── */
@@ -212,35 +212,35 @@
 
   [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__indicator {
     border-color: var(--kiln-primary-light);
-    background: rgba(137, 33, 107, 0.14);
-    box-shadow: 0 0 0 3px rgba(196, 91, 160, 0.12);
+    background: color-mix(in srgb, var(--kiln-primary) 14%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--kiln-primary-light) 12%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio__input:checked ~ .kiln-radio__indicator {
     border-color: var(--kiln-primary-light);
-    background: rgba(137, 33, 107, 0.16);
+    background: color-mix(in srgb, var(--kiln-primary) 16%, transparent);
     box-shadow:
-      0 0 0 3px rgba(196, 91, 160, 0.18),
-      0 0 18px rgba(196, 91, 160, 0.28);
+      0 0 0 3px color-mix(in srgb, var(--kiln-primary-light) 18%, transparent),
+      0 0 18px color-mix(in srgb, var(--kiln-primary-light) 28%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio__input:checked ~ .kiln-radio__indicator .kiln-radio__dot {
-    background: linear-gradient(135deg, var(--kiln-primary-light) 0%, #e879a8 100%);
-    box-shadow: 0 1px 6px rgba(196, 91, 160, 0.5);
+    background: linear-gradient(135deg, var(--kiln-primary-light) 0%, var(--kiln-accent-light, var(--kiln-primary-light)) 100%);
+    box-shadow: 0 1px 6px color-mix(in srgb, var(--kiln-primary-light) 50%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly)
     .kiln-radio__input:checked ~ .kiln-radio__indicator {
     box-shadow:
-      0 0 0 4px rgba(196, 91, 160, 0.22),
-      0 0 24px rgba(196, 91, 160, 0.3);
+      0 0 0 4px color-mix(in srgb, var(--kiln-primary-light) 22%, transparent),
+      0 0 24px color-mix(in srgb, var(--kiln-primary-light) 30%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio__input:checked:focus-visible ~ .kiln-radio__indicator {
     box-shadow:
       0 0 0 2px var(--kiln-gray-900),
       0 0 0 4px var(--kiln-primary-light),
-      0 0 20px rgba(196, 91, 160, 0.35);
+      0 0 20px color-mix(in srgb, var(--kiln-primary-light) 35%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio__input:focus-visible ~ .kiln-radio__indicator {
@@ -248,7 +248,7 @@
     box-shadow:
       0 0 0 2px var(--kiln-gray-900),
       0 0 0 4px var(--kiln-primary-light),
-      0 0 14px rgba(196, 91, 160, 0.3);
+      0 0 14px color-mix(in srgb, var(--kiln-primary-light) 30%, transparent);
   }
 
   [data-theme="dark"] .kiln-radio:hover:not(.kiln-radio--disabled):not(.kiln-radio--readonly) .kiln-radio__label {
