@@ -50,9 +50,9 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(({
       `kiln-hero--${variant}`,
       `kiln-hero--${size}`,
       `kiln-hero--${align}`,
-      media && 'kiln-hero--has-media',
-      fullPage && !navOffset && 'kiln-hero--full-page',
-      fullPage && navOffset && 'kiln-hero--full-page-offset',
+      media ? 'kiln-hero--has-media' : null,
+      fullPage === true && navOffset !== true ? 'kiln-hero--full-page' : null,
+      fullPage === true && navOffset === true ? 'kiln-hero--full-page-offset' : null,
       className,
     )}
     style={style}
