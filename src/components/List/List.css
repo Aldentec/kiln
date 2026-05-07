@@ -144,15 +144,17 @@
     font-size: var(--kiln-text-sm);
     color: var(--kiln-gray-900);
     line-height: var(--kiln-leading-normal);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .kiln-list__secondary {
     font-size: var(--kiln-text-xs);
     color: var(--kiln-gray-500);
     line-height: var(--kiln-leading-normal);
+  }
+
+  /* Truncate to one line only in the default card-style list */
+  .kiln-list:not(.kiln-list--no-paddings) .kiln-list__primary,
+  .kiln-list:not(.kiln-list--no-paddings) .kiln-list__secondary {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
