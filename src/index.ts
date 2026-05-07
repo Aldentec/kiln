@@ -147,3 +147,12 @@ export type {
 
 export { CopyToClipboard } from './components/CopyToClipboard';
 export type { CopyToClipboardProps, CopyStatus, CopyPlacement } from './components/CopyToClipboard';
+
+export { Blockquote } from './components/Blockquote';
+export type { BlockquoteProps, BlockquoteVariant } from './components/Blockquote';
+
+export { Section } from './components/Section';
+export type { SectionProps, SectionBackground } from './components/Section';
+
+export { Prose } from './components/Prose';
+export type { ProseProps, ProseSize } from './components/Prose';

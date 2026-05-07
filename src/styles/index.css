@@ -49,6 +49,9 @@
 @import '../components/Hero/Hero.css';
 @import '../components/List/List.css';
 @import '../components/Table/Table.css';
+@import '../components/Blockquote/Blockquote.css';
+@import '../components/Section/Section.css';
+@import '../components/Prose/Prose.css';
 
 /* ── Base reset — must come AFTER all @imports ── */
 html {

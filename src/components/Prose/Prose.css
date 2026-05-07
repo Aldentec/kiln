@@ -1,0 +1,205 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-prose-color         body text color    (default: --kiln-gray-700)
+   --kiln-prose-heading-color heading color      (default: --kiln-gray-900)
+   --kiln-prose-link-color    link color         (default: --kiln-primary)
+   --kiln-prose-lead-color    lead paragraph     (default: --kiln-gray-600)
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  .kiln-prose {
+    color: var(--kiln-prose-color, var(--kiln-gray-700));
+    font-family: var(--kiln-font-sans);
+    line-height: var(--kiln-leading-relaxed);
+  }
+
+  /* ── Size scale ── */
+  .kiln-prose--sm { font-size: var(--kiln-text-sm); }
+  .kiln-prose--md { font-size: var(--kiln-text-base); }
+  .kiln-prose--lg { font-size: var(--kiln-text-lg); }
+
+  /* ── Headings ── */
+  .kiln-prose h1,
+  .kiln-prose h2,
+  .kiln-prose h3,
+  .kiln-prose h4,
+  .kiln-prose h5,
+  .kiln-prose h6 {
+    color: var(--kiln-prose-heading-color, var(--kiln-gray-900));
+    font-family: var(--kiln-font-sans);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 1.75em;
+    margin-bottom: 0.6em;
+  }
+
+  .kiln-prose h1 { font-size: 2em; }
+  .kiln-prose h2 { font-size: 1.5em; }
+  .kiln-prose h3 { font-size: 1.25em; }
+  .kiln-prose h4 { font-size: 1.1em; }
+  .kiln-prose h5,
+  .kiln-prose h6 { font-size: 1em; }
+
+  /* First heading needs no top margin */
+  .kiln-prose > :first-child { margin-top: 0; }
+  .kiln-prose > :last-child  { margin-bottom: 0; }
+
+  /* ── Paragraphs ── */
+  .kiln-prose p {
+    margin-top: 0;
+    margin-bottom: 1.25em;
+  }
+
+  /* Lead paragraph */
+  .kiln-prose p.lead {
+    font-size: 1.2em;
+    color: var(--kiln-prose-lead-color, var(--kiln-gray-600));
+    line-height: 1.6;
+  }
+
+  /* ── Links ── */
+  .kiln-prose a {
+    color: var(--kiln-prose-link-color, var(--kiln-primary));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-prose a:hover { opacity: 0.75; }
+  .kiln-prose a:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* ── Lists ── */
+  .kiln-prose ul,
+  .kiln-prose ol {
+    margin-top: 0;
+    margin-bottom: 1.25em;
+    padding-left: 1.5em;
+  }
+
+  .kiln-prose li { margin-bottom: 0.4em; }
+  .kiln-prose li > ul,
+  .kiln-prose li > ol { margin-bottom: 0; }
+
+  /* ── Blockquote — integrates with Blockquote component styles ── */
+  .kiln-prose blockquote {
+    margin: 1.5em 0;
+    padding: var(--kiln-space-4) var(--kiln-space-5);
+    border-left: 3px solid var(--kiln-primary);
+    font-style: italic;
+    color: var(--kiln-gray-600);
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .kiln-prose blockquote p { margin-bottom: 0; }
+
+  /* ── Code ── */
+  .kiln-prose code {
+    font-family: var(--kiln-font-mono);
+    font-size: 0.875em;
+    background: color-mix(in srgb, var(--kiln-gray-500) 10%, transparent);
+    padding: 0.15em 0.4em;
+    border-radius: var(--kiln-radius-sm);
+    color: var(--kiln-primary);
+  }
+
+  .kiln-prose pre {
+    margin: 1.5em 0;
+    padding: var(--kiln-space-5);
+    background: var(--kiln-gray-900);
+    border-radius: var(--kiln-radius-lg);
+    overflow-x: auto;
+  }
+
+  .kiln-prose pre code {
+    background: none;
+    padding: 0;
+    color: var(--kiln-gray-100);
+    font-size: 0.875em;
+  }
+
+  /* ── Horizontal rule ── */
+  .kiln-prose hr {
+    border: none;
+    border-top: 1px solid var(--kiln-gray-200);
+    margin: 2em 0;
+  }
+
+  /* ── Images ── */
+  .kiln-prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--kiln-radius-lg);
+    display: block;
+  }
+
+  /* ── Tables ── */
+  .kiln-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.25em;
+    font-size: 0.9em;
+  }
+
+  .kiln-prose th,
+  .kiln-prose td {
+    text-align: left;
+    padding: var(--kiln-space-2) var(--kiln-space-3);
+    border-bottom: 1px solid var(--kiln-gray-200);
+  }
+
+  .kiln-prose th {
+    font-weight: 600;
+    color: var(--kiln-prose-heading-color, var(--kiln-gray-900));
+  }
+
+  /* ── Dark mode ── */
+  /* Note: Kiln's gray scale inverts in dark mode — gray-700 = #e2e8f0, gray-600 = #cbd5e1 */
+  [data-theme="dark"] .kiln-prose {
+    color: var(--kiln-prose-color, var(--kiln-gray-600)); /* #cbd5e1 */
+  }
+
+  [data-theme="dark"] .kiln-prose h1,
+  [data-theme="dark"] .kiln-prose h2,
+  [data-theme="dark"] .kiln-prose h3,
+  [data-theme="dark"] .kiln-prose h4,
+  [data-theme="dark"] .kiln-prose h5,
+  [data-theme="dark"] .kiln-prose h6 {
+    color: var(--kiln-prose-heading-color, var(--kiln-gray-800)); /* #f1f5f9 */
+  }
+
+  [data-theme="dark"] .kiln-prose p.lead {
+    color: var(--kiln-prose-lead-color, var(--kiln-gray-600)); /* #cbd5e1 */
+  }
+
+  [data-theme="dark"] .kiln-prose blockquote {
+    color: var(--kiln-gray-600); /* #cbd5e1 */
+  }
+
+  [data-theme="dark"] .kiln-prose hr {
+    border-top-color: var(--kiln-gray-200); /* resolves to dark border in dark mode */
+  }
+
+  [data-theme="dark"] .kiln-prose th,
+  [data-theme="dark"] .kiln-prose td {
+    border-bottom-color: var(--kiln-gray-200);
+  }
+
+  [data-theme="dark"] .kiln-prose th {
+    color: var(--kiln-prose-heading-color, var(--kiln-gray-800));
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .kiln-prose--lg { font-size: var(--kiln-text-base); }
+    .kiln-prose h1  { font-size: 1.6em; }
+    .kiln-prose h2  { font-size: 1.35em; }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-prose a { transition: none !important; }
+  }
+}

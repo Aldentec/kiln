@@ -1,0 +1,69 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-blockquote-border-color   left accent color  (default: --kiln-primary)
+   --kiln-blockquote-border-width   left border width  (default: 3px)
+   --kiln-blockquote-bg             background         (default: transparent)
+   --kiln-blockquote-radius         border-radius      (default: --kiln-radius-sm)
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  .kiln-blockquote {
+    margin: 0;
+    padding: var(--kiln-space-4) var(--kiln-space-5);
+    border-left: var(--kiln-blockquote-border-width, 3px) solid var(--kiln-blockquote-border-color, var(--kiln-primary));
+    background: var(--kiln-blockquote-bg, transparent);
+    border-radius: 0 var(--kiln-blockquote-radius, var(--kiln-radius-sm)) var(--kiln-blockquote-radius, var(--kiln-radius-sm)) 0;
+  }
+
+  .kiln-blockquote__body {
+    font-style: italic;
+    font-size: var(--kiln-text-base);
+    line-height: var(--kiln-leading-relaxed);
+    color: var(--kiln-gray-700);
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .kiln-blockquote__body > p {
+    margin: 0;
+  }
+
+  .kiln-blockquote__cite {
+    margin-top: var(--kiln-space-3);
+    font-size: var(--kiln-text-sm);
+    font-style: normal;
+    font-weight: 600;
+    color: var(--kiln-gray-500);
+    font-family: var(--kiln-font-sans);
+  }
+
+  .kiln-blockquote__cite::before {
+    content: '— ';
+  }
+
+  /* ── Variants ── */
+  .kiln-blockquote--accent {
+    --kiln-blockquote-border-color: var(--kiln-primary);
+    --kiln-blockquote-bg: color-mix(in srgb, var(--kiln-primary) 6%, transparent);
+  }
+
+  .kiln-blockquote--subtle {
+    --kiln-blockquote-border-color: var(--kiln-gray-300);
+    --kiln-blockquote-bg: transparent;
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] .kiln-blockquote__body {
+    color: var(--kiln-gray-700); /* resolves to #e2e8f0 in dark mode */
+  }
+
+  [data-theme="dark"] .kiln-blockquote__cite {
+    color: var(--kiln-gray-600); /* resolves to #cbd5e1 in dark mode */
+  }
+
+  [data-theme="dark"] .kiln-blockquote--accent {
+    --kiln-blockquote-bg: color-mix(in srgb, var(--kiln-primary) 10%, transparent);
+  }
+
+  [data-theme="dark"] .kiln-blockquote--subtle {
+    --kiln-blockquote-border-color: var(--kiln-gray-600);
+  }
+}

@@ -1,6 +1,7 @@
 import type { ComponentDoc, PropDef } from './types';
 
 import * as _accordion from './accordion';
+import * as _blockquote from './blockquote';
 import * as _appLayout from './app-layout';
 import * as _badge from './badge';
 import * as _breadcrumbs from './breadcrumbs';
@@ -23,7 +24,9 @@ import * as _nav from './nav';
 import * as _navMenu from './nav-menu';
 import * as _notificationBar from './notification-bar';
 import * as _radioButton from './radio-button';
+import * as _prose from './prose';
 import * as _scrollToTop from './scroll-to-top';
+import * as _section from './section';
 import * as _sideNav from './side-nav';
 import * as _splitPanel from './split-panel';
 import * as _table from './table';
@@ -38,6 +41,7 @@ import * as _toolsPanel from './tools-panel';
 import * as _groups from './groups';
 
 export const accordion = _accordion.accordion;
+export const blockquote = _blockquote.blockquote;
 export const appLayout = _appLayout.appLayout;
 export const badge = _badge.badge;
 export const breadcrumbs = _breadcrumbs.breadcrumbs;
@@ -59,8 +63,10 @@ export const modal = _modal.modal;
 export const nav = _nav.nav;
 export const navMenu = _navMenu.navMenu;
 export const notificationBar = _notificationBar.notificationBar;
+export const prose = _prose.prose;
 export const radioButton = _radioButton.radioButton;
 export const scrollToTop = _scrollToTop.scrollToTop;
+export const section = _section.section;
 export const sideNav = _sideNav.sideNav;
 export const splitPanel = _splitPanel.splitPanel;
 export const table = _table.table;
@@ -81,6 +87,7 @@ export const componentDocs: ComponentDoc[] = [
   _accordion.accordion,
   _appLayout.appLayout,
   _badge.badge,
+  _blockquote.blockquote,
   _breadcrumbs.breadcrumbs,
   _button.button,
   _card.card,
@@ -100,8 +107,10 @@ export const componentDocs: ComponentDoc[] = [
   _nav.nav,
   _navMenu.navMenu,
   _notificationBar.notificationBar,
+  _prose.prose,
   _radioButton.radioButton,
   _scrollToTop.scrollToTop,
+  _section.section,
   _sideNav.sideNav,
   _splitPanel.splitPanel,
   _table.table,

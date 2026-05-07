@@ -1,0 +1,45 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-section-bg         background override
+   --kiln-section-max-width  inner container max-width  (default: set via prop)
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  .kiln-section {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ── Padding scale ── */
+  .kiln-section--pad-none { padding: 0; }
+  .kiln-section--pad-sm   { padding: var(--kiln-space-8) 0; }
+  .kiln-section--pad-md   { padding: var(--kiln-space-12) 0; }
+  .kiln-section--pad-lg   { padding: var(--kiln-space-16) 0; }
+
+  /* ── Backgrounds ── */
+  .kiln-section--default     { background: var(--kiln-section-bg, var(--kiln-body-bg)); }
+  .kiln-section--subtle      { background: var(--kiln-section-bg, var(--kiln-gray-100)); }
+  .kiln-section--emphasis    { background: var(--kiln-section-bg, var(--kiln-surface-raised)); }
+  .kiln-section--transparent { background: transparent; }
+
+  /* ── Dark mode — subtle needs explicit separation since body-bg and gray-50 are close ── */
+  [data-theme="dark"] .kiln-section--subtle {
+    background: var(--kiln-section-bg, var(--kiln-gray-200)); /* #334155 — visibly distinct from body */
+  }
+  [data-theme="dark"] .kiln-section--emphasis {
+    background: var(--kiln-section-bg, var(--kiln-surface-raised)); /* #0d1525 — deepest */
+  }
+
+  /* ── Inner content container ── */
+  .kiln-section__inner {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--kiln-space-6);
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    .kiln-section--pad-md { padding: var(--kiln-space-8) 0; }
+    .kiln-section--pad-lg { padding: var(--kiln-space-12) 0; }
+    .kiln-section__inner  { padding-inline: var(--kiln-space-4); }
+  }
+}

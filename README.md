@@ -213,6 +213,7 @@ resetTheme(); // Removes all custom tokens, restores design-tokens.css defaults
 | Component | Description |
 |---|---|
 | `AppLayout` | Full-page app shell. Composes sidebar, tools panel, breadcrumbs, notifications, page header, and split panel. |
+| `Blockquote` | Styled pull quote with a left accent border, italic serif text, and optional attribution. Three variants: `default`, `accent`, `subtle`. |
 | `Breadcrumbs` | Hierarchical nav trail with chevron separators and mobile truncation. |
 | `Button` | Primary / secondary / ghost / danger. Loading state, icons, link mode. |
 | `Input` | Label, helper text, error state, left/right icons. ARIA-linked. |
@@ -246,6 +247,8 @@ resetTheme(); // Removes all custom tokens, restores design-tokens.css defaults
 | `ScrollToTop` | Scrolls to top on route change. Renders nothing. |
 | `CodeBlock` | Styled `<pre><code>` with copy button and language label. |
 | `CopyToClipboard` | Zero-intrusion wrapper that copies a value to the clipboard on click and shows a contextual confirmation tooltip adjacent to the trigger. |
+| `Prose` | Reading-optimized typography container. Applies heading hierarchy, paragraph spacing, link styles, blockquote, inline code, and table styles to any HTML content. |
+| `Section` | Full-width layout section with background alternation (`default` / `subtle` / `emphasis` / `transparent`), constrained inner content, vertical padding scale, and optional ARIA landmark. |
 
 ---
 
@@ -749,6 +752,134 @@ The tooltip automatically inverts to a light surface when `data-theme="dark"` is
 
 ---
 
+## Blockquote
+
+A styled pull quote with a left accent border, italic serif text, and optional attribution.
+
+```tsx
+import { Blockquote } from '@doriansmith/kiln';
+
+// Default — primary accent border
+<Blockquote cite="Dieter Rams">
+  Good design is as little design as possible.
+</Blockquote>
+
+// Accent — border + tinted background
+<Blockquote variant="accent" cite="Paul Rand">
+  Design is the silent ambassador of your brand.
+</Blockquote>
+
+// Subtle — gray border, no background
+<Blockquote variant="subtle">
+  The details are not the details. They make the design.
+</Blockquote>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `React.ReactNode` | — | **Required.** The quoted content |
+| `cite` | `React.ReactNode` | — | Attribution — author or source. Rendered in a `<footer>` with an em-dash prefix. |
+| `variant` | `'default' \| 'accent' \| 'subtle'` | `'default'` | Visual treatment of the left border and background |
+| `className` | `string` | `''` | Additional CSS classes |
+| `style` | `React.CSSProperties` | — | Inline styles. Use `--kiln-blockquote-border-color`, `--kiln-blockquote-border-width`, `--kiln-blockquote-bg` to override tokens. |
+
+---
+
+## Section
+
+A full-width layout primitive for page structure. Use it to alternate background colors between page sections, constrain content width, and optionally mark sections as ARIA landmarks.
+
+```tsx
+import { Section } from '@doriansmith/kiln';
+
+<Section background="default" padding="lg" aria-label="Features">
+  <h2>Everything you need</h2>
+  <p>Ship fast without compromise.</p>
+</Section>
+
+<Section background="subtle" padding="lg" aria-label="Pricing">
+  <PricingTable />
+</Section>
+
+<Section background="emphasis" padding="md" maxWidth="800px">
+  <Testimonial />
+</Section>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `background` | `'default' \| 'subtle' \| 'emphasis' \| 'transparent'` | `'default'` | Background fill variant |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Vertical padding scale |
+| `maxWidth` | `string \| 'full'` | `'1200px'` | Max-width of the inner content container. Pass `'full'` to disable. |
+| `aria-label` | `string` | — | Accessible label. When set, adds `role="region"` automatically — making the section a navigable landmark. |
+| `className` | `string` | `''` | Additional CSS classes |
+| `style` | `React.CSSProperties` | — | Inline styles. Use `--kiln-section-bg` to override the background token. |
+| `children` | `React.ReactNode` | — | **Required.** Section content |
+
+---
+
+## Prose
+
+A reading-optimized typography container. Drop any HTML content inside and get consistent heading hierarchy, paragraph spacing, link styles, blockquote treatment, inline code, and table styles — without writing custom CSS.
+
+```tsx
+import { Prose } from '@doriansmith/kiln';
+
+<Prose>
+  <h1>Article title</h1>
+  <p className="lead">A short intro paragraph styled larger and lighter.</p>
+  <p>Body copy with <a href="#">links</a> and <code>inline code</code>.</p>
+  <blockquote>
+    <p>A pull quote with the Kiln accent border.</p>
+  </blockquote>
+  <h2>Sub-heading</h2>
+  <ul>
+    <li>Bullet one</li>
+    <li>Bullet two</li>
+  </ul>
+</Prose>
+
+// Smaller text for annotations
+<Prose size="sm" maxWidth="full">
+  <p>Terms and conditions apply.</p>
+</Prose>
+
+// Full-width (disables the 68ch line-length cap)
+<Prose size="lg" maxWidth="full">
+  <MDXContent />
+</Prose>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `React.ReactNode` | — | **Required.** Any HTML content — headings, paragraphs, lists, code, blockquotes, images, tables |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Base font size. Scales the entire type hierarchy proportionally. |
+| `maxWidth` | `string \| 'full'` | `'68ch'` | Reading line length. 68ch is optimal for body copy. Pass `'full'` to disable. |
+| `className` | `string` | `''` | Additional CSS classes |
+| `style` | `React.CSSProperties` | — | Inline styles. Token overrides: `--kiln-prose-color`, `--kiln-prose-heading-color`, `--kiln-prose-link-color`, `--kiln-prose-lead-color`. |
+
+### Using with MDX
+
+```tsx
+import { Section, Prose } from '@doriansmith/kiln';
+
+export function MDXLayout({ children }) {
+  return (
+    <Section background="default" padding="lg">
+      <Prose>{children}</Prose>
+    </Section>
+  );
+}
+```
+
+---
+
 ## TypeScript
 
 All props are fully typed. Named type exports:
@@ -765,6 +896,9 @@ import type {
   ToolsPanelProps, SplitPanelProps,
   AppLayoutBreadcrumb, AppLayoutNotification,
   CopyToClipboardProps, CopyStatus, CopyPlacement,
+  BlockquoteProps, BlockquoteVariant,
+  SectionProps, SectionBackground,
+  ProseProps, ProseSize,
 } from '@doriansmith/kiln';
 ```
 

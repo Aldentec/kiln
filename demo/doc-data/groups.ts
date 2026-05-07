@@ -4,6 +4,7 @@ export const COMPONENT_GROUPS = [
       { id: 'accordion', label: 'Accordion' },
       { id: 'app-layout', label: 'AppLayout' },
       { id: 'badge', label: 'Badge' },
+      { id: 'blockquote', label: 'Blockquote' },
       { id: 'breadcrumbs', label: 'Breadcrumbs' },
       { id: 'button', label: 'Button' },
       { id: 'card', label: 'Card' },
@@ -23,8 +24,10 @@ export const COMPONENT_GROUPS = [
       { id: 'nav', label: 'Nav' },
       { id: 'nav-menu', label: 'NavMenu' },
       { id: 'notification-bar', label: 'NotificationBar' },
+      { id: 'prose', label: 'Prose' },
       { id: 'radio-button', label: 'RadioButton' },
       { id: 'scroll-to-top', label: 'ScrollToTop' },
+      { id: 'section', label: 'Section' },
 
       { id: 'side-nav', label: 'SideNav' },
       { id: 'split-panel', label: 'SplitPanel' },
