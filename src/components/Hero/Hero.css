@@ -31,6 +31,13 @@
   .kiln-hero--md { min-height: var(--kiln-hero-min-height, 60vh); }
   .kiln-hero--sm { min-height: 0; }
 
+  /* ── Full-page — fills the viewport, content centred ────── */
+  /* vh first as fallback; svh overrides in supporting browsers (excludes mobile browser chrome) */
+  .kiln-hero--full-page {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
   /* ── Visual variants ────────────────────────────────────── */
   .kiln-hero--gradient {
     /* Light mode: surface base + brand radial from below — clearly distinct from body bg */

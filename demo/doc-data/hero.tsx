@@ -124,8 +124,21 @@ export const hero: ComponentDoc = {
   }
 />
 
-// Gradient variant
+// Full viewport height — fills the screen until the user scrolls
 <Hero
+  fullPage
+  variant="gradient"
+  title="Your product. Shipped."
+  description="The toolkit that gets out of your way."
+  actions={
+    <div style={{ display: 'flex', gap: 'var(--kiln-space-3)', flexWrap: 'wrap', justifyContent: 'center' }}>
+      <Button variant="primary">Get started</Button>
+      <Button variant="ghost">Learn more</Button>
+    </div>
+  }
+/>
+
+// Gradient variant
   size="sm"
   variant="gradient"
   title="The design system that ships with you"
@@ -146,6 +159,7 @@ export const hero: ComponentDoc = {
     { name: 'align', type: "'left' | 'center' | 'right'", default: "'center'", required: false, description: 'Content alignment. Left and right-aligned heroes collapse to centered on mobile.' },
     { name: 'variant', type: "'default' | 'gradient' | 'glass'", default: "'default'", required: false, description: 'Visual style. default: body background. gradient: dark brand gradient with primary glow. glass: frosted-glass surface with backdrop-filter blur.' },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'lg'", required: false, description: 'Controls min-height. lg=80vh, md=60vh, sm=no min-height. Override via --kiln-hero-min-height.' },
+    { name: 'fullPage', type: 'boolean', default: 'false', required: false, description: 'Makes the hero fill the full viewport height (100svh). Content is vertically centred. Ideal for opening landing page sections.' },
     { name: 'id', type: 'string', default: '—', required: false, description: 'Forwarded to the <h1> element. The parent <section> receives aria-labelledby pointing to this id — makes the hero a properly labelled landmark.' },
     { name: 'className', type: 'string', default: '—', required: false, description: 'Additional CSS classes on the outer <section>.' },
     { name: 'style', type: 'React.CSSProperties', default: '—', required: false, description: 'Inline styles. Use component tokens to override layout and typography: --kiln-hero-min-height, --kiln-hero-max-width, --kiln-hero-padding-x, --kiln-hero-padding-y, --kiln-hero-title-size, --kiln-hero-desc-size, --kiln-hero-gap.' },

@@ -18,6 +18,8 @@ export interface HeroProps {
   align?: HeroAlign;
   variant?: HeroVariant;
   size?: HeroSize;
+  /** Fills the full viewport height — content is vertically centred. Uses 100svh so mobile browser chrome is excluded. */
+  fullPage?: boolean;
   id?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -32,6 +34,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(({
   align = 'center',
   variant = 'default',
   size = 'lg',
+  fullPage = false,
   id,
   className,
   style,
@@ -45,6 +48,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(({
       `kiln-hero--${size}`,
       `kiln-hero--${align}`,
       media && 'kiln-hero--has-media',
+      fullPage && 'kiln-hero--full-page',
       className,
     )}
     style={style}
