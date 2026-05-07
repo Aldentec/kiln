@@ -14,6 +14,8 @@ export interface SectionProps {
   maxWidth?: string | 'full';
   /** Vertical padding size. */
   padding?: 'sm' | 'md' | 'lg' | 'none';
+  /** Adds a slow ambient radial-pulse animation to the background. Pure CSS, no JS. Respects prefers-reduced-motion. */
+  animated?: boolean;
   /** Accessible landmark label. When set, the section gets role="region" and aria-label. */
   'aria-label'?: string;
   className?: string;
@@ -25,6 +27,7 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(({
   background = 'default',
   maxWidth = '1200px',
   padding = 'md',
+  animated = false,
   'aria-label': ariaLabel,
   className,
   style,
@@ -39,6 +42,7 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(({
         'kiln-section',
         `kiln-section--${background}`,
         `kiln-section--pad-${padding}`,
+        animated && 'kiln-section--animated',
         className,
       )}
       style={style}

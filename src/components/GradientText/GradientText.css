@@ -1,0 +1,78 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-gradient-text-angle   gradient direction (default: 135deg)
+   --kiln-gradient-text-from    custom variant start color
+   --kiln-gradient-text-via     custom variant mid color (optional)
+   --kiln-gradient-text-to      custom variant end color
+─────────────────────────────────────────────────────────── */
+
+@layer kiln {
+  .kiln-gradient-text {
+    /* Paint the gradient into the background, then clip it to the text glyphs.
+       display:inline-block is required — inline elements have no background painting box. */
+    display: inline-block;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* Prevent descenders from being clipped on tight line-heights */
+    padding-bottom: 0.05em;
+    /* Prevents CLS: the element's block layout doesn't change, only the paint */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* ── Variants ── */
+  .kiln-gradient-text--brand {
+    background-image: linear-gradient(
+      var(--kiln-gradient-text-angle, 135deg),
+      var(--kiln-primary) 0%,
+      var(--kiln-primary-light) 50%,
+      var(--kiln-accent) 100%
+    );
+  }
+
+  .kiln-gradient-text--warm {
+    background-image: linear-gradient(
+      var(--kiln-gradient-text-angle, 135deg),
+      var(--kiln-accent-dark) 0%,
+      var(--kiln-accent) 50%,
+      var(--kiln-accent-light) 100%
+    );
+  }
+
+  .kiln-gradient-text--cool {
+    background-image: linear-gradient(
+      var(--kiln-gradient-text-angle, 135deg),
+      #3b82f6 0%,
+      #8b5cf6 50%,
+      #ec4899 100%
+    );
+  }
+
+  .kiln-gradient-text--sunset {
+    background-image: linear-gradient(
+      var(--kiln-gradient-text-angle, 135deg),
+      #f97316 0%,
+      var(--kiln-primary-light) 50%,
+      var(--kiln-primary) 100%
+    );
+  }
+
+  /* Custom variant — consumer sets tokens via inline style or CSS */
+  .kiln-gradient-text--custom {
+    background-image: linear-gradient(
+      var(--kiln-gradient-text-angle, 135deg),
+      var(--kiln-gradient-text-from, var(--kiln-primary)) 0%,
+      var(--kiln-gradient-text-to, var(--kiln-accent)) 100%
+    );
+  }
+
+  /* Forced-colors / High Contrast — gradient text is invisible. Fall back to foreground color. */
+  @media (forced-colors: active) {
+    .kiln-gradient-text {
+      -webkit-text-fill-color: unset;
+      color: unset;
+      background-image: none;
+    }
+  }
+}

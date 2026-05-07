@@ -1,0 +1,128 @@
+/* ─── Component tokens ──────────────────────────────────────
+   --kiln-scroll-indicator-color        icon and label color
+   --kiln-scroll-indicator-size         mouse icon size (default: 26px)
+   --kiln-scroll-indicator-pulse-color  wheel dot color
+─────────────────────────────────────────────────────────── */
+
+/* Keyframes outside @layer */
+@keyframes kiln-scroll-wheel {
+  0%   { opacity: 1; transform: translateY(0); }
+  60%  { opacity: 0; transform: translateY(6px); }
+  61%  { opacity: 0; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kiln-scroll-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer kiln {
+  /* ── Base ── */
+  .kiln-scroll-indicator {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--kiln-space-2);
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: var(--kiln-space-2);
+    /* Ensure 44×44px minimum touch target */
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    animation: kiln-scroll-fade-in 600ms var(--kiln-ease-out) both;
+    animation-delay: 200ms;
+    transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out),
+                transform var(--kiln-duration-fast) var(--kiln-ease-out);
+  }
+
+  .kiln-scroll-indicator:hover {
+    opacity: 0.75;
+    transform: translateY(2px);
+  }
+
+  .kiln-scroll-indicator:focus-visible {
+    outline: 2px solid var(--kiln-primary);
+    outline-offset: 4px;
+    border-radius: var(--kiln-radius-md);
+  }
+
+  /* When used as a non-interactive decoration (role=img div) */
+  div.kiln-scroll-indicator {
+    cursor: default;
+  }
+
+  div.kiln-scroll-indicator:hover {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Mouse icon ── */
+  .kiln-scroll-indicator__mouse {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: var(--kiln-scroll-indicator-size, 26px);
+    height: calc(var(--kiln-scroll-indicator-size, 26px) * 1.6);
+    border: 2px solid var(--kiln-scroll-indicator-color, var(--kiln-gray-500));
+    border-radius: 999px;
+    padding-top: 5px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  /* ── Scrolling wheel dot ── */
+  .kiln-scroll-indicator__wheel {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--kiln-scroll-indicator-pulse-color, var(--kiln-primary));
+    animation: kiln-scroll-wheel 1.6s var(--kiln-ease-out) infinite;
+    flex-shrink: 0;
+  }
+
+  /* ── Label ── */
+  .kiln-scroll-indicator__label {
+    font-size: var(--kiln-text-xs);
+    font-family: var(--kiln-font-sans);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--kiln-scroll-indicator-color, var(--kiln-gray-500));
+    line-height: 1;
+  }
+
+  /* ── Variants ── */
+  .kiln-scroll-indicator--light {
+    --kiln-scroll-indicator-color: rgba(255, 255, 255, 0.7);
+    --kiln-scroll-indicator-pulse-color: #fff;
+  }
+
+  .kiln-scroll-indicator--ghost {
+    --kiln-scroll-indicator-color: var(--kiln-gray-400);
+    --kiln-scroll-indicator-pulse-color: var(--kiln-primary-light);
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] .kiln-scroll-indicator--default {
+    --kiln-scroll-indicator-color: var(--kiln-gray-500);
+    --kiln-scroll-indicator-pulse-color: var(--kiln-primary-light);
+  }
+
+  /* ── Reduced motion — keep static, remove animation ── */
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-scroll-indicator {
+      animation: none !important;
+    }
+    .kiln-scroll-indicator__wheel {
+      animation: none !important;
+    }
+    .kiln-scroll-indicator:hover {
+      transform: none !important;
+    }
+  }
+}

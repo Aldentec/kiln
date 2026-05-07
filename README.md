@@ -241,14 +241,16 @@ resetTheme(); // Removes all custom tokens, restores design-tokens.css defaults
 | `Tooltip` | Hover/focus popup label attached to any element. |
 | `ToolsPanel` | Collapsible right panel for help or tools. Desktop slide animation, mobile overlay drawer. |
 | `Footer` | Logo, link list, copyright. |
+| `GradientText` | Inline or block gradient text using `background-clip: text`. Renders as any HTML element (`span` by default). Four built-in presets (`brand` / `warm` / `cool` / `sunset`) plus a `custom` variant driven by CSS tokens. Forced-colors safe. |
 | `Grid` + `GridItem` | Responsive CSS grid. Fixed-column mode (4→2→1) or container-aware auto-fit. Span cells with `GridItem`. |
 | `LoadingIndicator` | Spinner, inline or block. `aria-live` announcement. |
 | `ErrorMessage` | Error display with optional retry button. |
+| `ScrollIndicator` | Pulsing scroll cue — typically placed at the bottom of a full-page hero. Mouse icon with animated wheel dot and label. Renders as `<a>`, `<button>`, or decorative `<div>` depending on whether `href` or `onClick` is provided. |
 | `ScrollToTop` | Scrolls to top on route change. Renders nothing. |
 | `CodeBlock` | Styled `<pre><code>` with copy button and language label. |
 | `CopyToClipboard` | Zero-intrusion wrapper that copies a value to the clipboard on click and shows a contextual confirmation tooltip adjacent to the trigger. |
 | `Prose` | Reading-optimized typography container. Applies heading hierarchy, paragraph spacing, link styles, blockquote, inline code, and table styles to any HTML content. |
-| `Section` | Full-width layout section with background alternation (`default` / `subtle` / `emphasis` / `transparent`), constrained inner content, vertical padding scale, and optional ARIA landmark. |
+| `Section` | Full-width layout section with background alternation (`default` / `subtle` / `emphasis` / `transparent`), constrained inner content, vertical padding scale, optional ambient animation, and optional ARIA landmark. |
 
 ---
 
@@ -822,6 +824,103 @@ import { Section } from '@doriansmith/kiln';
 
 ---
 
+## GradientText
+
+An inline or block gradient text element using `background-clip: text`. Renders as any HTML element — default `span` for inline use inside a heading, or set `as="h1"` to render a standalone gradient heading.
+
+```tsx
+import { GradientText } from '@doriansmith/kiln';
+
+// Inline accent inside a heading
+<h1>
+  Ship fast <GradientText variant="brand">without compromise</GradientText>
+</h1>
+
+// Standalone gradient heading
+<GradientText as="h1" variant="brand" style={{ fontSize: '3rem', fontWeight: 800 }}>
+  Your tagline here
+</GradientText>
+
+// Other presets
+<GradientText variant="warm">Golden hour</GradientText>
+<GradientText variant="cool">Indie developers</GradientText>
+<GradientText variant="sunset">Zero config</GradientText>
+
+// Custom colours via CSS tokens
+<GradientText
+  variant="custom"
+  style={{
+    '--kiln-gradient-text-from': '#10b981',
+    '--kiln-gradient-text-to':   '#3b82f6',
+  }}
+>
+  Your brand colors
+</GradientText>
+
+// Custom angle
+<GradientText variant="brand" angle={90}>Vertical sweep</GradientText>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `'brand' \| 'warm' \| 'cool' \| 'sunset' \| 'custom'` | `'brand'` | Gradient preset. `'custom'` reads `--kiln-gradient-text-from` and `--kiln-gradient-text-to` from inline style or CSS. |
+| `as` | `'span' \| 'p' \| 'h1'–'h6' \| 'div' \| 'strong' \| 'em'` | `'span'` | HTML element to render. |
+| `angle` | `number` | `135` | Gradient direction in degrees. |
+| `className` | `string` | — | Additional CSS classes. |
+| `style` | `React.CSSProperties` | — | Inline styles. Pass `--kiln-gradient-text-from` / `--kiln-gradient-text-to` for the custom variant. |
+| `children` | `React.ReactNode` | — | **Required.** Text content. |
+
+---
+
+## ScrollIndicator
+
+A pulsing scroll cue — typically placed at the bottom of a full-page hero. Renders a mouse icon with an animated wheel dot and an uppercase label. Automatically chooses its element type: `<a>` when `href` is set, `<button>` when `onClick` is set, or a decorative `<div>` when neither is provided.
+
+```tsx
+import { ScrollIndicator } from '@doriansmith/kiln';
+
+// Decorative — no interaction
+<ScrollIndicator />
+
+// Anchor scroll
+<ScrollIndicator href="#features" label="See features" />
+
+// Button with smooth-scroll
+<ScrollIndicator
+  onClick={() => document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' })}
+/>
+
+// Light variant for dark/gradient backgrounds
+<ScrollIndicator variant="light" href="#about" />
+
+// Inside a full-page Hero actions slot
+<Hero
+  fullPage navOffset variant="gradient"
+  title="Your product. Shipped."
+  actions={
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--kiln-space-6)' }}>
+      <Button variant="primary" size="lg">Get started</Button>
+      <ScrollIndicator variant="light" href="#features" label="See what we build" />
+    </div>
+  }
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `'default' \| 'light' \| 'ghost'` | `'default'` | Visual style. `'light'` uses white tones for dark/gradient backgrounds. |
+| `label` | `string` | `'Scroll down'` | Accessible label and visible text. |
+| `href` | `string` | — | Anchor href. When set, renders as `<a>`. |
+| `onClick` | `() => void` | — | Click handler. When set (no `href`), renders as `<button>`. |
+| `className` | `string` | — | Additional CSS classes. |
+| `style` | `React.CSSProperties` | — | Inline styles. Token overrides: `--kiln-scroll-indicator-color`, `--kiln-scroll-indicator-size`, `--kiln-scroll-indicator-pulse-color`. |
+
+---
+
 ## Prose
 
 A reading-optimized typography container. Drop any HTML content inside and get consistent heading hierarchy, paragraph spacing, link styles, blockquote treatment, inline code, and table styles — without writing custom CSS.
@@ -897,6 +996,8 @@ import type {
   AppLayoutBreadcrumb, AppLayoutNotification,
   CopyToClipboardProps, CopyStatus, CopyPlacement,
   BlockquoteProps, BlockquoteVariant,
+  GradientTextProps, GradientTextVariant, GradientTextAs,
+  ScrollIndicatorProps, ScrollIndicatorVariant,
   SectionProps, SectionBackground,
   ProseProps, ProseSize,
 } from '@doriansmith/kiln';

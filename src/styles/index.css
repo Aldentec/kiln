@@ -50,6 +50,8 @@
 @import '../components/List/List.css';
 @import '../components/Table/Table.css';
 @import '../components/Blockquote/Blockquote.css';
+@import '../components/GradientText/GradientText.css';
+@import '../components/ScrollIndicator/ScrollIndicator.css';
 @import '../components/Section/Section.css';
 @import '../components/Prose/Prose.css';
 

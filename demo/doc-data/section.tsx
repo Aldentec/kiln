@@ -19,6 +19,16 @@ const SectionPreview: React.FC = () => (
         <strong>emphasis</strong> — raised / card-level background
       </p>
     </Section>
+    <Section background="emphasis" animated padding="sm" maxWidth="full">
+      <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--kiln-gray-600)' }}>
+        <strong>emphasis + animated</strong> — slow ambient radial pulse
+      </p>
+    </Section>
+    <Section background="subtle" animated padding="sm" maxWidth="full">
+      <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--kiln-gray-600)' }}>
+        <strong>subtle + animated</strong> — softer pulse on alternate background
+      </p>
+    </Section>
   </div>
 );
 
@@ -29,22 +39,33 @@ export const section: ComponentDoc = {
   preview: SectionPreview,
   code: `import { Section } from '@doriansmith/kiln';
 
-<Section background="default" padding="lg">
-  <h2>Features</h2>
-  <p>Everything you need to ship fast.</p>
+{/* default — base surface background */}
+<Section background="default" padding="sm" maxWidth="full">
+  <p><strong>default</strong> — base surface background</p>
 </Section>
 
-<Section background="subtle" padding="lg">
-  <h2>Pricing</h2>
-  <p>Simple, transparent pricing.</p>
+{/* subtle — sunken / alternate row background */}
+<Section background="subtle" padding="sm" maxWidth="full">
+  <p><strong>subtle</strong> — sunken / alternate row background</p>
 </Section>
 
-<Section background="emphasis" padding="lg">
-  <h2>Testimonials</h2>
-  <p>Trusted by indie developers worldwide.</p>
+{/* emphasis — raised / card-level background */}
+<Section background="emphasis" padding="sm" maxWidth="full">
+  <p><strong>emphasis</strong> — raised / card-level background</p>
+</Section>
+
+{/* emphasis + animated — slow ambient radial pulse */}
+<Section background="emphasis" animated padding="sm" maxWidth="full">
+  <p><strong>emphasis + animated</strong> — slow ambient radial pulse</p>
+</Section>
+
+{/* subtle + animated — softer pulse on alternate background */}
+<Section background="subtle" animated padding="sm" maxWidth="full">
+  <p><strong>subtle + animated</strong> — softer pulse on alternate background</p>
 </Section>`,
   props: [
     { name: 'background', type: "'default' | 'subtle' | 'emphasis' | 'transparent'", default: "'default'", required: false, description: 'Background fill variant' },
+    { name: 'animated', type: 'boolean', default: 'false', required: false, description: 'Adds a slow ambient radial-pulse CSS animation to the background. Uses only transform and opacity — GPU-accelerated, no JS, no layout thrash. Respects prefers-reduced-motion. Override colour via --kiln-section-pulse-color and speed via --kiln-section-pulse-duration.' },
     { name: 'padding', type: "'none' | 'sm' | 'md' | 'lg'", default: "'md'", required: false, description: 'Vertical padding scale' },
     { name: 'maxWidth', type: "string | 'full'", default: "'1200px'", required: false, description: "Max-width of the inner content container. Pass 'full' to disable." },
     { name: 'aria-label', type: 'string', default: '—', required: false, description: "Accessible label — adds role='region' automatically when set" },

@@ -151,6 +151,12 @@ export type { CopyToClipboardProps, CopyStatus, CopyPlacement } from './componen
 export { Blockquote } from './components/Blockquote';
 export type { BlockquoteProps, BlockquoteVariant } from './components/Blockquote';
 
+export { GradientText } from './components/GradientText';
+export type { GradientTextProps, GradientTextVariant, GradientTextAs } from './components/GradientText';
+
+export { ScrollIndicator } from './components/ScrollIndicator';
+export type { ScrollIndicatorProps, ScrollIndicatorVariant } from './components/ScrollIndicator';
+
 export { Section } from './components/Section';
 export type { SectionProps, SectionBackground } from './components/Section';
 

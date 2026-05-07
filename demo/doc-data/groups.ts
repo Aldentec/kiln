@@ -14,6 +14,7 @@ export const COMPONENT_GROUPS = [
       { id: 'dropdown-menu', label: 'DropdownMenu' },
       { id: 'error-message', label: 'ErrorMessage' },
       { id: 'footer', label: 'Footer' },
+      { id: 'gradient-text', label: 'GradientText' },
       { id: 'grid', label: 'Grid' },
       { id: 'header', label: 'Header' },
       { id: 'hero', label: 'Hero' },
@@ -26,6 +27,7 @@ export const COMPONENT_GROUPS = [
       { id: 'notification-bar', label: 'NotificationBar' },
       { id: 'prose', label: 'Prose' },
       { id: 'radio-button', label: 'RadioButton' },
+      { id: 'scroll-indicator', label: 'ScrollIndicator' },
       { id: 'scroll-to-top', label: 'ScrollToTop' },
       { id: 'section', label: 'Section' },
 

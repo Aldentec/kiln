@@ -1,6 +1,6 @@
 export const KILN_STATS = {
   npmDownloads: '1,500+',
-  componentCount: '38',
+  componentCount: '40',
   iconCount: '156',
   axeIssues: '0',
   bundleSizeGzipped: '<26 KB',
@@ -12,3 +12,4 @@ export const KILN_STATS = {
   lighthouseA11y: '100',
   lighthouseSeo: '100',
 } as const;
+ 

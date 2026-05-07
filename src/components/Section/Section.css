@@ -1,7 +1,15 @@
 /* ─── Component tokens ──────────────────────────────────────
-   --kiln-section-bg         background override
-   --kiln-section-max-width  inner container max-width  (default: set via prop)
+   --kiln-section-bg              background override
+   --kiln-section-max-width       inner container max-width  (default: set via prop)
+   --kiln-section-pulse-color     radial glow color for animated variant (default: primary at 8%)
+   --kiln-section-pulse-duration  animation cycle length (default: 8s)
 ─────────────────────────────────────────────────────────── */
+
+/* Keyframe outside @layer — browser requirement */
+@keyframes kiln-section-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
 
 @layer kiln {
   .kiln-section {
@@ -27,6 +35,54 @@
   }
   [data-theme="dark"] .kiln-section--emphasis {
     background: var(--kiln-section-bg, var(--kiln-surface-raised)); /* #0d1525 — deepest */
+  }
+
+  /* ── Animated — ambient radial pulse on ::before ── */
+  .kiln-section--animated {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kiln-section--animated::before {
+    content: '';
+    position: absolute;
+    /* Centred radial blob, sized larger than the container so the edges are never visible */
+    inset: -50%;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      var(--kiln-section-pulse-color, color-mix(in srgb, var(--kiln-primary) 18%, transparent)) 0%,
+      transparent 70%
+    );
+    animation: kiln-section-pulse var(--kiln-section-pulse-duration, 8s) ease-in-out infinite;
+    pointer-events: none;
+    /* z-index below content but above the section background */
+    z-index: 0;
+  }
+
+  /* Lift content above the pseudo-element */
+  .kiln-section--animated > .kiln-section__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Stronger glow on emphasis, subtler on subtle/default */
+  .kiln-section--animated.kiln-section--emphasis::before {
+    --kiln-section-pulse-color: color-mix(in srgb, var(--kiln-primary) 24%, transparent);
+  }
+
+  [data-theme="dark"] .kiln-section--animated::before {
+    --kiln-section-pulse-color: color-mix(in srgb, var(--kiln-primary) 28%, transparent);
+  }
+
+  [data-theme="dark"] .kiln-section--animated.kiln-section--emphasis::before {
+    --kiln-section-pulse-color: color-mix(in srgb, var(--kiln-primary) 38%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kiln-section--animated::before {
+      animation: none !important;
+    }
   }
 
   /* ── Inner content container ── */

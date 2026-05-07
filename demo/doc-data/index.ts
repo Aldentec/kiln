@@ -13,6 +13,7 @@ import * as _copyToClipboard from './copy-to-clipboard';
 import * as _dropdownMenu from './dropdown-menu';
 import * as _errorMessage from './error-message';
 import * as _footer from './footer';
+import * as _gradientText from './gradient-text';
 import * as _grid from './grid';
 import * as _header from './header';
 import * as _hero from './hero';
@@ -25,6 +26,7 @@ import * as _navMenu from './nav-menu';
 import * as _notificationBar from './notification-bar';
 import * as _radioButton from './radio-button';
 import * as _prose from './prose';
+import * as _scrollIndicator from './scroll-indicator';
 import * as _scrollToTop from './scroll-to-top';
 import * as _section from './section';
 import * as _sideNav from './side-nav';
@@ -53,6 +55,7 @@ export const copyToClipboard = _copyToClipboard.copyToClipboard;
 export const dropdownMenu = _dropdownMenu.dropdownMenu;
 export const errorMessage = _errorMessage.errorMessage;
 export const footer = _footer.footer;
+export const gradientText = _gradientText.gradientText;
 export const grid = _grid.grid;
 export const header = _header.header;
 export const hero = _hero.hero;
@@ -65,6 +68,7 @@ export const navMenu = _navMenu.navMenu;
 export const notificationBar = _notificationBar.notificationBar;
 export const prose = _prose.prose;
 export const radioButton = _radioButton.radioButton;
+export const scrollIndicator = _scrollIndicator.scrollIndicator;
 export const scrollToTop = _scrollToTop.scrollToTop;
 export const section = _section.section;
 export const sideNav = _sideNav.sideNav;
@@ -97,6 +101,7 @@ export const componentDocs: ComponentDoc[] = [
   _dropdownMenu.dropdownMenu,
   _errorMessage.errorMessage,
   _footer.footer,
+  _gradientText.gradientText,
   _grid.grid,
   _header.header,
   _hero.hero,
@@ -109,6 +114,7 @@ export const componentDocs: ComponentDoc[] = [
   _notificationBar.notificationBar,
   _prose.prose,
   _radioButton.radioButton,
+  _scrollIndicator.scrollIndicator,
   _scrollToTop.scrollToTop,
   _section.section,
   _sideNav.sideNav,
