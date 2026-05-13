@@ -1,5 +1,8 @@
+import pkg from '../package.json';
+
 export const KILN_STATS = {
-  npmDownloads: '1,500+',
+  version: `v${pkg.version}`,
+  npmDownloads: '2,500+',
   componentCount: '40',
   iconCount: '156',
   axeIssues: '0',

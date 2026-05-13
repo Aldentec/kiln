@@ -10,6 +10,7 @@ const AboutPage          = lazy(() => import('./AboutPage'));
 const DemosPage          = lazy(() => import('./DemosPage'));
 const GetStartedPage     = lazy(() => import('./GetStartedPage'));
 const IconLibraryPage    = lazy(() => import('./IconLibraryPage'));
+const FaqPage            = lazy(() => import('./FaqPage'));
 
 // Design language MDX pages
 const DLIndex        = lazy(() => import('./design-language/pages/index.mdx'));
@@ -85,6 +86,10 @@ const PAGE_META: Record<string, PageMeta> = {
     title: 'Icon Library — Kiln React Component Library',
     description: 'Browse all available icons in the Kiln design system. Search, filter, and copy icons with one click.',
   },
+  '/faq': {
+    title: 'FAQ — Kiln Accessible React Component Library',
+    description: 'Answers to common questions about Kiln: WCAG AA compliance, bundle size, dark mode, TypeScript support, shadcn comparison, and React version compatibility.',
+  },
 };
 
 export default function App() {
@@ -139,6 +144,7 @@ export default function App() {
   }
   else if (route === 'get-started')  page = <GetStartedPage />;
   else if (route === 'icon-library') page = <IconLibraryPage />;
+  else if (route === 'faq')          page = <FaqPage />;
   else                               page = <LandingPage />;
 
   return (

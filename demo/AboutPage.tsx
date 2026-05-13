@@ -323,6 +323,11 @@ export default function AboutPage() {
                       </a>
                     </Button>
                     <Button variant="secondary" asChild>
+                      <a href="/faq" onClick={(e) => { e.preventDefault(); navigate('/faq'); }}>
+                        Read the FAQ
+                      </a>
+                    </Button>
+                    <Button variant="ghost" asChild>
                       <a href="https://github.com/Aldentec/kiln" target="_blank" rel="noopener noreferrer">
                         View on GitHub
                       </a>

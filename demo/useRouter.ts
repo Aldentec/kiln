@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export type Route = 'landing' | 'components' | 'about' | 'demos' | 'design-language' | 'get-started' | 'icon-library';
+export type Route = 'landing' | 'components' | 'about' | 'demos' | 'design-language' | 'get-started' | 'icon-library' | 'faq';
 
 export type DesignLanguageSection =
   | ''
@@ -26,6 +26,7 @@ const DL_SECTIONS: DesignLanguageSection[] = [
 
 function getState(pathname: string): RouterState {
   const path = pathname.replace(/\/$/, '') || '/';
+  if (path === '/faq')              return { route: 'faq',             slug: '', dlSection: '' };
   if (path === '/about')            return { route: 'about',           slug: '', dlSection: '' };
   if (path === '/demos')            return { route: 'demos',           slug: '', dlSection: '' };
   if (path === '/get-started')      return { route: 'get-started',     slug: '', dlSection: '' };

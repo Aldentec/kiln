@@ -342,7 +342,7 @@ export default function LandingPage() {
                 <Badge variant="success">WCAG AA</Badge>
                 <Badge variant="info">TypeScript</Badge>
                 <Badge variant="running">{KILN_STATS.componentCount} Primitives</Badge>
-                <Badge variant="pending">v0.3.0</Badge>
+                <Badge variant="pending">{KILN_STATS.version}</Badge>
               </div>
             </>
           }

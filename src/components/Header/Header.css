@@ -6,7 +6,7 @@
 
   .kiln-header {
     width: 100%;
-    max-width: var(--kiln-header-max-width, 1100px);
+    max-width: min(var(--kiln-header-max-width, 1100px), 100%);
     margin-inline: auto;
     box-sizing: border-box;
     padding-inline: var(--kiln-header-padding-x, clamp(var(--kiln-space-4), 5vw, var(--kiln-space-8)));

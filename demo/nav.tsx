@@ -39,6 +39,7 @@ export const FOOTER_LINKS = [
   { href: '/design-language', label: 'Design Language' },
   { href: '/demos',           label: 'Demos' },
   { href: '/about',           label: 'About' },
+  { href: '/faq',             label: 'FAQ' },
 ];
 
 export function isNavActive(href: string): boolean {

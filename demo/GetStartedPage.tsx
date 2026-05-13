@@ -596,7 +596,7 @@ export default function GetStartedPage() {
           <div style={sectionBase}>
             <p style={sectionLabel}>What's next</p>
             <h2 id="next-heading" style={sectionHeading}>Keep going</h2>
-            <Grid cols={2} gap="md">
+            <Grid cols={3} gap="md">
 
               <Card
                 variant="gradient-border"
@@ -629,6 +629,23 @@ export default function GetStartedPage() {
                 </p>
                 <Button variant="primary" onClick={() => navigate('/demos')}>
                   Explore demos →
+                </Button>
+              </Card>
+
+              <Card
+                variant="gradient-border"
+                hoverLift
+                style={{ '--kiln-card-padding': 'var(--kiln-space-8)' } as React.CSSProperties}
+              >
+                <div style={{ fontSize: '2rem', marginBottom: 'var(--kiln-space-4)' }} aria-hidden="true">❓</div>
+                <h3 style={{ margin: '0 0 var(--kiln-space-3)', fontSize: 'var(--kiln-text-xl)', fontWeight: 700, color: 'var(--kiln-gray-900)' }}>
+                  Common questions
+                </h3>
+                <p style={{ margin: '0 0 var(--kiln-space-5)', fontSize: 'var(--kiln-text-sm)', color: 'var(--kiln-gray-600)', lineHeight: 'var(--kiln-leading-relaxed)', flex: 1 }}>
+                  Bundle size, WCAG compliance, dark mode, TypeScript support, and how Kiln compares to shadcn/ui — all answered.
+                </p>
+                <Button variant="secondary" onClick={() => navigate('/faq')}>
+                  Read the FAQ →
                 </Button>
               </Card>
 

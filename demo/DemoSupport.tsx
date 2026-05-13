@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import {
   Card, Badge, Button, Chip, Input, Textarea, Modal, Accordion,
   RadioButton, DropdownMenu, toast, ToastContainer, Tooltip,
-  BugIcon, ZapIcon, CheckCircleIcon, StatusInProgressIcon, StatusPendingIcon,
-  PlusIcon,
+  BugIcon, ZapIcon, CheckCircleIcon,
 } from '@doriansmith/kiln';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -20,7 +19,7 @@ interface Ticket {
   submittedAt: string;
   author: string;
   category: string;
-  icon: React.ComponentType<{ size?: number }>;
+  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -55,14 +54,14 @@ const INITIAL_TICKETS: Ticket[] = [
     submittedAt: '6 hours ago', author: 'Lena Fischer', category: 'Bug',
   },
   {
-    id: 't5',
+    id: 't5', icon: CheckCircleIcon,
     title: 'Dark mode color contrast fails on badge labels',
     description: 'In dark mode, the "warning" badge variant has insufficient color contrast between text and background. Fails WCAG AA 4.5:1 ratio. Reproduced in Chrome and Firefox.',
     status: 'resolved', priority: 'medium',
     submittedAt: '1 day ago', author: 'Jordan Park', category: 'Accessibility',
   },
   {
-    id: 't6',
+    id: 't6', icon: CheckCircleIcon,
     title: 'Onboarding checklist missing localisation for Japanese',
     description: 'The onboarding checklist component is showing English strings even when the user locale is set to Japanese (ja-JP). All other parts of the UI are correctly localised.',
     status: 'resolved', priority: 'low',
@@ -150,6 +149,7 @@ export default function DemoSupport() {
     if (!newTitle.trim()) return;
     const ticket: Ticket = {
       id:          `t${Date.now()}`,
+      icon:        BugIcon,
       title:       newTitle.trim(),
       description: newDesc.trim() || 'No description provided.',
       status:      'open',
