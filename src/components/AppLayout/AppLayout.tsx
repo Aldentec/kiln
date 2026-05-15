@@ -58,6 +58,8 @@ export interface AppLayoutProps {
   splitPanelDefaultHeight?: number;
   splitPanelResizable?: boolean;
 
+  /** Stretch layout to full viewport width regardless of parent container constraints */
+  fullWidth?: boolean;
   /** aria-label for the <main> landmark */
   contentLabel?: string;
   className?: string;
@@ -86,6 +88,7 @@ const AppLayout = React.forwardRef<HTMLDivElement, AppLayoutProps>((
     defaultSplitPanelOpen,
     splitPanelDefaultHeight,
     splitPanelResizable,
+    fullWidth,
     contentLabel = 'Main content',
     className,
     style,
@@ -94,7 +97,7 @@ const AppLayout = React.forwardRef<HTMLDivElement, AppLayoutProps>((
 ) => (
   <div
     ref={ref}
-    className={cn('kiln-app-layout', className)}
+    className={cn('kiln-app-layout', fullWidth && 'kiln-app-layout--full-width', className)}
     style={style}
   >
     {/* ── Top bar ───────────────────────────────────────────────── */}

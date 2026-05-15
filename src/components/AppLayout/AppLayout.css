@@ -1,5 +1,6 @@
 /* ─── AppLayout component tokens ─────────────────────────────────────────────
    --kiln-app-layout-bg       page background (default: --kiln-body-bg)
+   --kiln-app-layout-max-width  max-width of the layout (default: none)
 ──────────────────────────────────────────────────────────────────────────── */
 
 @layer kiln {
@@ -17,6 +18,16 @@
     color: var(--kiln-gray-900);
     box-sizing: border-box;
     isolation: isolate;
+  }
+
+  /* ── Full-width modifier ─────────────────────────────────────────────── */
+  .kiln-app-layout--full-width {
+    width: 100vw;
+    max-width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 
   /* ── Sticky top bar ───────────────────────────────────────────────────── */
