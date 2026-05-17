@@ -1,4 +1,5 @@
 // Kiln design system — v0.1.0
+import './styles/design-tokens.css';
 
 // Icons
 export type { IconProps } from './icons/types';
