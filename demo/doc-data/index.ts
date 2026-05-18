@@ -1,12 +1,14 @@
 import type { ComponentDoc, PropDef } from './types';
 
 import * as _accordion from './accordion';
-import * as _blockquote from './blockquote';
 import * as _appLayout from './app-layout';
+import * as _avatar from './avatar';
 import * as _badge from './badge';
+import * as _blockquote from './blockquote';
 import * as _breadcrumbs from './breadcrumbs';
 import * as _button from './button';
 import * as _card from './card';
+import * as _checkbox from './checkbox';
 import * as _chip from './chip';
 import * as _codeBlock from './code-block';
 import * as _copyToClipboard from './copy-to-clipboard';
@@ -43,12 +45,14 @@ import * as _toolsPanel from './tools-panel';
 import * as _groups from './groups';
 
 export const accordion = _accordion.accordion;
-export const blockquote = _blockquote.blockquote;
 export const appLayout = _appLayout.appLayout;
+export const avatar = _avatar.avatar;
 export const badge = _badge.badge;
+export const blockquote = _blockquote.blockquote;
 export const breadcrumbs = _breadcrumbs.breadcrumbs;
 export const button = _button.button;
 export const card = _card.card;
+export const checkbox = _checkbox.checkbox;
 export const chip = _chip.chip;
 export const codeBlock = _codeBlock.codeBlock;
 export const copyToClipboard = _copyToClipboard.copyToClipboard;
@@ -90,11 +94,13 @@ export type { ComponentDoc, PropDef };
 export const componentDocs: ComponentDoc[] = [
   _accordion.accordion,
   _appLayout.appLayout,
+  _avatar.avatar,
   _badge.badge,
   _blockquote.blockquote,
   _breadcrumbs.breadcrumbs,
   _button.button,
   _card.card,
+  _checkbox.checkbox,
   _chip.chip,
   _codeBlock.codeBlock,
   _copyToClipboard.copyToClipboard,

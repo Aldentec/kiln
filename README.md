@@ -213,9 +213,11 @@ resetTheme(); // Removes all custom tokens, restores design-tokens.css defaults
 | Component | Description |
 |---|---|
 | `AppLayout` | Full-page app shell. Composes sidebar, tools panel, breadcrumbs, notifications, page header, and split panel. |
+| `Avatar` | Circular user avatar showing an image, auto-derived initials (first + last initial from `name`), or a fallback icon. 5 sizes, 8 deterministic hue variants, optional dropdown menu — ideal for navbar user menus. |
 | `Blockquote` | Styled pull quote with a left accent border, italic serif text, and optional attribution. Three variants: `default`, `accent`, `subtle`. |
 | `Breadcrumbs` | Hierarchical nav trail with chevron separators and mobile truncation. |
 | `Button` | Primary / secondary / ghost / danger. Loading state, icons, link mode. |
+| `Checkbox` | Custom-styled checkbox with label, helper text, error state, and indeterminate support. Controlled and uncontrolled. Three sizes, animated checkmark draw-on, GPU-accelerated micro-interactions. |
 | `Input` | Label, helper text, error state, left/right icons. ARIA-linked. |
 | `List` | Consecutive items with secondary content, icons, actions, link mode, and drag-to-reorder. Keyboard reorder with live announcements. |
 | `Textarea` | Like Input, plus character counter. |
@@ -282,7 +284,7 @@ All icons accept:
 
 **Status:** `CheckIcon`, `CheckCircleIcon`, `XIcon`, `XCircleIcon`, `InfoIcon`, `WarningIcon`, `StatusPositiveIcon`, `StatusNegativeIcon`, `StatusInfoIcon`, `StatusWarningIcon`, `StatusInProgressIcon`, `StatusPendingIcon`, `StatusStoppedIcon`, `StatusNotStartedIcon`
 
-**Actions:** `PlusIcon`, `MinusIcon`, `TrashIcon`, `PencilIcon`, `SearchIcon`, `ExternalLinkIcon`, `CopyIcon`, `SettingsIcon`, `EyeIcon`, `EyeOffIcon`, `UploadIcon`, `DownloadIcon`, `FilterIcon`, `SortIcon`, `AnchorLinkIcon`, `CalendarIcon`, `CommandPromptIcon`, `DeleteMarkerIcon`, `DotIcon`, `EditGenAiIcon`, `EllipsisIcon`, `FlagIcon`, `GenAiIcon`, `HistoryIcon`, `RefreshIcon`, `RemoveIcon`, `RedoIcon`, `ScriptIcon`, `SearchGenAiIcon`, `SendIcon`, `ShareIcon`, `SlashIcon`, `SubtractMinusIcon`, `SuggestionsIcon`, `TicketIcon`, `UndoIcon`, `UnlockedIcon`, `UploadDownloadIcon`
+**Actions:** `PlusIcon`, `MinusIcon`, `TrashIcon`, `PencilIcon`, `SearchIcon`, `ExternalLinkIcon`, `CopyIcon`, `SettingsIcon`, `EyeIcon`, `EyeOffIcon`, `EyeOpenIcon`, `EyeClosedIcon`, `UploadIcon`, `DownloadIcon`, `FilterIcon`, `SortIcon`, `AnchorLinkIcon`, `CalendarIcon`, `CommandPromptIcon`, `DeleteMarkerIcon`, `DotIcon`, `EditGenAiIcon`, `EllipsisIcon`, `FlagIcon`, `GenAiIcon`, `HistoryIcon`, `RefreshIcon`, `RemoveIcon`, `RedoIcon`, `ScriptIcon`, `SearchGenAiIcon`, `SendIcon`, `ShareIcon`, `SlashIcon`, `SubtractMinusIcon`, `SuggestionsIcon`, `TicketIcon`, `UndoIcon`, `UnlockedIcon`, `UploadDownloadIcon`
 
 **Content:** `FileIcon`, `FolderIcon`, `ImageIcon`, `CodeIcon`, `TerminalIcon`, `LinkIcon`, `BookmarkIcon`, `TagIcon`, `FileOpenIcon`, `FolderOpenIcon`
 
@@ -979,15 +981,121 @@ export function MDXLayout({ children }) {
 
 ---
 
+## Avatar
+
+Circular user avatar for navbars and user-facing UIs. Shows an image, auto-derived initials, or a fallback icon. Becomes a trigger for a dropdown menu when `menuItems` is provided.
+
+```tsx
+import { Avatar } from '@doriansmith/kiln';
+
+// Initials — derived from name automatically
+<Avatar name="Dorian Smith" size="md" />
+
+// Image (falls back to initials on error)
+<Avatar src="/avatar.jpg" name="Dorian Smith" size="md" />
+
+// Navbar user menu — the most common pattern
+<Avatar
+  name={user.name}
+  src={user.avatarUrl}
+  size="sm"
+  menuItems={[
+    { label: 'Profile',  onSelect: () => navigate('/profile') },
+    { label: 'Settings', onSelect: () => navigate('/settings') },
+    { type: 'separator' },
+    { label: 'Sign out', onSelect: () => auth.signOut(), variant: 'danger' },
+  ]}
+  menuAlign="end"
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `name` | `string` | — | Full name. Initials are derived automatically (first letter of first and last word). Also the accessible label. |
+| `initials` | `string` | — | Explicit 1–2 character initials. Overrides derivation from `name`. |
+| `src` | `string` | — | Image URL. Takes priority over initials. Falls back to initials on load error. |
+| `alt` | `string` | `name` | Alt text for the avatar image. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Circle diameter. |
+| `menuItems` | `DropdownMenuEntry[]` | — | When provided, the avatar becomes a button that opens a dropdown menu. Same entry format as `DropdownMenu`. |
+| `menuAlign` | `'start' \| 'end'` | `'end'` | Horizontal alignment of the dropdown. |
+| `menuSide` | `'bottom' \| 'top'` | `'bottom'` | Which side the dropdown opens on. |
+| `menuAriaLabel` | `string` | `'[name] menu'` | Accessible label for the trigger button and menu. |
+
+---
+
+## Checkbox
+
+A custom-styled checkbox with animated checkmark, indeterminate state, helper/error text, and full WCAG AA compliance.
+
+```tsx
+import { Checkbox } from '@doriansmith/kiln';
+import { useState } from 'react';
+
+// Uncontrolled
+<Checkbox label="Remember me" defaultChecked />
+
+// Controlled with error
+const [agreed, setAgreed] = useState(false);
+
+<Checkbox
+  label="Accept terms"
+  checked={agreed}
+  onChange={(val) => setAgreed(val)}
+  errorText={!agreed ? 'You must accept to continue.' : undefined}
+/>
+
+// With helper text
+<Checkbox
+  label="Subscribe to updates"
+  helperText="We'll only send important product news."
+/>
+
+// Sizes
+<Checkbox label="Small"  size="sm" />
+<Checkbox label="Medium" size="md" />  {/* default */}
+<Checkbox label="Large"  size="lg" />
+
+// Indeterminate — select-all pattern
+<Checkbox
+  label="Select all"
+  indeterminate={someSelected && !allSelected}
+  checked={allSelected}
+  onChange={(val) => setAllSelected(val)}
+/>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `label` | `string` | — | Visible label text and accessible name. |
+| `labelHidden` | `boolean` | `false` | Hide the label visually while keeping it for screen readers. |
+| `checked` | `boolean` | — | Controlled checked state. |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial state. |
+| `indeterminate` | `boolean` | `false` | Shows a dash instead of a tick. Use for select-all when only some items are selected. |
+| `onChange` | `(checked: boolean, e: ChangeEvent) => void` | — | Fired on every state change. |
+| `disabled` | `boolean` | `false` | Prevents interaction and dims the control. |
+| `helperText` | `string` | — | Helper text below the label. Hidden when `errorText` is set. |
+| `errorText` | `string` | — | Error message. Sets `aria-invalid` and shows a red shake state. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Visual size of the box and label. |
+| `id` | `string` | auto | id for the underlying input. Auto-generated when omitted. |
+| `className` | `string` | — | Additional CSS classes on the root wrapper. |
+
+---
+
 ## TypeScript
 
 All props are fully typed. Named type exports:
 
 ```ts
 import type {
+  AvatarProps, AvatarSize,
   ButtonVariant, ButtonSize,
   CardVariant,
   BadgeVariant, BadgeSeverity, BadgeStatus, BadgeSize,
+  CheckboxProps, CheckboxSize,
   RadioButtonProps,
   TabItem, NavItem, CodeBlockProps,
   BreadcrumbItem,

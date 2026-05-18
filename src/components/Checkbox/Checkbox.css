@@ -1,0 +1,335 @@
+/* ─── Component tokens ───────────────────────────────────
+   --kiln-checkbox-radius      box border-radius (default: --kiln-radius-sm)
+   --kiln-checkbox-color       checked background (default: --kiln-primary)
+   --kiln-checkbox-check-color checkmark / dash color (default: #ffffff)
+   --kiln-checkbox-border      unchecked border color (default: --kiln-gray-300)
+─────────────────────────────────────────────────────────── */
+
+/* Checkmark draw-on animation — outside @layer */
+@keyframes kiln-checkbox-check-draw {
+  from {
+    stroke-dashoffset: 16;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Box pop on check — outside @layer */
+@keyframes kiln-checkbox-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.85); }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Error shake — outside @layer */
+@keyframes kiln-checkbox-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-4px); }
+  40%      { transform: translateX(3px); }
+  60%      { transform: translateX(-2px); }
+  80%      { transform: translateX(1px); }
+}
+
+@layer kiln {
+
+/* ── Field wrapper ── */
+.kiln-checkbox-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--kiln-space-1);
+}
+
+/* ── Label row (click target wraps everything) ── */
+.kiln-checkbox-field__label-wrap {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--kiln-space-2);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* 44×44 min touch target for the row (WCAG 2.5.5) */
+  min-height: 44px;
+  padding: calc((44px - var(--kiln-checkbox-box-size, 18px)) / 2) 0;
+}
+
+.kiln-checkbox-field--disabled .kiln-checkbox-field__label-wrap {
+  cursor: not-allowed;
+}
+
+/* ── Size variants — set local vars consumed by box + text ── */
+.kiln-checkbox-field--sm {
+  --kiln-checkbox-box-size: 14px;
+  --kiln-checkbox-text-size: var(--kiln-text-xs);
+}
+
+.kiln-checkbox-field--md {
+  --kiln-checkbox-box-size: 18px;
+  --kiln-checkbox-text-size: var(--kiln-text-sm);
+}
+
+.kiln-checkbox-field--lg {
+  --kiln-checkbox-box-size: 22px;
+  --kiln-checkbox-text-size: var(--kiln-text-base);
+}
+
+/* Recalculate padding for correct vertical centering per size */
+.kiln-checkbox-field--sm .kiln-checkbox-field__label-wrap {
+  padding: calc((44px - 14px) / 2) 0;
+}
+
+.kiln-checkbox-field--md .kiln-checkbox-field__label-wrap {
+  padding: calc((44px - 18px) / 2) 0;
+}
+
+.kiln-checkbox-field--lg .kiln-checkbox-field__label-wrap {
+  padding: calc((44px - 22px) / 2) 0;
+}
+
+/* ── Visually-hidden native input ── */
+.kiln-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Custom box ── */
+.kiln-checkbox__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width:  var(--kiln-checkbox-box-size, 18px);
+  height: var(--kiln-checkbox-box-size, 18px);
+  border-radius: var(--kiln-checkbox-radius, var(--kiln-radius-sm));
+  border: 2px solid var(--kiln-checkbox-border, var(--kiln-gray-300));
+  background: transparent;
+  color: var(--kiln-checkbox-check-color, #ffffff);
+  box-sizing: border-box;
+  transition:
+    background  var(--kiln-duration-fast) var(--kiln-ease-out),
+    border-color var(--kiln-duration-fast) var(--kiln-ease-out),
+    box-shadow  var(--kiln-duration-fast) var(--kiln-ease-out);
+  /* GPU composite */
+  will-change: transform;
+  position: relative;
+  top: 0;
+}
+
+/* Hover — subtle brand tint on the border */
+.kiln-checkbox-field__label-wrap:hover .kiln-checkbox__box,
+.kiln-checkbox__input:focus-visible ~ .kiln-checkbox__box {
+  border-color: var(--kiln-checkbox-color, var(--kiln-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--kiln-primary) 12%, transparent);
+}
+
+/* Focus ring — keyboard only */
+.kiln-checkbox__input:focus-visible ~ .kiln-checkbox__box {
+  box-shadow:
+    0 0 0 2px var(--kiln-surface-raised, #fff),
+    0 0 0 4px var(--kiln-checkbox-color, var(--kiln-primary));
+}
+
+/* Checked ── */
+.kiln-checkbox__input:checked ~ .kiln-checkbox__box {
+  background: var(--kiln-checkbox-color, var(--kiln-primary));
+  border-color: var(--kiln-checkbox-color, var(--kiln-primary));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--kiln-primary) 35%, transparent);
+  animation: kiln-checkbox-pop var(--kiln-duration-normal) var(--kiln-ease-spring) both;
+}
+
+/* Indeterminate — same fill, dash visible */
+.kiln-checkbox__input:indeterminate ~ .kiln-checkbox__box {
+  background: var(--kiln-checkbox-color, var(--kiln-primary));
+  border-color: var(--kiln-checkbox-color, var(--kiln-primary));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--kiln-primary) 35%, transparent);
+}
+
+/* Error border when unchecked */
+.kiln-checkbox-field--error .kiln-checkbox__input:not(:checked):not(:indeterminate) ~ .kiln-checkbox__box {
+  border-color: var(--kiln-status-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+  animation: kiln-checkbox-shake 0.36s var(--kiln-ease-out) both;
+}
+
+/* Disabled */
+.kiln-checkbox-field--disabled .kiln-checkbox__box {
+  opacity: 0.45;
+}
+
+/* ── SVG icons inside the box ── */
+.kiln-checkbox__check {
+  width: 65%;
+  height: 65%;
+  flex-shrink: 0;
+}
+
+/* Checkmark path — hidden when unchecked */
+.kiln-checkbox__check-path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  opacity: 0;
+  transition: none;
+}
+
+.kiln-checkbox__input:checked ~ .kiln-checkbox__box .kiln-checkbox__check-path {
+  animation: kiln-checkbox-check-draw 180ms var(--kiln-ease-out) 40ms both;
+}
+
+/* Indeterminate dash — hidden when checked / unchecked */
+.kiln-checkbox__indeterminate-path {
+  opacity: 0;
+  transition: opacity var(--kiln-duration-fast) var(--kiln-ease-out);
+}
+
+.kiln-checkbox__input:indeterminate ~ .kiln-checkbox__box .kiln-checkbox__indeterminate-path {
+  opacity: 1;
+}
+
+.kiln-checkbox__input:indeterminate ~ .kiln-checkbox__box .kiln-checkbox__check-path {
+  opacity: 0;
+}
+
+/* ── Label text ── */
+.kiln-checkbox__label-text {
+  font-family: var(--kiln-font-sans);
+  font-size: var(--kiln-checkbox-text-size, var(--kiln-text-sm));
+  font-weight: 500;
+  color: var(--kiln-gray-700);
+  line-height: var(--kiln-leading-normal, 1.5);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kiln-checkbox-field--disabled .kiln-checkbox__label-text {
+  opacity: 0.45;
+}
+
+/* Visually hidden but accessible */
+.kiln-checkbox__label-text--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Helper / error sub-text ── */
+.kiln-checkbox__helper,
+.kiln-checkbox__error {
+  margin: 0;
+  /* indent to align under label text (box + gap) */
+  padding-left: calc(var(--kiln-checkbox-box-size, 18px) + var(--kiln-space-2));
+  font-family: var(--kiln-font-sans);
+  font-size: var(--kiln-text-xs);
+  line-height: 1.4;
+}
+
+.kiln-checkbox__helper {
+  color: var(--kiln-gray-500);
+}
+
+.kiln-checkbox__error {
+  color: var(--kiln-severity-critical);
+  font-weight: 500;
+}
+
+/* Mobile — ensure text floor ≥ 14px */
+@media (max-width: 768px) {
+  .kiln-checkbox__label-text {
+    font-size: max(0.875rem, var(--kiln-checkbox-text-size, var(--kiln-text-sm)));
+  }
+
+  .kiln-checkbox__helper,
+  .kiln-checkbox__error {
+    font-size: var(--kiln-text-sm); /* bump xs → sm on mobile */
+  }
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] .kiln-checkbox__box {
+  border-color: var(--kiln-gray-600);
+  background: transparent;
+}
+
+[data-theme="dark"] .kiln-checkbox-field__label-wrap:hover .kiln-checkbox__box,
+[data-theme="dark"] .kiln-checkbox__input:focus-visible ~ .kiln-checkbox__box {
+  border-color: var(--kiln-primary-light);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--kiln-primary-light) 18%, transparent);
+}
+
+[data-theme="dark"] .kiln-checkbox__input:focus-visible ~ .kiln-checkbox__box {
+  box-shadow:
+    0 0 0 2px var(--kiln-gray-900),
+    0 0 0 4px var(--kiln-primary-light);
+}
+
+[data-theme="dark"] .kiln-checkbox__input:checked ~ .kiln-checkbox__box,
+[data-theme="dark"] .kiln-checkbox__input:indeterminate ~ .kiln-checkbox__box {
+  background: var(--kiln-primary-light);
+  border-color: var(--kiln-primary-light);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--kiln-primary-light) 40%, transparent);
+}
+
+[data-theme="dark"] .kiln-checkbox__label-text {
+  color: var(--kiln-gray-300);
+}
+
+[data-theme="dark"] .kiln-checkbox__helper {
+  color: var(--kiln-gray-500);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .kiln-checkbox__box {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .kiln-checkbox__check-path {
+    animation: none !important;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .kiln-checkbox__indeterminate-path {
+    transition: none !important;
+  }
+
+  .kiln-checkbox-field--error .kiln-checkbox__input:not(:checked) ~ .kiln-checkbox__box {
+    animation: none !important;
+  }
+}
+
+/* ── Forced colors (Windows High Contrast) ── */
+@media (forced-colors: active) {
+  .kiln-checkbox__box {
+    border: 2px solid ButtonText;
+    background: transparent;
+    forced-color-adjust: none;
+  }
+
+  .kiln-checkbox__input:checked ~ .kiln-checkbox__box {
+    background: Highlight;
+    border-color: Highlight;
+  }
+
+  .kiln-checkbox__check-path,
+  .kiln-checkbox__indeterminate-path {
+    stroke: HighlightText;
+  }
+}
+
+} /* end @layer kiln */

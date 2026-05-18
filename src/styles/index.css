@@ -54,6 +54,8 @@
 @import '../components/ScrollIndicator/ScrollIndicator.css';
 @import '../components/Section/Section.css';
 @import '../components/Prose/Prose.css';
+@import '../components/Avatar/Avatar.css';
+@import '../components/Checkbox/Checkbox.css';
 
 /* ── Base reset — must come AFTER all @imports ── */
 html {

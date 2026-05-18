@@ -163,3 +163,9 @@ export type { SectionProps, SectionBackground } from './components/Section';
 
 export { Prose } from './components/Prose';
 export type { ProseProps, ProseSize } from './components/Prose';
+
+export { default as Avatar } from './components/Avatar';
+export type { AvatarProps, AvatarSize } from './components/Avatar';
+
+export { default as Checkbox } from './components/Checkbox';
+export type { CheckboxProps, CheckboxSize } from './components/Checkbox';

@@ -3,11 +3,13 @@ export const COMPONENT_GROUPS = [
     items: [
       { id: 'accordion', label: 'Accordion' },
       { id: 'app-layout', label: 'AppLayout' },
+      { id: 'avatar', label: 'Avatar' },
       { id: 'badge', label: 'Badge' },
       { id: 'blockquote', label: 'Blockquote' },
       { id: 'breadcrumbs', label: 'Breadcrumbs' },
       { id: 'button', label: 'Button' },
       { id: 'card', label: 'Card' },
+      { id: 'checkbox', label: 'Checkbox' },
       { id: 'chip', label: 'Chip' },
       { id: 'code-block', label: 'CodeBlock' },
       { id: 'copy-to-clipboard', label: 'CopyToClipboard' },

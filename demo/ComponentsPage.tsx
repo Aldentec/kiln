@@ -45,6 +45,15 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
     ],
     quickProps: ['topBar', 'sideBar', 'toolsPanel', 'breadcrumbs', 'notifications', 'children'],
   },
+  avatar: {
+    tips: [
+      { label: 'Initials', text: 'Pass name and initials are derived automatically — first letter of the first and last word. Override with the initials prop.' },
+      { label: 'Navbar pattern', text: 'Place Avatar in the Nav actions slot with menuItems for a ready-made user menu — it aligns to the right and opens a dropdown.' },
+      { label: 'Image fallback', text: 'If src fails to load, the component automatically falls back to initials or the icon — no broken image placeholders.' },
+      { label: 'Color variety', text: 'The 8 hue variants are deterministic — same name always yields the same color across sessions and devices.' },
+    ],
+    quickProps: ['name', 'src', 'size', 'menuItems', 'menuAlign'],
+  },
   badge: {
     tips: [
       { label: 'Colour-blind safe', text: 'Each variant auto-prepends a sr-only label like "success:" for screen readers.' },
@@ -58,6 +67,14 @@ const TOOLS_CONTENT: Record<string, { tips: ToolTip[]; quickProps: string[] }> =
       { label: 'Hover lift', text: 'Add hoverLift for an elevated shadow effect on hover.' },
     ],
     quickProps: ['variant', 'hoverLift', 'onClick', 'children'],
+  },
+  checkbox: {
+    tips: [
+      { label: 'Indeterminate', text: 'Set indeterminate={someSelected && !allSelected} on a select-all checkbox — it shows a dash instead of a tick and announces correctly to screen readers.' },
+      { label: 'Controlled vs uncontrolled', text: 'Pass checked + onChange for controlled mode. Omit checked and use defaultChecked for uncontrolled — the component manages its own state.' },
+      { label: 'Error state', text: 'Pass errorText to show inline validation — it auto-sets aria-invalid and links the message via aria-describedby.' },
+    ],
+    quickProps: ['label', 'checked', 'defaultChecked', 'indeterminate', 'onChange', 'errorText', 'size'],
   },
   chip: {
     tips: [

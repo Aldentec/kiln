@@ -49,6 +49,21 @@ export const EyeOffIcon = createIcon('EyeOffIcon',
   </>,
 );
 
+/** Eye open — fully visible eye with iris. Use for "show" / "visible" states. */
+export const EyeOpenIcon = createIcon('EyeOpenIcon',
+  <>
+    <path fillRule="evenodd" d="M12 4.5C7.305 4.5 3.257 7.29 1.323 11.447a1.762 1.762 0 000 1.106C3.257 16.71 7.305 19.5 12 19.5s8.743-2.79 10.677-6.947a1.762 1.762 0 000-1.106C20.743 7.29 16.695 4.5 12 4.5zm0 10.5a3 3 0 110-6 3 3 0 010 6z" />
+    <circle cx="12" cy="12" r="1.5" />
+  </>,
+);
+
+/** Eye closed — eyelid drawn shut. Use for "hide" / "invisible" states. */
+export const EyeClosedIcon = createIcon('EyeClosedIcon',
+  <>
+    <path fillRule="evenodd" d="M1.458 10.445a.75.75 0 011.035-.237C4.08 11.374 7.867 13.5 12 13.5s7.92-2.126 9.507-3.292a.75.75 0 01.866 1.222c-.371.264-.793.533-1.26.796l1.262 2.186a.75.75 0 01-1.3.75l-1.334-2.31A16.202 16.202 0 0116 13.99v2.51a.75.75 0 01-1.5 0v-2.882a16.47 16.47 0 01-2.25.132 16.47 16.47 0 01-2.25-.132V16.5a.75.75 0 01-1.5 0v-2.51a16.202 16.202 0 01-3.741-.838L3.425 15.46a.75.75 0 01-1.3-.75l1.262-2.186a14.59 14.59 0 01-1.692-1.043.75.75 0 01-.237-1.035z" />
+  </>,
+);
+
 export const UploadIcon = createIcon('UploadIcon',
   <path fillRule="evenodd" d="M11.47 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 01-1.06 1.06l-3.22-3.22V16.5a.75.75 0 01-1.5 0V4.81L8.03 8.03a.75.75 0 01-1.06-1.06l4.5-4.5zM3 15.75a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z" />,
 );
